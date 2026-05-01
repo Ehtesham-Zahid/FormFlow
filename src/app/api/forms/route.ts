@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { auth } from "@src/clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 
 import { createForm } from "@/src/services/form.service";
 import { CreateFormInput } from "@/src/types/form.types";
