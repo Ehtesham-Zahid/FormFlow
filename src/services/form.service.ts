@@ -62,26 +62,23 @@ export const getFormById = async (
   }
 };
 
-export const deleteForm = async (
+export const deleteFormById = async (
   formId: string,
   userId: string,
-): Promise<FormDocument> => {
+): Promise<{ id: string }> => {
   await connectDB();
 
   try {
-    const form = await Form.findById(formId);
+    const form = await Form.findOneAndDelete({
+      _id: formId,
+      userId,
+    });
 
     if (!form) {
-      throw new AppError("Form not found", 404);
+      throw new AppError("Form not found or forbidden", 404);
     }
 
-    if (form.userId !== userId) {
-      throw new AppError("Forbidden", 403);
-    }
-
-    await form.deleteOne();
-
-    return form;
+    return { id: formId };
   } catch (error) {
     throw handleError(error);
   }
