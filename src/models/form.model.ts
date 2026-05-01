@@ -1,4 +1,5 @@
 import mongoose from "mongoose"
+import { FormDocument } from "../types/form.types"
 
 const FieldSchema = new mongoose.Schema({
     type: {
@@ -27,4 +28,5 @@ const FormSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export const Form = mongoose.models.Form || mongoose.model("Form", FormSchema);
+export const Form =
+    mongoose.models.Form || mongoose.model<FormDocument>("Form", FormSchema);

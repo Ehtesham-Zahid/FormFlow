@@ -1,6 +1,6 @@
 import { Form } from "../models/form.model";
 import { connectDB } from "../lib/db";
-import { AppError } from "../lib/appError";
+import { handleError } from "../lib/errors/errorClassifier";
 
 export const createForm = async (data: any, userId: string) => {
     await connectDB();
@@ -13,11 +13,7 @@ export const createForm = async (data: any, userId: string) => {
 
         return form;
     } catch (error: any) {
-        if (error.name === "ValidationError") {
-            throw new AppError("Invalid Form Data", 400)
-        }
-
-        throw new AppError("Could not create form", 500)
+        handleError(error);
     }
 }
 
