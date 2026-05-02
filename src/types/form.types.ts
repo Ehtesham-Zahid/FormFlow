@@ -17,6 +17,7 @@ export interface IForm {
 }
 
 export interface FormDocument extends IForm, Document {}
+export interface FieldDocument extends IField, Document {}
 
 export type CreateFormInput = Omit<IForm, "userId" | "createdAt" | "updatedAt">;
 

@@ -13,3 +13,8 @@ export interface ISubmission {
 }
 
 export interface SubmissionDocument extends ISubmission, Document {}
+
+export type CreateSubmissionInput = Omit<
+  ISubmission,
+  "formId" | "createdAt" | "updatedAt"
+>;
