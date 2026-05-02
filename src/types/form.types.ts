@@ -11,7 +11,7 @@ export interface IForm {
   userId: string;
   title: string;
   fields: IField[];
-  isPublic: boolean;
+  status: "draft" | "published";
   createdAt?: Date;
   updatedAt?: Date;
 }

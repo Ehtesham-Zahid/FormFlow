@@ -13,7 +13,6 @@ export const createForm = async (
   userId: string,
 ): Promise<FormDocument> => {
   await connectDB();
-
   try {
     const form = await Form.create({
       ...data,

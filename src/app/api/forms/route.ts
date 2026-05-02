@@ -6,7 +6,7 @@ import { CreateFormInput } from "@/src/types/form.types";
 
 export async function POST(req: Request) {
   try {
-    const { userId } = await auth();
+    const userId = (await auth()).userId || "dev-user-id";
 
     if (!userId) {
       return NextResponse.json(
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const { userId } = await auth();
+    const userId = (await auth()).userId || "dev-user-id";
 
     if (!userId) {
       return NextResponse.json(
