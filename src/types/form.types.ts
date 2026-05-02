@@ -6,9 +6,9 @@ export interface IField {
 }
 
 export interface IForm {
+  userId: string;
   title: string;
   fields: IField[];
-  userId: string;
   isPublic: boolean;
   createdAt?: Date;
   updatedAt?: Date;

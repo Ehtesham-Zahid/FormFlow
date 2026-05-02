@@ -1,6 +1,7 @@
-import { deleteFormById, getFormById } from "@/src/services/form.service";
-import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
+import { auth } from "@clerk/nextjs/server";
+
+import { deleteFormById, getFormById } from "@/src/services/form.service";
 
 export async function GET(
   req: Request,
@@ -25,6 +26,27 @@ export async function GET(
       },
     );
   }
+}
+
+export async function PATCH(
+  req: Request,
+  { params }: { params: { id: string } },
+) {
+  try {
+    const { userId } = await auth();
+
+    if (!userId) {
+      return NextResponse.json(
+        {
+          success: false,
+          message: "Unauthorized",
+        },
+        { status: 401 },
+      );
+    }
+
+    const formId = params.id;
+  } catch (error) {}
 }
 
 export async function DELETE(

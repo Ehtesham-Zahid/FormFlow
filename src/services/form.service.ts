@@ -62,6 +62,45 @@ export const getFormById = async (
   }
 };
 
+export const updateFormById = async (
+  formId: string,
+  userId: string,
+  updates: Partial<CreateFormInput>,
+): Promise<FormDocument> => {
+  await connectDB();
+
+  try {
+    const form = await Form.findById(formId);
+
+    if (!form) {
+      throw new AppError("Form not found", 404);
+    }
+
+    if (form.userId !== userId) {
+      throw new AppError("Forbidden", 403);
+    }
+
+    // Whitelist updates
+    if (updates.title !== undefined) {
+      form.title = updates.title;
+    }
+
+    if (updates.fields !== undefined) {
+      form.fields = updates.fields;
+    }
+
+    if (updates.isPublic !== undefined) {
+      form.isPublic = updates.isPublic;
+    }
+
+    await form.save();
+
+    return form;
+  } catch (error) {
+    throw handleError(error);
+  }
+};
+
 export const deleteFormById = async (
   formId: string,
   userId: string,
