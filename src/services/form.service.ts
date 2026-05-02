@@ -1,6 +1,10 @@
 import { Form } from "../models/form.model";
 import { connectDB } from "../lib/db";
-import { CreateFormInput, FormDocument } from "../types/form.types";
+import {
+  CreateFormInput,
+  FormDocument,
+  UpdateFormInput,
+} from "../types/form.types";
 import { AppError } from "../lib/errors/appError";
 import { handleError } from "../lib/errors/errorClassifier";
 
@@ -65,7 +69,7 @@ export const getFormById = async (
 export const updateFormById = async (
   formId: string,
   userId: string,
-  updates: Partial<CreateFormInput>,
+  updates: UpdateFormInput,
 ): Promise<FormDocument> => {
   await connectDB();
 

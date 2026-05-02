@@ -1,7 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 
-import { deleteFormById, getFormById } from "@/src/services/form.service";
+import {
+  deleteFormById,
+  getFormById,
+  updateFormById,
+} from "@/src/services/form.service";
+import { CreateFormInput, UpdateFormInput } from "@/src/types/form.types";
 
 export async function GET(
   req: Request,
@@ -46,7 +51,26 @@ export async function PATCH(
     }
 
     const formId = params.id;
-  } catch (error) {}
+
+    const body: UpdateFormInput = await req.json();
+
+    const form = await updateFormById(formId, userId, body);
+
+    return NextResponse.json(
+      { success: true, message: "Form updated successfully", data: form },
+      { status: 200 },
+    );
+  } catch (error: any) {
+    return NextResponse.json(
+      {
+        success: false,
+        message: error.message || "Internal Server Error",
+      },
+      {
+        status: error.statusCode || 500,
+      },
+    );
+  }
 }
 
 export async function DELETE(
