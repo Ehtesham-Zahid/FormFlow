@@ -16,16 +16,19 @@ export async function POST(req: Request) {
 
     const form = await createForm(userId);
 
+    const response = {
+      id: form._id,
+      title: form.title,
+      fields: form.fields,
+      status: form.status,
+      createdAt: form.createdAt,
+      updatedAt: form.updatedAt,
+    };
+
     return NextResponse.json(
       {
         success: true,
-        data: {
-          id: form._id,
-          title: form.title,
-          fields: form.fields,
-          status: form.status,
-          createdAt: form.createdAt,
-        },
+        data: response,
       },
       { status: 201 },
     );
@@ -59,6 +62,7 @@ export async function GET(req: Request) {
         title: form.title,
         status: form.status,
         createdAt: form.createdAt,
+        updatedAt: form.updatedAt,
       };
     });
 

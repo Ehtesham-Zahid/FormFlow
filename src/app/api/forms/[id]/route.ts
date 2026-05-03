@@ -6,20 +6,32 @@ import {
   getFormById,
   updateFormById,
 } from "@/src/services/form.service";
-import { CreateFormInput, UpdateFormInput } from "@/src/types/form.types";
+import { UpdateFormInput } from "@/src/types/form.types";
 
 export async function GET(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { userId } = await auth();
 
-    const formId = params.id;
+    const { id: formId } = await params;
 
     const form = await getFormById(formId, userId ?? undefined);
 
-    return NextResponse.json({ success: true, data: form }, { status: 200 });
+    const response = {
+      id: form._id,
+      title: form.title,
+      fields: form.fields,
+      status: form.status,
+      createdAt: form.createdAt,
+      updatedAt: form.updatedAt,
+    };
+
+    return NextResponse.json(
+      { success: true, data: response },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json(
       {

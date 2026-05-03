@@ -12,8 +12,8 @@ export interface IForm {
   title: string;
   fields: IField[];
   status: "draft" | "published";
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface FormDocument extends IForm, Document {}
@@ -27,9 +27,19 @@ export type UpdateFormInput = {
   status?: "draft" | "published";
 };
 
+export type FormResponse = {
+  _id: string;
+  title: string;
+  fields: IField[];
+  status: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
 export type FormSummary = {
   _id: string;
   title: string;
   status: "draft" | "published";
   createdAt: Date;
+  updatedAt: Date;
 };

@@ -2,11 +2,13 @@ import { Form } from "../models/form.model";
 import { connectDB } from "../lib/db";
 import {
   FormDocument,
+  FormResponse,
   FormSummary,
   UpdateFormInput,
 } from "../types/form.types";
 import { AppError } from "../lib/errors/appError";
 import { handleError } from "../lib/errors/errorClassifier";
+import Error from "next/error";
 
 export const createForm = async (userId: string): Promise<FormDocument> => {
   await connectDB();
@@ -28,7 +30,7 @@ export const getUserForms = async (userId: string): Promise<FormSummary[]> => {
 
   try {
     const forms = await Form.find({ userId })
-      .select("title status createdAt")
+      .select("title status createdAt updatedAt")
       .sort({ createdAt: -1 })
       .lean();
 
@@ -41,22 +43,18 @@ export const getUserForms = async (userId: string): Promise<FormSummary[]> => {
 export const getFormById = async (
   formId: string,
   userId?: string,
-): Promise<FormDocument> => {
+): Promise<FormResponse> => {
   await connectDB();
 
   try {
-    const form = await Form.findById(formId);
-
+    const form = await Form.findById(formId).lean();
     if (!form) {
       throw new AppError("Form not found", 404);
     }
 
-    if (userId && form.userId === userId) {
-      return form;
-    }
+    const isOwner = userId && form.userId === userId;
 
-    // Otherwise only allow public forms
-    if (!form.isPublic) {
+    if (form.status === "draft" && !isOwner) {
       throw new AppError("Forbidden", 403);
     }
 

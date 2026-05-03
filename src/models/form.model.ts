@@ -26,7 +26,7 @@ const FormSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ["draft", "publish"],
+      enum: ["draft", "published"],
       default: "draft",
     },
   },
