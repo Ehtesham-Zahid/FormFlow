@@ -24,9 +24,10 @@ const FormSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    isPublic: {
-      type: Boolean,
-      default: false,
+    status: {
+      type: String,
+      enum: ["draft", "publish"],
+      default: "draft",
     },
   },
   { timestamps: true },

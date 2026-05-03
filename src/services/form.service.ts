@@ -8,15 +8,13 @@ import {
 import { AppError } from "../lib/errors/appError";
 import { handleError } from "../lib/errors/errorClassifier";
 
-export const createForm = async (
-  data: CreateFormInput,
-  userId: string,
-): Promise<FormDocument> => {
+export const createForm = async (userId: string): Promise<FormDocument> => {
   await connectDB();
   try {
     const form = await Form.create({
-      ...data,
       userId,
+      title: "Untitled Form",
+      fields: [],
     });
 
     return form;

@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs/server";
 
 import { createForm, getUserForms } from "@/src/services/form.service";
-import { CreateFormInput } from "@/src/types/form.types";
 
 export async function POST(req: Request) {
   try {
@@ -15,11 +14,21 @@ export async function POST(req: Request) {
       );
     }
 
-    const body: CreateFormInput = await req.json();
+    const form = await createForm(userId);
 
-    const form = await createForm(body, userId);
-
-    return NextResponse.json({ success: true, data: form }, { status: 201 });
+    return NextResponse.json(
+      {
+        success: true,
+        data: {
+          _id: form._id,
+          title: form.title,
+          fields: form.fields,
+          status: form.status,
+          createdAt: form.createdAt,
+        },
+      },
+      { status: 201 },
+    );
   } catch (error: any) {
     return NextResponse.json(
       {
