@@ -20,7 +20,7 @@ export async function POST(req: Request) {
       {
         success: true,
         data: {
-          _id: form._id,
+          id: form._id,
           title: form.title,
           fields: form.fields,
           status: form.status,
@@ -53,7 +53,19 @@ export async function GET(req: Request) {
 
     const forms = await getUserForms(userId);
 
-    return NextResponse.json({ success: true, data: forms }, { status: 200 });
+    const response = forms.map((form) => {
+      return {
+        id: form._id,
+        title: form.title,
+        status: form.status,
+        createdAt: form.createdAt,
+      };
+    });
+
+    return NextResponse.json(
+      { success: true, data: response },
+      { status: 200 },
+    );
   } catch (error: any) {
     return NextResponse.json(
       {

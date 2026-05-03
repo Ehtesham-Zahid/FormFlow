@@ -26,3 +26,10 @@ export type UpdateFormInput = {
   fields?: IField[];
   status?: "draft" | "published";
 };
+
+export type FormSummary = {
+  _id: string;
+  title: string;
+  status: "draft" | "published";
+  createdAt: Date;
+};

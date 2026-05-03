@@ -1,8 +1,8 @@
 import { Form } from "../models/form.model";
 import { connectDB } from "../lib/db";
 import {
-  CreateFormInput,
   FormDocument,
+  FormSummary,
   UpdateFormInput,
 } from "../types/form.types";
 import { AppError } from "../lib/errors/appError";
@@ -23,13 +23,16 @@ export const createForm = async (userId: string): Promise<FormDocument> => {
   }
 };
 
-export const getUserForms = async (userId: string): Promise<FormDocument[]> => {
+export const getUserForms = async (userId: string): Promise<FormSummary[]> => {
   await connectDB();
 
   try {
-    const userForms = await Form.find({ userId });
+    const forms = await Form.find({ userId })
+      .select("title status createdAt")
+      .sort({ createdAt: -1 })
+      .lean();
 
-    return userForms;
+    return forms;
   } catch (error) {
     throw handleError(error);
   }
