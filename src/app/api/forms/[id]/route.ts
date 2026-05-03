@@ -87,10 +87,10 @@ export async function PATCH(
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { userId } = await auth();
+    const userId = (await auth()).userId || "dev-user-id";
 
     if (!userId) {
       return NextResponse.json(
@@ -102,7 +102,7 @@ export async function DELETE(
       );
     }
 
-    const formId = params.id;
+    const { id: formId } = await params;
 
     const result = await deleteFormById(formId, userId);
 

@@ -110,14 +110,17 @@ export const deleteFormById = async (
   await connectDB();
 
   try {
-    const form = await Form.findOneAndDelete({
-      _id: formId,
-      userId,
-    });
+    const form = await Form.findById(formId);
 
     if (!form) {
-      throw new AppError("Form not found or forbidden", 404);
+      throw new AppError("Form not found", 404);
     }
+
+    if (form.userId !== userId) {
+      throw new AppError("Forbidden", 403);
+    }
+
+    await Form.findByIdAndDelete(formId);
 
     return { id: formId };
   } catch (error) {
