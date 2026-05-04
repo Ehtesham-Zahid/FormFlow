@@ -47,7 +47,7 @@ export async function GET(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { userId } = await auth();
@@ -62,14 +62,27 @@ export async function PATCH(
       );
     }
 
-    const formId = params.id;
+    const { id: formId } = await params;
 
     const body: UpdateFormInput = await req.json();
 
-    const form = await updateFormById(formId, userId, body);
+    const updatedForm = await updateFormById(formId, userId, body);
+
+    const response = {
+      id: updatedForm._id,
+      title: updatedForm.title,
+      fields: updatedForm.fields,
+      status: updatedForm.status,
+      createdAt: updatedForm.createdAt,
+      updatedAt: updatedForm.updatedAt,
+    };
 
     return NextResponse.json(
-      { success: true, message: "Form updated successfully", data: form },
+      {
+        success: true,
+        message: "Form updated successfully",
+        data: response,
+      },
       { status: 200 },
     );
   } catch (error: any) {
