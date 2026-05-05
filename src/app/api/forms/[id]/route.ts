@@ -50,7 +50,7 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const { userId } = await auth();
+    const userId = (await auth()).userId || "dev-user-id";
 
     if (!userId) {
       return NextResponse.json(

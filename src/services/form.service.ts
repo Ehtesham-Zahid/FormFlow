@@ -84,15 +84,36 @@ export const updateFormById = async (
 
     // Whitelist updates
     if (updates.title !== undefined) {
-      form.title = updates.title;
+      if (typeof updates.title !== "string" || updates.title.trim() === "") {
+        throw new AppError("Title cannot be empty", 400);
+      }
+
+      form.title = updates.title.trim();
     }
 
     if (updates.fields !== undefined) {
+      if (!Array.isArray(updates.fields)) {
+        throw new AppError("Fields must be an array", 400);
+      }
+
+      updates.fields.forEach((field, index) => {
+        if (!field.type || !["text", "email", "number"].includes(field.type)) {
+          throw new AppError(`Invalid field type at index ${index}`, 400);
+        }
+
+        if (!field.label || field.label.trim() === "") {
+          throw new AppError(
+            `Field label cannot be empty at index ${index}`,
+            400,
+          );
+        }
+      });
+
       form.fields = updates.fields;
     }
 
-    if (updates.isPublic !== undefined) {
-      form.isPublic = updates.isPublic;
+    if (updates.status !== undefined) {
+      form.status = updates.status;
     }
 
     await form.save();
