@@ -1,5 +1,3 @@
-import { Document } from "mongoose";
-
 export interface IAnswer {
   fieldId: string;
   value: string | number | boolean;
@@ -8,13 +6,12 @@ export interface IAnswer {
 export interface ISubmission {
   formId: string;
   answers: IAnswer[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 export interface SubmissionDocument extends ISubmission, Document {}
 
-export type CreateSubmissionInput = Omit<
-  ISubmission,
-  "formId" | "createdAt" | "updatedAt"
->;
+export type CreateSubmissionInput = {
+  answers: IAnswer[];
+};

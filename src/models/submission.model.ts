@@ -16,7 +16,16 @@ const SubmissionSchema = new mongoose.Schema(
       ref: "Form",
       required: true,
     },
-    answers: [AnswerSchema],
+    answers: {
+      type: [AnswerSchema],
+      required: true,
+      validate: {
+        validator: function (val: any[]) {
+          return val.length > 0;
+        },
+        message: "Submission must contain at least one answer",
+      },
+    },
   },
   { timestamps: true },
 );
