@@ -5,6 +5,7 @@ export type FieldType = "text" | "email" | "number";
 export interface IField {
   type: FieldType;
   label: string;
+  required: boolean;
 }
 
 export interface IForm {
@@ -31,7 +32,7 @@ export type FormResponse = {
   _id: string;
   title: string;
   fields: IField[];
-  status: string;
+  status: "draft" | "published";
   createdAt: Date;
   updatedAt: Date;
 };

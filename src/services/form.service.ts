@@ -8,7 +8,6 @@ import {
 } from "../types/form.types";
 import { AppError } from "../lib/errors/appError";
 import { handleError } from "../lib/errors/errorClassifier";
-import Error from "next/error";
 
 export const createForm = async (userId: string): Promise<FormDocument> => {
   await connectDB();
@@ -107,12 +106,36 @@ export const updateFormById = async (
             400,
           );
         }
+
+        if (typeof field.required !== "boolean") {
+          throw new AppError(
+            `Field 'required' must be boolean at index ${index}`,
+            400,
+          );
+        }
       });
 
-      form.fields = updates.fields;
+      form.fields = updates.fields.map((field) => ({
+        type: field.type,
+        label: field.label.trim(),
+        required: field.required ?? false,
+      }));
     }
 
     if (updates.status !== undefined) {
+      if (!["draft", "published"].includes(updates.status)) {
+        throw new AppError("Invalid status", 400);
+      }
+
+      if (updates.status === "published") {
+        if (!form.fields || form.fields.length === 0) {
+          throw new AppError(
+            "Form must have at least one field to publish",
+            400,
+          );
+        }
+      }
+
       form.status = updates.status;
     }
 

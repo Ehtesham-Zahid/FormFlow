@@ -10,6 +10,11 @@ const FieldSchema = new mongoose.Schema({
   label: {
     type: String,
     required: true,
+    trim: true,
+  },
+  required: {
+    type: Boolean,
+    default: false,
   },
 });
 
