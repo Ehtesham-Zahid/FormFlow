@@ -27,7 +27,20 @@ export const createSubmission = async (
       form.fields.map((f: FieldDocument) => f._id.toString()),
     );
 
-    // 2. Validate fieldIds + normalize answers
+    // 2. Prevent duplicate fieldIds in submission
+    const fieldIdSet = new Set<string>();
+
+    submissionData.answers.forEach((ans) => {
+      if (fieldIdSet.has(ans.fieldId)) {
+        throw new AppError(
+          `Duplicate fieldId in submission: ${ans.fieldId}`,
+          400,
+        );
+      }
+      fieldIdSet.add(ans.fieldId);
+    });
+
+    // 3. Validate fieldIds + normalize answers
     const cleanAnswers = submissionData.answers.map((ans) => {
       if (!validFieldIds.has(ans.fieldId)) {
         throw new AppError(
@@ -42,7 +55,7 @@ export const createSubmission = async (
       };
     });
 
-    // 3. Validate required fields (if you support it in schema)
+    // 4. Validate required fields
     const requiredFields = form.fields.filter((f: any) => f.required);
 
     for (const field of requiredFields) {
@@ -55,7 +68,7 @@ export const createSubmission = async (
       }
     }
 
-    // 4. Create submission (clean + trusted data only)
+    // 5. Create submission
     const submission = await Submission.create({
       formId,
       answers: cleanAnswers,
