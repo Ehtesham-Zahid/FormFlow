@@ -23,9 +23,7 @@ export const createSubmission = async (
     }
 
     // 1. Build valid field lookup
-    const validFieldIds = new Set(
-      form.fields.map((f: FieldDocument) => f._id.toString()),
-    );
+    const validFieldIds = new Set(form.fields.map((f: FieldDocument) => f.id));
 
     // 2. Prevent duplicate fieldIds in submission
     const fieldIdSet = new Set<string>();
@@ -56,11 +54,11 @@ export const createSubmission = async (
     });
 
     // 4. Validate required fields
-    const requiredFields = form.fields.filter((f: any) => f.required);
+    const requiredFields = form.fields.filter((f: FieldDocument) => f.required);
 
     for (const field of requiredFields) {
       const exists = cleanAnswers.some(
-        (ans) => ans.fieldId === field._id.toString(),
+        (ans) => ans.fieldId === field.id.toString(),
       );
 
       if (!exists) {

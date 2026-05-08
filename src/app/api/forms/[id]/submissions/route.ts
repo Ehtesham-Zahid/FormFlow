@@ -4,20 +4,28 @@ import { NextResponse } from "next/server";
 
 export async function POST(
   req: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const formId = params.id;
+    const { id: formId } = await params;
 
     const body = await req.json();
 
     const submission: SubmissionDocument = await createSubmission(formId, body);
 
+    const response = {
+      id: submission._id,
+      formId: submission.formId,
+      answers: submission.answers,
+      createdAt: submission.createdAt,
+      updatedAt: submission.updatedAt,
+    };
+
     return NextResponse.json(
       {
         success: true,
         message: "Submission Successful",
-        data: submission,
+        data: response,
       },
       { status: 201 },
     );

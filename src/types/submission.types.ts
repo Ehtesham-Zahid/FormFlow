@@ -1,3 +1,5 @@
+import { Document } from "mongoose";
+
 export interface IAnswer {
   fieldId: string;
   value: string | number | boolean;
