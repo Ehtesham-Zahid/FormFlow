@@ -134,3 +134,38 @@ export const getSubmissionById = async (
     throw handleError(error);
   }
 };
+
+export const deleteSubmissionById = async (
+  formId: string,
+  userId: string,
+  submissionId: string,
+) => {
+  await connectDB();
+
+  try {
+    const form = await Form.findById(formId);
+
+    if (!form) {
+      throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.userId !== userId) {
+      throw new AppError("Forbidden", 403);
+    }
+
+    const deletedSubmission = await Submission.findOneAndDelete({
+      _id: submissionId,
+      formId,
+    });
+
+    if (!deletedSubmission) {
+      throw new AppError("Submission not found", 404);
+    }
+
+    return {
+      id: submissionId,
+    };
+  } catch (error) {
+    throw handleError(error);
+  }
+};
