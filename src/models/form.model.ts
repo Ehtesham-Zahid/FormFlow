@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { FormDocument } from "../types/form.types";
 
 const FieldSchema = new mongoose.Schema({
+  id: {
+    type: String,
+    required: true,
+  },
   type: {
     type: String,
     enum: ["text", "email", "number"],

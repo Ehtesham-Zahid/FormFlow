@@ -3,6 +3,7 @@ import { Document } from "mongoose";
 export type FieldType = "text" | "email" | "number";
 
 export interface IField {
+  id: string;
   type: FieldType;
   label: string;
   required: boolean;
