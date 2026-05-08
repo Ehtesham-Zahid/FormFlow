@@ -18,7 +18,7 @@ export async function POST(
     const submission: SubmissionDocument = await createSubmission(formId, body);
 
     const response = {
-      id: submission._id,
+      id: submission._id.toString(),
       formId: submission.formId,
       answers: submission.answers,
       createdAt: submission.createdAt,
