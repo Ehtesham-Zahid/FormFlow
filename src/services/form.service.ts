@@ -116,16 +116,12 @@ export const updateFormById = async (
         }
       });
 
-      console.log("OIII", updates.fields);
-
       form.fields = updates.fields.map((field) => ({
         id: field.id ?? randomUUID(),
         type: field.type,
         label: field.label.trim(),
         required: field.required ?? false,
       }));
-
-      console.log("OIII2", form.fields);
     }
 
     if (updates.status !== undefined) {
