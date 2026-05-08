@@ -77,3 +77,25 @@ export const createSubmission = async (
     throw handleError(error);
   }
 };
+
+export const getSubmissionsByFormId = async (
+  formId: string,
+  userId: string,
+) => {
+  try {
+    const form = await Form.findById(formId);
+    if (!form) {
+      throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.userId !== userId) {
+      throw new AppError("Forbidden", 403);
+    }
+
+    const submissions = await Submission.find({ formId }).lean();
+
+    return submissions;
+  } catch (error) {
+    throw handleError(error);
+  }
+};
