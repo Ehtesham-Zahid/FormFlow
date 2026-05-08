@@ -82,6 +82,8 @@ export const getSubmissionsByFormId = async (
   formId: string,
   userId: string,
 ) => {
+  await connectDB();
+
   try {
     const form = await Form.findById(formId);
     if (!form) {
@@ -95,6 +97,39 @@ export const getSubmissionsByFormId = async (
     const submissions = await Submission.find({ formId }).lean();
 
     return submissions;
+  } catch (error) {
+    throw handleError(error);
+  }
+};
+
+export const getSubmissionById = async (
+  formId: string,
+  userId: string,
+  submissionId: string,
+) => {
+  await connectDB();
+
+  try {
+    const form = await Form.findById(formId);
+
+    if (!form) {
+      throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.userId !== userId) {
+      throw new AppError("Forbidden", 403);
+    }
+
+    const submission = await Submission.findOne({
+      _id: submissionId,
+      formId,
+    }).lean();
+
+    if (!submission) {
+      throw new AppError("Submission not found", 404);
+    }
+
+    return submission;
   } catch (error) {
     throw handleError(error);
   }
