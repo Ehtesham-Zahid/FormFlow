@@ -1,6 +1,4 @@
-import { connectDB } from "@/src/lib/db";
 import {
-  deleteSubmission,
   deleteSubmissionById,
   getSubmissionById,
 } from "@/src/services/submission.service";
