@@ -18,14 +18,23 @@ export const createSubmission = async (
 
   try {
     const form = await Form.findById(formId);
+
     if (!form) {
       throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.isArchived) {
+      throw new AppError("Form is no longer available", 410);
+    }
+
+    if (form.status !== "published") {
+      throw new AppError("Form is not accepting submissions", 403);
     }
 
     // 1. Build valid field lookup
     const validFieldIds = new Set(form.fields.map((f: FieldDocument) => f.id));
 
-    // 2. Prevent duplicate fieldIds in submission
+    // 2. Prevent duplicate fieldIds
     const fieldIdSet = new Set<string>();
 
     submissionData.answers.forEach((ans) => {
@@ -38,7 +47,7 @@ export const createSubmission = async (
       fieldIdSet.add(ans.fieldId);
     });
 
-    // 3. Validate fieldIds + normalize answers
+    // 3. Validate + normalize
     const cleanAnswers = submissionData.answers.map((ans) => {
       if (!validFieldIds.has(ans.fieldId)) {
         throw new AppError(
@@ -53,13 +62,11 @@ export const createSubmission = async (
       };
     });
 
-    // 4. Validate required fields
+    // 4. Required field validation
     const requiredFields = form.fields.filter((f: FieldDocument) => f.required);
 
     for (const field of requiredFields) {
-      const exists = cleanAnswers.some(
-        (ans) => ans.fieldId === field.id.toString(),
-      );
+      const exists = cleanAnswers.some((ans) => ans.fieldId === field.id);
 
       if (!exists) {
         throw new AppError(`Missing required field: ${field.label}`, 400);
@@ -86,8 +93,13 @@ export const getSubmissionsByFormId = async (
 
   try {
     const form = await Form.findById(formId);
+
     if (!form) {
       throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.isArchived) {
+      throw new AppError("Form is no longer available", 410);
     }
 
     if (form.userId !== userId) {
@@ -114,6 +126,10 @@ export const getSubmissionById = async (
 
     if (!form) {
       throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.isArchived) {
+      throw new AppError("Form is no longer available", 410);
     }
 
     if (form.userId !== userId) {
@@ -147,6 +163,10 @@ export const deleteSubmissionById = async (
 
     if (!form) {
       throw new AppError("Form doesnt exist", 404);
+    }
+
+    if (form.isArchived) {
+      throw new AppError("Form is no longer available", 410);
     }
 
     if (form.userId !== userId) {
