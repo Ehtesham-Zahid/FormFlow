@@ -38,6 +38,10 @@ const FormSchema = new mongoose.Schema(
       enum: ["draft", "published"],
       default: "draft",
     },
+    isArchived: {
+      type: Boolean,
+      default: false,
+    },
   },
   { timestamps: true },
 );

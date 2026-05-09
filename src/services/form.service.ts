@@ -29,7 +29,10 @@ export const getUserForms = async (userId: string): Promise<FormSummary[]> => {
   await connectDB();
 
   try {
-    const forms = await Form.find({ userId })
+    const forms = await Form.find({
+      userId,
+      isArchived: false,
+    })
       .select("title status createdAt updatedAt")
       .sort({ createdAt: -1 })
       .lean();
@@ -47,7 +50,11 @@ export const getFormById = async (
   await connectDB();
 
   try {
-    const form = await Form.findById(formId).lean();
+    const form = await Form.findOne({
+      _id: formId,
+      isArchived: false, // 👈 critical fix
+    }).lean();
+
     if (!form) {
       throw new AppError("Form not found", 404);
     }
@@ -76,6 +83,10 @@ export const updateFormById = async (
 
     if (!form) {
       throw new AppError("Form not found", 404);
+    }
+
+    if (form.isArchived) {
+      throw new AppError("Form is archived", 400);
     }
 
     if (form.userId !== userId) {
@@ -166,7 +177,13 @@ export const deleteFormById = async (
       throw new AppError("Forbidden", 403);
     }
 
-    await Form.findByIdAndDelete(formId);
+    if (form.isArchived) {
+      throw new AppError("Form already archived", 400);
+    }
+
+    form.isArchived = true;
+
+    await form.save();
 
     return { id: formId };
   } catch (error) {

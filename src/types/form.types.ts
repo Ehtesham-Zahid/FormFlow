@@ -14,6 +14,7 @@ export interface IForm {
   title: string;
   fields: IField[];
   status: "draft" | "published";
+  isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
