@@ -21,6 +21,7 @@ export async function POST(req: Request) {
       title: form.title,
       fields: form.fields,
       status: form.status,
+      isArchived: form.isArchived,
       createdAt: form.createdAt,
       updatedAt: form.updatedAt,
     };
@@ -61,6 +62,7 @@ export async function GET(req: Request) {
         id: form._id,
         title: form.title,
         status: form.status,
+        isArchived: form.isArchived,
         createdAt: form.createdAt,
         updatedAt: form.updatedAt,
       };

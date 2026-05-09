@@ -35,6 +35,7 @@ export type FormResponse = {
   title: string;
   fields: IField[];
   status: "draft" | "published";
+  isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
 };
@@ -43,6 +44,7 @@ export type FormSummary = {
   _id: string;
   title: string;
   status: "draft" | "published";
+  isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
 };

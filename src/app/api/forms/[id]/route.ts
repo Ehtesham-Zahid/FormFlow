@@ -24,6 +24,7 @@ export async function GET(
       title: form.title,
       fields: form.fields,
       status: form.status,
+      isArchived: form.isArchived,
       createdAt: form.createdAt,
       updatedAt: form.updatedAt,
     };
@@ -73,6 +74,7 @@ export async function PATCH(
       title: updatedForm.title,
       fields: updatedForm.fields,
       status: updatedForm.status,
+      isArchived: updatedForm.isArchived,
       createdAt: updatedForm.createdAt,
       updatedAt: updatedForm.updatedAt,
     };
@@ -119,11 +121,15 @@ export async function DELETE(
 
     const result = await deleteFormById(formId, userId);
 
+    const response = {
+      id: result.id,
+    };
+
     return NextResponse.json(
       {
         success: true,
         message: "Form deleted successfully",
-        data: result,
+        data: response,
       },
       { status: 200 },
     );
