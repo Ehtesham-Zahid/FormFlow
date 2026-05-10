@@ -1,5 +1,26 @@
-const FormsHeader = () => {
-  return <div>FormsHeader</div>;
+"use client";
+
+import { Button } from "@/src/components/ui/button";
+
+type Props = {
+  onCreate?: () => void;
 };
 
-export default FormsHeader;
+export const FormsHeader = ({ onCreate }: Props) => {
+  return (
+    <div className="flex items-center justify-between">
+      {/* LEFT SIDE */}
+      <div>
+        <h1 className="text-2xl font-semibold">My Forms</h1>
+        <p className="text-sm text-muted-foreground">
+          Create, manage, and track all your forms in one place
+        </p>
+      </div>
+
+      {/* RIGHT ACTION */}
+      <Button onClick={onCreate} className="bg-primary text-white">
+        + New Form
+      </Button>
+    </div>
+  );
+};
