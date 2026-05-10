@@ -10,6 +10,8 @@ import { Geist, Geist_Mono, JetBrains_Mono } from "next/font/google";
 import "../globals.css";
 import { cn } from "@/src/lib/utils";
 import QueryProvider from "@/src/providers/query-provider";
+import { AppSidebar } from "@/src/components/layout/AppSidebar";
+import { SidebarProvider, SidebarInset } from "@/src/components/ui/sidebar";
 
 const jetbrainsMono = JetBrains_Mono({
   subsets: ["latin"],
@@ -51,7 +53,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <ClerkProvider>
           <QueryProvider>
-            <header className="flex justify-end items-center p-4 gap-4 h-16">
+            {/* <header className="flex justify-end items-center p-4 gap-4 h-16">
               <Show when="signed-out">
                 <SignInButton />
                 <SignUpButton>
@@ -63,8 +65,14 @@ export default function RootLayout({
               <Show when="signed-in">
                 <UserButton />
               </Show>
-            </header>
-            {children}
+            </header> */}
+            <SidebarProvider>
+              <AppSidebar />
+
+              <SidebarInset>
+                <main className="p-6">{children}</main>
+              </SidebarInset>
+            </SidebarProvider>
           </QueryProvider>
         </ClerkProvider>
       </body>
