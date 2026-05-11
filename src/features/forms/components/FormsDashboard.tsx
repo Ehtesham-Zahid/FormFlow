@@ -4,9 +4,11 @@ import { useForms } from "../hooks/useForms";
 import { useDeleteForm } from "../hooks/useDeleteForm";
 import { FormsHeader } from "./FormsHeader";
 import { FormsList } from "./FormsList";
+import { useCreateForm } from "../hooks/useCreateForm";
 
 export const FormsDashboard = () => {
   const { data: forms, isLoading } = useForms();
+  const { mutate: createForm, isPending } = useCreateForm();
   const { mutate: deleteForm } = useDeleteForm();
 
   const handleDelete = (id: string) => {
@@ -16,6 +18,7 @@ export const FormsDashboard = () => {
   const handleCreate = () => {
     console.log("Create form clicked");
     // later: open dialog or call mutation
+    createForm();
   };
 
   if (isLoading) {
@@ -24,7 +27,7 @@ export const FormsDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <FormsHeader onCreate={handleCreate} />
+      <FormsHeader onCreate={handleCreate} isLoading={isPending} />
 
       <FormsList forms={forms || []} onDelete={handleDelete} />
     </div>

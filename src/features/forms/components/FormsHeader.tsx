@@ -4,9 +4,10 @@ import { Button } from "@/src/components/ui/button";
 
 type Props = {
   onCreate?: () => void;
+  isLoading?: boolean;
 };
 
-export const FormsHeader = ({ onCreate }: Props) => {
+export const FormsHeader = ({ onCreate, isLoading }: Props) => {
   return (
     <div className="flex items-center justify-between">
       {/* LEFT SIDE */}
@@ -18,9 +19,18 @@ export const FormsHeader = ({ onCreate }: Props) => {
       </div>
 
       {/* RIGHT ACTION */}
-      <Button onClick={onCreate} className="bg-primary text-white">
-        + New Form
-      </Button>
+      {isLoading ? (
+        <Button
+          disabled
+          className="bg-primary/50 text-white  cursor-not-allowed"
+        >
+          Creating...
+        </Button>
+      ) : (
+        <Button onClick={onCreate} className="bg-primary text-white">
+          + New Form
+        </Button>
+      )}
     </div>
   );
 };
