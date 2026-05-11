@@ -5,7 +5,7 @@ import { createForm, getUserForms } from "@/src/services/form.service";
 
 export async function POST(req: Request) {
   try {
-    const userId = (await auth()).userId || "dev-user-id";
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json(
@@ -46,7 +46,7 @@ export async function POST(req: Request) {
 
 export async function GET(req: Request) {
   try {
-    const userId = (await auth()).userId || "dev-user-id";
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json(

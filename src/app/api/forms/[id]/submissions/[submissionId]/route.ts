@@ -10,7 +10,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string; submissionId: string }> },
 ) {
   try {
-    const userId = (await auth()).userId || "dev-user-id";
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json(
@@ -52,7 +52,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string; submissionId: string }> },
 ) {
   try {
-    const userId = (await auth()).userId || "dev-user-id";
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json(

@@ -49,7 +49,7 @@ export async function GET(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    const userId = (await auth()).userId || "dev-user-id";
+    const { userId } = await auth();
 
     if (!userId) {
       return NextResponse.json(
