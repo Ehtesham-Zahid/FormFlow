@@ -27,7 +27,10 @@ export const FormsHeader = ({ onCreate, isLoading }: Props) => {
           Creating...
         </Button>
       ) : (
-        <Button onClick={onCreate} className="bg-primary text-white">
+        <Button
+          onClick={onCreate}
+          className="bg-primary text-white cursor-pointer"
+        >
           + New Form
         </Button>
       )}

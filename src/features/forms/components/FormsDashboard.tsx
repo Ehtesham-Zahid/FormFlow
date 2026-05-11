@@ -5,20 +5,24 @@ import { useDeleteForm } from "../hooks/useDeleteForm";
 import { FormsHeader } from "./FormsHeader";
 import { FormsList } from "./FormsList";
 import { useCreateForm } from "../hooks/useCreateForm";
+import { useRouter } from "next/navigation";
 
 export const FormsDashboard = () => {
   const { data: forms, isLoading } = useForms();
   const { mutate: createForm, isPending } = useCreateForm();
   const { mutate: deleteForm } = useDeleteForm();
+  const router = useRouter();
 
   const handleDelete = (id: string) => {
     deleteForm(id);
   };
 
   const handleCreate = () => {
-    console.log("Create form clicked");
-    // later: open dialog or call mutation
-    createForm();
+    createForm(undefined, {
+      onSuccess: (data) => {
+        router.push(`/forms/${data.id}/edit`);
+      },
+    });
   };
 
   if (isLoading) {
