@@ -97,7 +97,7 @@ export const AppSidebar = () => {
             {/* USER INFO */}
             <div className="flex min-w-0 flex-col">
               <span className="truncate text-sm font-medium">
-                {user?.fullName || "User"}
+                {user?.username || "User"}
               </span>
 
               <span className="text-xs text-muted-foreground">Free Plan</span>
