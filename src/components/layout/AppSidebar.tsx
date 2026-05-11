@@ -19,6 +19,8 @@ import { Home, Settings, ChevronRight } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 import { cn } from "@/src/lib/utils";
 
+import { UserButton, useUser } from "@clerk/nextjs";
+
 const items = [
   {
     title: "Home",
@@ -34,6 +36,8 @@ const items = [
 
 export const AppSidebar = () => {
   const pathname = usePathname();
+
+  const { user } = useUser();
 
   return (
     <Sidebar className="border-r border-border bg-background">
@@ -81,7 +85,7 @@ export const AppSidebar = () => {
           </SidebarGroup>
 
           {/* UPGRADE BUTTON */}
-          <Button className="w-full justify-between rounded-xl h-11 text-sm font-medium">
+          <Button className="h-11 w-full justify-between rounded-xl text-sm font-medium">
             Upgrade Plan
             <ChevronRight className="size-4" />
           </Button>
@@ -89,18 +93,21 @@ export const AppSidebar = () => {
 
         {/* BOTTOM PROFILE */}
         <SidebarFooter className="border-t border-border p-4">
-          <div className="flex items-center gap-3 rounded-xl px-2 py-2">
-            {/* AVATAR */}
-            <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 text-sm font-semibold text-primary">
-              E
-            </div>
-
+          <div className="flex items-center justify-between gap-3 rounded-xl">
             {/* USER INFO */}
-            <div className="flex flex-col overflow-hidden">
-              <span className="truncate text-sm font-medium">Ehtesham</span>
+            <div className="flex min-w-0 flex-col">
+              <span className="truncate text-sm font-medium">
+                {user?.fullName || "User"}
+              </span>
 
               <span className="text-xs text-muted-foreground">Free Plan</span>
             </div>
+
+            {/* CLERK USER BUTTON */}
+            <UserButton
+              userProfileMode="navigation"
+              userProfileUrl="/dashboard/settings"
+            ></UserButton>
           </div>
         </SidebarFooter>
       </SidebarContent>
