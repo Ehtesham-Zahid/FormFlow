@@ -103,7 +103,6 @@ export const AppSidebar = () => {
               <span className="text-xs text-muted-foreground">Free Plan</span>
             </div>
 
-            {/*USER BUTTON */}
             <UserButton
               userProfileMode="navigation"
               userProfileUrl="/dashboard/settings"
