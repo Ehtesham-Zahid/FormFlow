@@ -1,31 +1,33 @@
-import { Block } from "../../types/editor.types";
+import { IField } from "@/src/types/form.types";
 
 type Props = {
-  block: Block;
-  dispatch: any;
+  field: IField;
+  dispatch: React.Dispatch<any>;
 };
 
-export default function NumberFieldBlock({ block, dispatch }: Props) {
+export default function NumberField({ field, dispatch }: Props) {
   return (
     <div className="border p-3 rounded-md space-y-2 bg-white">
+      {/* Label */}
       <input
         className="font-medium w-full outline-none"
-        value={block.props.label}
+        value={field.label}
         onChange={(e) =>
           dispatch({
-            type: "UPDATE_BLOCK",
+            type: "UPDATE_FIELD",
             payload: {
-              id: block.id,
-              props: { label: e.target.value },
+              id: field.id,
+              data: { label: e.target.value },
             },
           })
         }
       />
 
+      {/* Preview input */}
       <input
         type="number"
         className="border p-2 w-full rounded"
-        placeholder={block.props.placeholder}
+        placeholder="Enter number"
         disabled
       />
     </div>

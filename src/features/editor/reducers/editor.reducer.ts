@@ -5,29 +5,24 @@ export const editorReducer = (
   action: EditorAction,
 ): EditorState => {
   switch (action.type) {
-    case "ADD_BLOCK":
-      return {
-        ...state,
-        blocks: [...state.blocks, action.payload],
-      };
-
-    case "UPDATE_BLOCK":
-      return {
-        ...state,
-        blocks: state.blocks.map((block) =>
-          block.id === action.payload.id
-            ? {
-                ...block,
-                props: {
-                  ...block.props,
-                  ...action.payload.props,
-                },
-              }
-            : block,
-        ),
-      };
     case "SET_TITLE":
       return { ...state, title: action.payload };
+
+    case "ADD_FIELD":
+      return {
+        ...state,
+        fields: [...state.fields, action.payload],
+      };
+
+    case "UPDATE_FIELD":
+      return {
+        ...state,
+        fields: state.fields.map((field) =>
+          field.id === action.payload.id
+            ? { ...field, ...action.payload.data }
+            : field,
+        ),
+      };
 
     case "HYDRATE":
       return action.payload;

@@ -1,28 +1,18 @@
-export type BlockType = "text" | "email" | "number";
-
-export type Block = {
-  id: string;
-  type: BlockType;
-  props: {
-    label: string;
-    placeholder?: string;
-    required?: boolean;
-  };
-};
+import { IField } from "@/src/types/form.types";
 
 export type EditorState = {
   title: string;
-  blocks: Block[];
+  fields: IField[];
 };
 
 export type EditorAction =
   | { type: "SET_TITLE"; payload: string }
-  | { type: "ADD_BLOCK"; payload: Block }
-  | { type: "HYDRATE"; payload: EditorState }
+  | { type: "ADD_FIELD"; payload: IField }
   | {
-      type: "UPDATE_BLOCK";
+      type: "UPDATE_FIELD";
       payload: {
         id: string;
-        props: Partial<Block["props"]>;
+        data: Partial<IField>;
       };
-    };
+    }
+  | { type: "HYDRATE"; payload: EditorState };

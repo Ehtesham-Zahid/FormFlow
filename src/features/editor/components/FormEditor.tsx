@@ -3,29 +3,30 @@
 import { useEffect, useReducer } from "react";
 import { editorReducer } from "../reducers/editor.reducer";
 import { EditorState } from "../types/editor.types";
-import BlockRenderer from "./BlockRenderer";
+import FieldRenderer from "./FieldRenderer";
+
 import {
-  createDefaultTextBlock,
-  createDefaultEmailBlock,
-  createDefaultNumberBlock,
-} from "../constants/defaultBlocks";
+  createDefaultTextField,
+  createDefaultEmailField,
+  createDefaultNumberField,
+} from "../constants/defaultFields";
 
 type Props = {
   form: {
     title: string;
-    blocks: any[];
+    fields: any[];
   };
 };
 
 const initialState: EditorState = {
   title: "",
-  blocks: [],
+  fields: [],
 };
 
 export default function FormEditor({ form }: Props) {
   const [state, dispatch] = useReducer(editorReducer, initialState);
 
-  // 🔥 Hydrate editor when form loads
+  // Hydrate editor when form loads
   useEffect(() => {
     if (!form) return;
 
@@ -33,7 +34,7 @@ export default function FormEditor({ form }: Props) {
       type: "HYDRATE",
       payload: {
         title: form.title ?? "Untitled Form",
-        blocks: form.blocks ?? [],
+        fields: form.fields ?? [],
       },
     });
   }, [form]);
@@ -52,10 +53,10 @@ export default function FormEditor({ form }: Props) {
         }
       />
 
-      {/* Blocks */}
+      {/* Fields */}
       <div className="space-y-3">
-        {state.blocks.map((block) => (
-          <BlockRenderer key={block.id} block={block} dispatch={dispatch} />
+        {state.fields.map((field) => (
+          <FieldRenderer key={field.id} field={field} dispatch={dispatch} />
         ))}
       </div>
 
@@ -65,8 +66,8 @@ export default function FormEditor({ form }: Props) {
           className="px-3 py-2 border rounded"
           onClick={() =>
             dispatch({
-              type: "ADD_BLOCK",
-              payload: createDefaultTextBlock(),
+              type: "ADD_FIELD",
+              payload: createDefaultTextField(),
             })
           }
         >
@@ -77,8 +78,8 @@ export default function FormEditor({ form }: Props) {
           className="px-3 py-2 border rounded"
           onClick={() =>
             dispatch({
-              type: "ADD_BLOCK",
-              payload: createDefaultEmailBlock(),
+              type: "ADD_FIELD",
+              payload: createDefaultEmailField(),
             })
           }
         >
@@ -89,8 +90,8 @@ export default function FormEditor({ form }: Props) {
           className="px-3 py-2 border rounded"
           onClick={() =>
             dispatch({
-              type: "ADD_BLOCK",
-              payload: createDefaultNumberBlock(),
+              type: "ADD_FIELD",
+              payload: createDefaultNumberField(),
             })
           }
         >
