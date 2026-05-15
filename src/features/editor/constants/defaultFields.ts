@@ -4,19 +4,19 @@ export const createDefaultTextField = (): IField => ({
   id: crypto.randomUUID(),
   type: "text",
   label: "Text Field",
-  required: false,
+  required: true,
 });
 
 export const createDefaultEmailField = (): IField => ({
   id: crypto.randomUUID(),
   type: "email",
   label: "Email",
-  required: false,
+  required: true,
 });
 
 export const createDefaultNumberField = (): IField => ({
   id: crypto.randomUUID(),
   type: "number",
   label: "Number",
-  required: false,
+  required: true,
 });

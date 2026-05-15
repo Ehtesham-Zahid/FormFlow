@@ -33,7 +33,7 @@ export default function FormEditor({ form }: Props) {
     dispatch({
       type: "HYDRATE",
       payload: {
-        title: form.title ?? "Untitled Form",
+        title: form.title ?? "Untitled Form2.0",
         fields: form.fields ?? [],
       },
     });
