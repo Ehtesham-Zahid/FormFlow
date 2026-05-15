@@ -82,6 +82,16 @@ export default function FormEditor({ form }: Props) {
         ))}
       </div>
 
+      <div className="pt-4">
+        <button
+          type="button"
+          className="w-full bg-black text-white py-2 rounded-md opacity-80 cursor-not-allowed"
+          disabled
+        >
+          Submit
+        </button>
+      </div>
+
       {/* Actions */}
       <div className="flex gap-2 pt-4">
         <button
