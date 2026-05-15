@@ -15,4 +15,10 @@ export type EditorAction =
         data: Partial<IField>;
       };
     }
+  | {
+      type: "DELETE_FIELD";
+      payload: {
+        id: string;
+      };
+    }
   | { type: "HYDRATE"; payload: EditorState };

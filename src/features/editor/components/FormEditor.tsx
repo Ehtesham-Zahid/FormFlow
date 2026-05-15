@@ -121,7 +121,6 @@ export default function FormEditor({ form }: Props) {
         </button>
       </div>
 
-      {/* 🔥 SAVE STATUS (ADD THIS HERE) */}
       <div className="text-xs text-gray-500 fixed bottom-4 right-4">
         {saveStatus === "saving" && "Saving..."}
         {saveStatus === "saved" && "Saved"}

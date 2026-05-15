@@ -30,6 +30,20 @@ export default function EmailField({ field, dispatch }: Props) {
         placeholder="example@email.com"
         disabled
       />
+
+      <button
+        className="text-sm text-red-500"
+        onClick={() =>
+          dispatch({
+            type: "DELETE_FIELD",
+            payload: {
+              id: field.id,
+            },
+          })
+        }
+      >
+        Delete
+      </button>
     </div>
   );
 }

@@ -30,6 +30,20 @@ export default function NumberField({ field, dispatch }: Props) {
         placeholder="Enter number"
         disabled
       />
+
+      <button
+        className="text-sm text-red-500"
+        onClick={() =>
+          dispatch({
+            type: "DELETE_FIELD",
+            payload: {
+              id: field.id,
+            },
+          })
+        }
+      >
+        Delete
+      </button>
     </div>
   );
 }

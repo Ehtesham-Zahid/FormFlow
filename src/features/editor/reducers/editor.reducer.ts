@@ -24,6 +24,12 @@ export const editorReducer = (
         ),
       };
 
+    case "DELETE_FIELD":
+      return {
+        ...state,
+        fields: state.fields.filter((field) => field.id !== action.payload.id),
+      };
+
     case "HYDRATE":
       return action.payload;
 
