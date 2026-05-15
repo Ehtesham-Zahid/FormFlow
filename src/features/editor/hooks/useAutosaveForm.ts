@@ -25,7 +25,7 @@ export function useAutosaveForm(
       } catch (err) {
         console.error("Autosave failed:", err);
       }
-    }, 800); // 0.8s delay
+    }, 2000); // 2s delay
 
     save(state);
 
