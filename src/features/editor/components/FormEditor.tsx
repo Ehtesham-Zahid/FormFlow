@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { editorReducer } from "../reducers/editor.reducer";
 import { EditorState } from "../types/editor.types";
 import FieldRenderer from "./FieldRenderer";
@@ -10,6 +10,9 @@ import {
   createDefaultEmailField,
   createDefaultNumberField,
 } from "../constants/defaultFields";
+
+import { useAutosaveForm } from "../hooks/useAutosaveForm";
+import { useParams } from "next/navigation";
 
 type Props = {
   form: {
@@ -24,7 +27,26 @@ const initialState: EditorState = {
 };
 
 export default function FormEditor({ form }: Props) {
+  const params = useParams<{ id: string }>();
+
+  const { id: formId } = params;
+
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
+    "idle",
+  );
+
   const [state, dispatch] = useReducer(editorReducer, initialState);
+
+  useAutosaveForm(formId, state, {
+    onSaveStart: () => setSaveStatus("saving"),
+    onSaveSuccess: () => {
+      setSaveStatus("saved");
+
+      setTimeout(() => {
+        setSaveStatus("idle");
+      }, 1500);
+    },
+  });
 
   // Hydrate editor when form loads
   useEffect(() => {
@@ -97,6 +119,12 @@ export default function FormEditor({ form }: Props) {
         >
           + Number
         </button>
+      </div>
+
+      {/* 🔥 SAVE STATUS (ADD THIS HERE) */}
+      <div className="text-xs text-gray-500 fixed bottom-4 right-4">
+        {saveStatus === "saving" && "Saving..."}
+        {saveStatus === "saved" && "Saved"}
       </div>
     </div>
   );
