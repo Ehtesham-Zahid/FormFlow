@@ -3,7 +3,9 @@
 import { useForm } from "../hooks/useForm";
 import FormPreview from "@/src/features/editor/components/FormPreview";
 import { Loader2 } from "lucide-react";
-import { notFound } from "next/navigation";
+import { notFound, useRouter } from "next/navigation";
+import { useCreateSubmission } from "../submissions/hooks/useCreateSubmission";
+import toast from "react-hot-toast";
 
 type Props = {
   formId: string;
@@ -11,8 +13,8 @@ type Props = {
 
 export const PublicFormRenderer = ({ formId }: Props) => {
   const { data: form, isLoading, error } = useForm(formId);
-
-  console.log(form);
+  const { mutate: createSubmission, isPending } = useCreateSubmission();
+  const router = useRouter();
 
   if (isLoading) {
     return (
@@ -57,11 +59,28 @@ export const PublicFormRenderer = ({ formId }: Props) => {
     );
   }
 
+  const handleSubmit = (data: Record<string, string>) => {
+    createSubmission(
+      { formId, data },
+      {
+        onSuccess: () => {
+          toast.success("Form submitted successfully!");
+          router.push(`/f/${formId}/success`);
+        },
+        onError: () => {
+          toast.error("Failed to submit form. Please try again.");
+        },
+      }
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <FormPreview
         title={form.publishedTitle || form.title}
         fields={form.publishedFields}
+        onSubmit={handleSubmit}
+        isSubmitting={isPending}
       />
     </div>
   );
