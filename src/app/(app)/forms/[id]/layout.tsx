@@ -6,7 +6,6 @@ import { useForm } from "@/src/features/forms/hooks/useForm";
 import { PenLine, Share2, BarChart2, Puzzle, Inbox } from "lucide-react";
 
 const tabs = [
-  { label: "Edit", href: "edit", icon: PenLine },
   { label: "Share", href: "share", icon: Share2 },
   { label: "Submissions", href: "submissions", icon: Inbox },
   { label: "Insights", href: "insights", icon: BarChart2 },
@@ -23,33 +22,50 @@ export default function FormLayout({
   const router = useRouter();
   const { data: form } = useForm(formId);
 
+  const isEditPage = pathname.endsWith('/edit');
+
+  if (isEditPage) {
+    return <div className="h-screen w-full">{children}</div>;
+  }
+
   return (
     <div className="flex flex-col h-screen">
       {/* Tab nav */}
-      <div className="h-11 border-b border-gray-100 bg-white flex items-center px-4 gap-1 shrink-0">
-        <span className="text-sm font-medium text-gray-700 truncate max-w-[200px] mr-4">
-          {form?.title || "Untitled form"}
-        </span>
+      <div className="h-11 border-b border-gray-100 bg-white flex items-center px-4 shrink-0 justify-between">
+        <div className="flex items-center gap-1">
+          <span className="text-sm font-medium text-gray-700 truncate max-w-[200px] mr-4">
+            {form?.title || "Untitled form"}
+          </span>
 
-        {tabs.map((tab) => {
-          const isActive = pathname.endsWith(`/${tab.href}`);
-          const Icon = tab.icon;
-          return (
-            <button
-              key={tab.href}
-              onClick={() => router.push(`/forms/${formId}/${tab.href}`)}
-              className={cn(
-                "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors",
-                isActive
-                  ? "bg-gray-100 text-gray-900 font-medium"
-                  : "text-gray-500 hover:text-gray-800 hover:bg-gray-50",
-              )}
-            >
-              <Icon size={13} strokeWidth={1.8} />
-              {tab.label}
-            </button>
-          );
-        })}
+          {tabs.map((tab) => {
+            const isActive = pathname.endsWith(`/${tab.href}`);
+            const Icon = tab.icon;
+            return (
+              <button
+                key={tab.href}
+                onClick={() => router.push(`/forms/${formId}/${tab.href}`)}
+                className={cn(
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors",
+                  isActive
+                    ? "bg-gray-100 text-gray-900 font-medium"
+                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50",
+                )}
+              >
+                <Icon size={13} strokeWidth={1.8} />
+                {tab.label}
+              </button>
+            );
+          })}
+        </div>
+        
+        {/* Edit Button on the right */}
+        <button
+          onClick={() => router.push(`/forms/${formId}/edit`)}
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors"
+        >
+          <PenLine size={13} strokeWidth={2} />
+          Edit Form
+        </button>
       </div>
 
       {/* Page content */}

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { Eye, Globe, Loader2 } from "lucide-react";
+import { Eye, Globe, Loader2, Share2, Inbox, Puzzle } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { IField } from "@/src/types/form.types";
 import PreviewModal from "./PreviewModal";
@@ -12,6 +13,7 @@ type Props = {
   title: string;
   status: Status;
   fields: IField[];
+  formId: string;
   onPublish: () => Promise<void>;
 };
 
@@ -19,11 +21,13 @@ export default function EditorHeader({
   title,
   status,
   fields,
+  formId,
   onPublish,
 }: Props) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<Status>(status);
+  const router = useRouter();
 
   const handlePublish = async () => {
     if (currentStatus === "published") return;
@@ -38,7 +42,7 @@ export default function EditorHeader({
 
   return (
     <>
-      <header className="h-12 border-b border-gray-100 bg-white flex items-center justify-between px-5 shrink-0">
+      <header className="h-14 border border-gray-200 shadow-sm bg-white flex items-center justify-between px-5 shrink-0 rounded-xl">
         {/* Left — title + badge */}
         <div className="flex items-center gap-3 min-w-0">
           <span className="text-sm font-medium text-gray-800 truncate max-w-[280px]">
@@ -67,6 +71,31 @@ export default function EditorHeader({
 
         {/* Right — actions */}
         <div className="flex items-center gap-2">
+          {/* Quick Links */}
+          <div className="flex items-center gap-1 mr-2 pr-4 border-r border-gray-200">
+            <button
+              onClick={() => router.push(`/forms/${formId}/share`)}
+              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              title="Share"
+            >
+              <Share2 size={16} strokeWidth={2} />
+            </button>
+            <button
+              onClick={() => router.push(`/forms/${formId}/submissions`)}
+              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              title="Submissions"
+            >
+              <Inbox size={16} strokeWidth={2} />
+            </button>
+            <button
+              onClick={() => router.push(`/forms/${formId}/integrations`)}
+              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              title="Integrations"
+            >
+              <Puzzle size={16} strokeWidth={2} />
+            </button>
+          </div>
+
           <button
             onClick={() => setPreviewOpen(true)}
             className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900

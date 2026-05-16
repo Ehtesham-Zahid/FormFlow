@@ -38,15 +38,18 @@ export default function EditorPageClient({ form, formId }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-screen">
-      <EditorHeader
-        title={state.title}
-        status={form.status}
-        fields={state.fields}
-        onPublish={handlePublish}
-      />
+    <div className="flex flex-col h-full bg-gray-50">
+      <div className="p-4 pb-0 md:p-6 md:pb-0">
+        <EditorHeader
+          title={state.title}
+          status={form.status}
+          fields={state.fields}
+          formId={formId}
+          onPublish={handlePublish}
+        />
+      </div>
 
-      <div className="flex-1 overflow-y-auto p-6">
+      <div className="flex-1 overflow-y-auto p-4 md:p-6">
         <FormEditor state={state} dispatch={dispatch} />
       </div>
     </div>
