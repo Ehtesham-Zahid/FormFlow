@@ -12,6 +12,7 @@ export interface IField {
 export interface IForm {
   userId: string;
   title: string;
+  publishedTitle: string;
   fields: IField[];
   publishedFields: IField[];
   publishedAt: Date | null;

@@ -1,12 +1,13 @@
 "use client";
 
-import { useState } from "react";
-import { Eye, Globe, Loader2, Share2, Inbox, Puzzle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Eye, Globe, Loader2, Share2, Inbox, Puzzle, Check } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { IField } from "@/src/types/form.types";
 import PreviewModal from "./PreviewModal";
 import { Button } from "@/src/components/ui/button";
+import toast from "react-hot-toast";
 
 type Status = "draft" | "published";
 
@@ -27,18 +28,39 @@ export default function EditorHeader({
 }: Props) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [publishing, setPublishing] = useState(false);
+  const [publishSuccess, setPublishSuccess] = useState(false);
   const [currentStatus, setCurrentStatus] = useState<Status>(status);
   const router = useRouter();
+
+  useEffect(() => {
+    if (publishSuccess) {
+      const timer = setTimeout(() => setPublishSuccess(false), 2000);
+      return () => clearTimeout(timer);
+    }
+  }, [publishSuccess]);
 
   const handlePublish = async () => {
     const isFirstPublish = currentStatus === "draft";
     setPublishing(true);
+    setPublishSuccess(false);
     try {
       await onPublish();
       setCurrentStatus("published");
+      setPublishSuccess(true);
       if (isFirstPublish) {
-        router.push(`/forms/${formId}/share`);
+        // A short delay so the user can see the tick icon before navigation
+        setTimeout(() => {
+          router.push(`/forms/${formId}/share`);
+        }, 500);
       }
+    } catch (error: any) {
+      let errorMessage = "Failed to publish form.";
+      if (error?.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      } else if (error?.message) {
+        errorMessage = error.message;
+      }
+      toast.error(errorMessage);
     } finally {
       setPublishing(false);
     }
@@ -121,20 +143,26 @@ export default function EditorHeader({
             disabled={publishing}
             className={cn(
               "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md font-medium transition-all h-9",
-              "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
+              publishSuccess
+                ? "bg-emerald-500 text-white hover:bg-emerald-600"
+                : "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
               publishing && "opacity-70 cursor-not-allowed",
             )}
           >
             {publishing ? (
               <Loader2 size={13} className="animate-spin" />
+            ) : publishSuccess ? (
+              <Check size={14} strokeWidth={2.5} />
             ) : (
               <Globe size={13} strokeWidth={2} />
             )}
             {publishing
               ? "Publishing…"
-              : currentStatus === "published"
-                ? "Publish Changes"
-                : "Publish"}
+              : publishSuccess
+                ? "Published!"
+                : currentStatus === "published"
+                  ? "Publish Changes"
+                  : "Publish"}
           </Button>
         </div>
       </header>
