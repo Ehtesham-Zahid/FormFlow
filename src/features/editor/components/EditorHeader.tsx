@@ -31,11 +31,14 @@ export default function EditorHeader({
   const router = useRouter();
 
   const handlePublish = async () => {
-    if (currentStatus === "published") return;
+    const isFirstPublish = currentStatus === "draft";
     setPublishing(true);
     try {
       await onPublish();
       setCurrentStatus("published");
+      if (isFirstPublish) {
+        router.push(`/forms/${formId}/share`);
+      }
     } finally {
       setPublishing(false);
     }
@@ -115,12 +118,10 @@ export default function EditorHeader({
 
           <Button
             onClick={handlePublish}
-            disabled={publishing || currentStatus === "published"}
+            disabled={publishing}
             className={cn(
               "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md font-medium transition-all h-9",
-              currentStatus === "published"
-                ? "bg-emerald-50 text-emerald-600 hover:bg-emerald-50 cursor-default"
-                : "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
+              "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
               publishing && "opacity-70 cursor-not-allowed",
             )}
           >
@@ -129,10 +130,10 @@ export default function EditorHeader({
             ) : (
               <Globe size={13} strokeWidth={2} />
             )}
-            {currentStatus === "published"
-              ? "Published"
-              : publishing
-                ? "Publishing…"
+            {publishing
+              ? "Publishing…"
+              : currentStatus === "published"
+                ? "Publish Changes"
                 : "Publish"}
           </Button>
         </div>
