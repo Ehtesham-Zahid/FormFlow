@@ -19,7 +19,10 @@ export async function POST(req: Request) {
     const response = {
       id: form._id,
       title: form.title,
+      publishedTitle: form.publishedTitle,
       fields: form.fields,
+      publishedFields: form.publishedFields,
+      publishedAt: form.publishedAt,
       status: form.status,
       isArchived: form.isArchived,
       createdAt: form.createdAt,
@@ -63,6 +66,7 @@ export async function GET(req: Request) {
         title: form.title,
         status: form.status,
         isArchived: form.isArchived,
+        publishedAt: form.publishedAt,
         createdAt: form.createdAt,
         updatedAt: form.updatedAt,
       };

@@ -49,6 +49,8 @@ export type FormSummary = {
   title: string;
   status: "draft" | "published";
   isArchived: boolean;
+  publishedTitle: string;
+  publishedFields: IField[];
   publishedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;

@@ -22,7 +22,10 @@ export async function GET(
     const response = {
       id: form._id,
       title: form.title,
+      publishedTitle: form.publishedTitle,
       fields: form.fields,
+      publishedFields: form.publishedFields,
+      publishedAt: form.publishedAt,
       status: form.status,
       isArchived: form.isArchived,
       createdAt: form.createdAt,
@@ -72,7 +75,10 @@ export async function PATCH(
     const response = {
       id: updatedForm._id,
       title: updatedForm.title,
+      publishedTitle: updatedForm.publishedTitle,
       fields: updatedForm.fields,
+      publishedFields: updatedForm.publishedFields,
+      publishedAt: updatedForm.publishedAt,
       status: updatedForm.status,
       isArchived: updatedForm.isArchived,
       createdAt: updatedForm.createdAt,

@@ -31,7 +31,7 @@ export const getUserForms = async (userId: string): Promise<FormSummary[]> => {
       userId,
       isArchived: false,
     })
-      .select("title status createdAt updatedAt")
+      .select("title status createdAt updatedAt publishedTitle publishedFields publishedAt")
       .sort({ createdAt: -1 })
       .lean();
 
