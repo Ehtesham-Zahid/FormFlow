@@ -13,7 +13,7 @@ export default function FormPreview({ title, fields }: Props) {
     <div className="min-h-full flex items-start justify-center py-20 px-4">
       <div className="w-full max-w-[600px]">
         {/* Form title */}
-        <h1 className="text-3xl font-semibold text-gray-900 mb-10 tracking-tight">
+        <h1 className="text-4xl font-black text-gray-900 mb-10 tracking-tight">
           {title || "Untitled form"}
         </h1>
 

@@ -28,17 +28,19 @@ export default function FieldShell({
 
   return (
     <div
-      className="relative flex items-start gap-2 group py-1"
+      className="relative group py-1"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         if (!open) setHovered(false);
       }}
     >
-      {/* Left handle — visible on hover or popover open */}
+      {/* Left handle — visible on hover, popover open, or when field is focused */}
       <div
         className={cn(
-          "flex items-start pt-[3px] transition-opacity duration-150 shrink-0",
-          hovered || open ? "opacity-100" : "opacity-0 pointer-events-none",
+          "absolute right-full mr-2 top-1 pt-[3px] transition-opacity duration-150",
+          hovered || open
+            ? "opacity-100"
+            : "opacity-0 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
         )}
       >
         <Popover
@@ -106,7 +108,7 @@ export default function FieldShell({
       </div>
 
       {/* Field content — label heading + input preview */}
-      <div className="flex-1 min-w-0">{children}</div>
+      <div className="w-full min-w-0">{children}</div>
     </div>
   );
 }

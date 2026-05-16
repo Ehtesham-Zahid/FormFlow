@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { editorReducer } from "@/src/features/editor/reducers/editor.reducer";
 import { EditorState } from "@/src/features/editor/types/editor.types";
 import { useUpdateForm } from "@/src/features/forms/hooks/useUpdateForm";
+import { useAutosaveForm } from "../hooks/useAutosaveForm";
 import { IForm } from "@/src/types/form.types";
 import EditorHeader from "./EditorHeader";
 import FormEditor from "./FormEditor";
@@ -33,8 +34,33 @@ export default function EditorPageClient({ form, formId }: Props) {
     });
   }, [form]);
 
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
+
+  const { cancel } = useAutosaveForm(formId, state, {
+    onSaveStart: () => setSaveStatus("saving"),
+    onSaveSuccess: () => {
+      setSaveStatus("saved");
+      setTimeout(() => setSaveStatus("idle"), 1500);
+    },
+  });
+
   const handlePublish = async () => {
-    await updateForm({ formId: formId, updates: { status: "published" } });
+    cancel();
+
+    // 1. Immediately force-save the current state
+    await updateForm({
+      formId,
+      updates: {
+        title: state.title,
+        fields: state.fields,
+      },
+    });
+
+    // 2. Then trigger the publish snapshot
+    await updateForm({
+      formId,
+      updates: { status: "published" },
+    });
   };
 
   return (
@@ -50,7 +76,7 @@ export default function EditorPageClient({ form, formId }: Props) {
       </div>
 
       <div className="flex-1 overflow-y-auto p-4 md:p-6">
-        <FormEditor state={state} dispatch={dispatch} />
+        <FormEditor state={state} dispatch={dispatch} saveStatus={saveStatus} />
       </div>
     </div>
   );

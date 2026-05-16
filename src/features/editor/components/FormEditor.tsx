@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { EditorState } from "../types/editor.types";
 import FieldRenderer from "./FieldRenderer";
-import { useAutosaveForm } from "../hooks/useAutosaveForm";
 import { useParams } from "next/navigation";
 import {
   createDefaultTextField,
@@ -15,27 +14,17 @@ import { Button } from "@/src/components/ui/button";
 type Props = {
   state: EditorState;
   dispatch: React.Dispatch<any>;
+  saveStatus: "idle" | "saving" | "saved";
 };
 
-export default function FormEditor({ state, dispatch }: Props) {
+export default function FormEditor({ state, dispatch, saveStatus }: Props) {
   const { id: formId } = useParams<{ id: string }>();
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
-    "idle",
-  );
-
-  useAutosaveForm(formId, state, {
-    onSaveStart: () => setSaveStatus("saving"),
-    onSaveSuccess: () => {
-      setSaveStatus("saved");
-      setTimeout(() => setSaveStatus("idle"), 1500);
-    },
-  });
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       {/* Title */}
       <input
-        className="text-2xl font-bold w-full outline-none"
+        className="text-4xl font-black w-full outline-none"
         value={state.title}
         placeholder="Untitled form"
         onChange={(e) =>
@@ -51,10 +40,10 @@ export default function FormEditor({ state, dispatch }: Props) {
       </div>
 
       {/* Disabled submit preview */}
-      <div className="pt-4">
+      <div className="mt-12">
         <Button
           type="button"
-          className="w-full bg-black text-white py-2 rounded-md opacity-80 cursor-not-allowed"
+          className="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-md opacity-80 cursor-not-allowed"
           disabled
         >
           Submit
