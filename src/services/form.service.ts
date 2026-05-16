@@ -14,10 +14,7 @@ export const createForm = async (userId: string): Promise<FormDocument> => {
   await connectDB();
   try {
     const form = await Form.create({
-      userId,
-      title: "Untitled Form",
-      fields: [],
-      publishedFields: []
+      userId
     });
 
     return form;
@@ -148,6 +145,7 @@ export const updateFormById = async (
             400,
           );
         }
+        form.publishedTitle = form.title;
         form.publishedFields = [...form.fields];
         form.publishedAt = new Date();
       }

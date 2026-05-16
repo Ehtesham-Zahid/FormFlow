@@ -33,6 +33,7 @@ export type UpdateFormInput = {
 export type FormResponse = {
   _id: string;
   title: string;
+  publishedTitle: string;
   fields: IField[];
   publishedFields: IField[];
   publishedAt: Date | null;

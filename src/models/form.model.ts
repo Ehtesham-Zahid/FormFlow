@@ -26,10 +26,20 @@ const FormSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true,
+      default: "Untitled Form"
     },
-    fields: [FieldSchema],
-    publishedFields: [FieldSchema],
+    publishedTitle: {
+      type: String,
+      default: "Untitled Form"
+    },
+    fields: {
+      type: [FieldSchema],
+      default: []
+    },
+    publishedFields: {
+      type: [FieldSchema],
+      default: []
+    },
     publishedAt: {
       type: Date,
       default: null,
