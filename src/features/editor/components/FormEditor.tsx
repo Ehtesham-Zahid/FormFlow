@@ -10,6 +10,7 @@ import {
   createDefaultEmailField,
   createDefaultNumberField,
 } from "../constants/defaultFields";
+import { Button } from "@/src/components/ui/button";
 
 type Props = {
   state: EditorState;
@@ -51,41 +52,44 @@ export default function FormEditor({ state, dispatch }: Props) {
 
       {/* Disabled submit preview */}
       <div className="pt-4">
-        <button
+        <Button
           type="button"
           className="w-full bg-black text-white py-2 rounded-md opacity-80 cursor-not-allowed"
           disabled
         >
           Submit
-        </button>
+        </Button>
       </div>
 
       {/* Add field actions */}
       <div className="flex gap-2 pt-4">
-        <button
+        <Button
+          variant="outline"
           className="px-3 py-2 border rounded text-sm"
           onClick={() =>
             dispatch({ type: "ADD_FIELD", payload: createDefaultTextField() })
           }
         >
           + Text
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="outline"
           className="px-3 py-2 border rounded text-sm"
           onClick={() =>
             dispatch({ type: "ADD_FIELD", payload: createDefaultEmailField() })
           }
         >
           + Email
-        </button>
-        <button
+        </Button>
+        <Button
+          variant="outline"
           className="px-3 py-2 border rounded text-sm"
           onClick={() =>
             dispatch({ type: "ADD_FIELD", payload: createDefaultNumberField() })
           }
         >
           + Number
-        </button>
+        </Button>
       </div>
 
       {/* Autosave status */}

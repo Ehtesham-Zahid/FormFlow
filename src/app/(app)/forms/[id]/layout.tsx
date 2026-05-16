@@ -4,6 +4,7 @@ import { useParams, usePathname, useRouter } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { useForm } from "@/src/features/forms/hooks/useForm";
 import { PenLine, Share2, BarChart2, Puzzle, Inbox } from "lucide-react";
+import { Button } from "@/src/components/ui/button";
 
 const tabs = [
   { label: "Share", href: "share", icon: Share2 },
@@ -41,31 +42,32 @@ export default function FormLayout({
             const isActive = pathname.endsWith(`/${tab.href}`);
             const Icon = tab.icon;
             return (
-              <button
+              <Button
+                variant="ghost"
                 key={tab.href}
                 onClick={() => router.push(`/forms/${formId}/${tab.href}`)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors",
+                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors h-8",
                   isActive
-                    ? "bg-gray-100 text-gray-900 font-medium"
-                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50",
+                    ? "bg-gray-100 text-gray-900 font-medium hover:bg-gray-200"
+                    : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 font-normal",
                 )}
               >
                 <Icon size={13} strokeWidth={1.8} />
                 {tab.label}
-              </button>
+              </Button>
             );
           })}
         </div>
         
         {/* Edit Button on the right */}
-        <button
+        <Button
           onClick={() => router.push(`/forms/${formId}/edit`)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors h-8"
         >
           <PenLine size={13} strokeWidth={2} />
           Edit Form
-        </button>
+        </Button>
       </div>
 
       {/* Page content */}

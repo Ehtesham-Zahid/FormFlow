@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { cn } from "@/src/lib/utils";
 import { IField } from "@/src/types/form.types";
 import PreviewModal from "./PreviewModal";
+import { Button } from "@/src/components/ui/button";
 
 type Status = "draft" | "published";
 
@@ -73,45 +74,52 @@ export default function EditorHeader({
         <div className="flex items-center gap-2">
           {/* Quick Links */}
           <div className="flex items-center gap-1 mr-2 pr-4 border-r border-gray-200">
-            <button
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => router.push(`/forms/${formId}/share`)}
-              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              className="h-8 w-8 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               title="Share"
             >
               <Share2 size={16} strokeWidth={2} />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => router.push(`/forms/${formId}/submissions`)}
-              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              className="h-8 w-8 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               title="Submissions"
             >
               <Inbox size={16} strokeWidth={2} />
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
               onClick={() => router.push(`/forms/${formId}/integrations`)}
-              className="p-1.5 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
+              className="h-8 w-8 text-gray-400 hover:text-gray-700 hover:bg-gray-100 rounded-md transition-colors"
               title="Integrations"
             >
               <Puzzle size={16} strokeWidth={2} />
-            </button>
+            </Button>
           </div>
 
-          <button
+          <Button
+            variant="ghost"
             onClick={() => setPreviewOpen(true)}
             className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900
-                       hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors"
+                       hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors h-9"
           >
             <Eye size={14} strokeWidth={2} />
             Preview
-          </button>
+          </Button>
 
-          <button
+          <Button
             onClick={handlePublish}
             disabled={publishing || currentStatus === "published"}
             className={cn(
-              "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md font-medium transition-all",
+              "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md font-medium transition-all h-9",
               currentStatus === "published"
-                ? "bg-emerald-50 text-emerald-600 cursor-default"
+                ? "bg-emerald-50 text-emerald-600 hover:bg-emerald-50 cursor-default"
                 : "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
               publishing && "opacity-70 cursor-not-allowed",
             )}
@@ -126,7 +134,7 @@ export default function EditorHeader({
               : publishing
                 ? "Publishing…"
                 : "Publish"}
-          </button>
+          </Button>
         </div>
       </header>
 

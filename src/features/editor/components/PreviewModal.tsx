@@ -5,6 +5,8 @@ import { ArrowLeft } from "lucide-react";
 import { IField } from "@/src/types/form.types";
 import FormPreview from "./FormPreview";
 
+import { Button } from "@/src/components/ui/button";
+
 type Props = {
   open: boolean;
   onClose: () => void;
@@ -36,14 +38,15 @@ export default function PreviewModal({ open, onClose, title, fields }: Props) {
     <div className="fixed inset-0 z-50 bg-white flex flex-col animate-in fade-in duration-150">
       {/* Top bar */}
       <div className="h-12 border-b border-gray-100 flex items-center justify-between px-5 shrink-0 bg-white">
-        <button
+        <Button
+          variant="ghost"
           onClick={onClose}
           className="flex items-center gap-2 text-sm font-medium text-gray-600
                      hover:text-gray-900 hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors"
         >
           <ArrowLeft size={14} strokeWidth={2} />
           Back to editor
-        </button>
+        </Button>
 
         <span className="text-xs text-gray-400 font-medium tracking-widest uppercase select-none">
           Preview

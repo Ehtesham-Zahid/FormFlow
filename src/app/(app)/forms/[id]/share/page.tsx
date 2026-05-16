@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useParams } from "next/navigation";
 import { Link2, Check, ExternalLink } from "lucide-react";
 import { useForm } from "@/src/features/forms/hooks/useForm";
+import { Button } from "@/src/components/ui/button";
 
 export default function SharePage() {
   const { id: formId } = useParams<{ id: string }>();
@@ -54,7 +55,7 @@ export default function SharePage() {
             <span className="text-sm text-gray-600 truncate">{shareUrl}</span>
           </div>
 
-          <button
+          <Button
             onClick={handleCopy}
             disabled={isDraft}
             className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md
@@ -69,7 +70,7 @@ export default function SharePage() {
             ) : (
               "Copy link"
             )}
-          </button>
+          </Button>
         </div>
 
         {!isDraft && (

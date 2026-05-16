@@ -1,5 +1,6 @@
 "use client";
 
+import { Button } from "@/src/components/ui/button";
 import { IField } from "@/src/types/form.types";
 
 type Props = {
@@ -28,13 +29,13 @@ export default function FormPreview({ title, fields }: Props) {
         {/* Submit */}
         {fields.length > 0 && (
           <div className="mt-12">
-            <button
+            <Button
               type="button"
               className="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium
                          rounded-md hover:bg-gray-700 transition-colors active:scale-[0.98]"
             >
               Submit
-            </button>
+            </Button>
           </div>
         )}
       </div>

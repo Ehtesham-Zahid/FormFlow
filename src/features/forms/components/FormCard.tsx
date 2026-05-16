@@ -9,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/src/components/ui/tooltip";
+import { Button } from "@/src/components/ui/button";
 
 type Form = {
   id: string;
@@ -116,15 +117,17 @@ export const FormCard = ({ form, onDelete }: Props) => {
           {/* Edit */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   router.push(`/forms/${form.id}/edit`);
                 }}
-                className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                className="h-7 w-7 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
               >
                 <Pencil size={14} strokeWidth={1.8} />
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
               Edit form
@@ -135,9 +138,11 @@ export const FormCard = ({ form, onDelete }: Props) => {
           {!isDraft && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  variant="ghost"
+                  size="icon"
                   onClick={handleCopyLink}
-                  className="p-1.5 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
+                  className="h-7 w-7 rounded-md text-gray-400 hover:text-gray-700 hover:bg-gray-100 transition-colors"
                 >
                   {copied ? (
                     <Check
@@ -148,7 +153,7 @@ export const FormCard = ({ form, onDelete }: Props) => {
                   ) : (
                     <Link2 size={14} strokeWidth={1.8} />
                   )}
-                </button>
+                </Button>
               </TooltipTrigger>
               <TooltipContent side="top" className="text-xs">
                 {copied ? "Copied!" : "Copy share link"}
@@ -159,15 +164,17 @@ export const FormCard = ({ form, onDelete }: Props) => {
           {/* Delete */}
           <Tooltip>
             <TooltipTrigger asChild>
-              <button
+              <Button
+                variant="ghost"
+                size="icon"
                 onClick={(e) => {
                   e.stopPropagation();
                   onDelete();
                 }}
-                className="p-1.5 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
+                className="h-7 w-7 rounded-md text-gray-400 hover:text-red-500 hover:bg-red-50 transition-colors"
               >
                 <Trash2 size={14} strokeWidth={1.8} />
-              </button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent side="top" className="text-xs">
               Delete form

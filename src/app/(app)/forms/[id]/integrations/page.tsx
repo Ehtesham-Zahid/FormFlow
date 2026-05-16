@@ -1,4 +1,5 @@
 import { Puzzle } from "lucide-react";
+import { Button } from "@/src/components/ui/button";
 
 const INTEGRATIONS = [
   {
@@ -58,12 +59,13 @@ export default function IntegrationsPage() {
                 Soon
               </span>
             ) : (
-              <button
+              <Button
+                variant="outline"
                 className="text-xs font-medium px-3 py-1.5 border border-gray-200
-                                 rounded-md text-gray-600 hover:border-gray-400 transition-colors"
+                                 rounded-md text-gray-600 hover:border-gray-400 transition-colors h-8"
               >
                 Connect
-              </button>
+              </Button>
             )}
           </div>
         ))}

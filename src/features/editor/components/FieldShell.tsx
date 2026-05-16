@@ -8,6 +8,7 @@ import {
 } from "@/src/components/ui/popover";
 import { Trash2, ToggleLeft, ToggleRight, GripVertical } from "lucide-react";
 import { cn } from "@/src/lib/utils";
+import { Button } from "@/src/components/ui/button";
 
 type Props = {
   children: React.ReactNode;
@@ -48,12 +49,14 @@ export default function FieldShell({
           }}
         >
           <PopoverTrigger asChild>
-            <button
-              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded p-0.5 cursor-pointer transition-colors"
+            <Button
+              variant="ghost"
+              size="icon"
+              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 h-6 w-6 rounded cursor-pointer transition-colors"
               aria-label="Field options"
             >
               <GripVertical size={15} strokeWidth={1.8} />
-            </button>
+            </Button>
           </PopoverTrigger>
 
           <PopoverContent
@@ -62,12 +65,13 @@ export default function FieldShell({
             className="w-52 p-1 rounded-lg shadow-lg border border-gray-100 bg-white"
           >
             {/* Required toggle */}
-            <button
+            <Button
+              variant="ghost"
               onClick={() => {
                 onToggleRequired();
                 setOpen(false);
               }}
-              className="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors"
+              className="flex items-center justify-start gap-2.5 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors font-normal"
             >
               {required ? (
                 <ToggleRight size={15} className="text-blue-500" />
@@ -80,22 +84,23 @@ export default function FieldShell({
                   On
                 </span>
               )}
-            </button>
+            </Button>
 
             {/* Divider */}
             <div className="my-1 h-px bg-gray-100" />
 
             {/* Delete */}
-            <button
+            <Button
+              variant="ghost"
               onClick={() => {
                 onDelete?.();
                 setOpen(false);
               }}
-              className="flex items-center gap-2.5 w-full px-3 py-2 text-sm text-red-500 hover:bg-red-50 rounded-md transition-colors"
+              className="flex items-center justify-start gap-2.5 w-full px-3 py-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors font-normal"
             >
               <Trash2 size={14} />
               <span>Delete field</span>
-            </button>
+            </Button>
           </PopoverContent>
         </Popover>
       </div>
