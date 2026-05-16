@@ -7,8 +7,8 @@ type Props = {
 
 export const FormsList = ({ forms, onDelete }: Props) => {
   return (
-    <div className="space-y-3">
-      {forms?.map((form: any) => (
+    <div className="flex flex-col">
+      {forms?.map((form) => (
         <FormCard
           key={form.id}
           form={form}

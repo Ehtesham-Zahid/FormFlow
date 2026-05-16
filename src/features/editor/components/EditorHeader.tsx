@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Eye, Globe, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/src/lib/utils";
 import { IField } from "@/src/types/form.types";
 import PreviewModal from "./PreviewModal";
 
