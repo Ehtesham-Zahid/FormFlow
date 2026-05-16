@@ -55,8 +55,8 @@ export const FormCard = ({ form, onDelete }: Props) => {
       <div
         onClick={() => router.push(`/forms/${form.id}/edit`)}
         className="group flex items-center justify-between px-4 py-3.5 rounded-lg
-                   hover:bg-gray-50 cursor-pointer transition-colors duration-100 border border-transparent
-                   hover:border-gray-100"
+                   hover:bg-gray-100 cursor-pointer transition-colors duration-100 border border-transparent
+                   hover:border-gray-200"
       >
         {/* Left — title + meta */}
         <div className="flex items-center gap-3 min-w-0">

@@ -6,15 +6,20 @@ import { FormsHeader } from "./FormsHeader";
 import { FormsList } from "./FormsList";
 import { useCreateForm } from "../hooks/useCreateForm";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 export const FormsDashboard = () => {
   const { data: forms, isLoading } = useForms();
   const { mutate: createForm, isPending } = useCreateForm();
-  const { mutate: deleteForm } = useDeleteForm();
+  const { mutateAsync: deleteFormAsync } = useDeleteForm();
   const router = useRouter();
 
-  const handleDelete = (id: string) => {
-    deleteForm(id);
+  const handleDelete = async (id: string) => {
+    await toast.promise(deleteFormAsync(id), {
+      loading: "Deleting form...",
+      success: "Form deleted successfully!",
+      error: "Failed to delete form",
+    });
   };
 
   const handleCreate = () => {

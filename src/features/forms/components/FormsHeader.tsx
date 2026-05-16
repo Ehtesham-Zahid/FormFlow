@@ -22,7 +22,7 @@ export const FormsHeader = ({ onCreate, isLoading }: Props) => {
       {isLoading ? (
         <Button
           disabled
-          className="bg-primary/50 text-white  cursor-not-allowed"
+          className="bg-primary/50 text-white cursor-not-allowed"
         >
           Creating...
         </Button>
