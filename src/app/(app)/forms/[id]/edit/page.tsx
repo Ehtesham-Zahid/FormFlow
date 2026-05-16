@@ -11,5 +11,5 @@ export default function Page() {
   if (isLoading) return <p>Loading...</p>;
   if (!form) return <p>Form not found</p>;
 
-  return <EditorPageClient form={form} />;
+  return <EditorPageClient form={form} formId={formId} />;
 }

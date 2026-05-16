@@ -13,11 +13,10 @@ import {
 
 type Props = {
   state: EditorState;
-  form: { title: string; fields: any[] };
   dispatch: React.Dispatch<any>;
 };
 
-export default function FormEditor({ state, form, dispatch }: Props) {
+export default function FormEditor({ state, dispatch }: Props) {
   const { id: formId } = useParams<{ id: string }>();
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">(
     "idle",

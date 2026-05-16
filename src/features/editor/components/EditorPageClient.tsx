@@ -15,9 +15,10 @@ const initialState: EditorState = {
 
 type Props = {
   form: IForm;
+  formId: string;
 };
 
-export default function EditorPageClient({ form }: Props) {
+export default function EditorPageClient({ form, formId }: Props) {
   const [state, dispatch] = useReducer(editorReducer, initialState);
   const { mutateAsync: updateForm } = useUpdateForm();
 
@@ -33,7 +34,7 @@ export default function EditorPageClient({ form }: Props) {
   }, [form]);
 
   const handlePublish = async () => {
-    await updateForm({ formId: form.id, updates: { status: "published" } });
+    await updateForm({ formId: formId, updates: { status: "published" } });
   };
 
   return (
@@ -46,7 +47,7 @@ export default function EditorPageClient({ form }: Props) {
       />
 
       <div className="flex-1 overflow-y-auto p-6">
-        <FormEditor state={state} form={form} dispatch={dispatch} />
+        <FormEditor state={state} dispatch={dispatch} />
       </div>
     </div>
   );
