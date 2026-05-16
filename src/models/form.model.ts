@@ -29,6 +29,11 @@ const FormSchema = new mongoose.Schema(
       required: true,
     },
     fields: [FieldSchema],
+    publishedFields: [FieldSchema],
+    publishedAt: {
+      type: Date,
+      default: null,
+    },
     userId: {
       type: String,
       required: true,

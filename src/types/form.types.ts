@@ -13,16 +13,16 @@ export interface IForm {
   userId: string;
   title: string;
   fields: IField[];
+  publishedFields: IField[];
+  publishedAt: Date | null;
   status: "draft" | "published";
   isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export interface FormDocument extends IForm, Document {}
-export interface FieldDocument extends IField, Document {}
-
-// export type CreateFormInput = Omit<IForm, "userId" | "createdAt" | "updatedAt">;
+export interface FormDocument extends IForm, Document { }
+export interface FieldDocument extends IField, Document { }
 
 export type UpdateFormInput = {
   title?: string;
@@ -34,6 +34,8 @@ export type FormResponse = {
   _id: string;
   title: string;
   fields: IField[];
+  publishedFields: IField[];
+  publishedAt: Date | null;
   status: "draft" | "published";
   isArchived: boolean;
   createdAt: Date;
@@ -45,6 +47,7 @@ export type FormSummary = {
   title: string;
   status: "draft" | "published";
   isArchived: boolean;
+  publishedAt: Date | null;
   createdAt: Date;
   updatedAt: Date;
 };

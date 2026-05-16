@@ -17,6 +17,7 @@ export const createForm = async (userId: string): Promise<FormDocument> => {
       userId,
       title: "Untitled Form",
       fields: [],
+      publishedFields: []
     });
 
     return form;
@@ -52,7 +53,7 @@ export const getFormById = async (
   try {
     const form = await Form.findOne({
       _id: formId,
-      isArchived: false, // 👈 critical fix
+      isArchived: false,
     }).lean();
 
     if (!form) {
@@ -147,6 +148,8 @@ export const updateFormById = async (
             400,
           );
         }
+        form.publishedFields = [...form.fields];
+        form.publishedAt = new Date();
       }
 
       form.status = updates.status;
