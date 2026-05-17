@@ -57,7 +57,7 @@ export default function TextField({ field, dispatch }: Props) {
         <input
           type="text"
           disabled
-          placeholder="Short answer text"
+          placeholder="Enter Text"
           className="w-full py-1 text-sm text-gray-400 bg-transparent outline-none
                      placeholder:text-gray-300 cursor-default"
         />
