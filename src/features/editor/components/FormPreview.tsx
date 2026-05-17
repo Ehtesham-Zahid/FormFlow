@@ -4,11 +4,12 @@ import { useState } from "react";
 import { Button } from "@/src/components/ui/button";
 import { IField } from "@/src/types/form.types";
 import { Loader2 } from "lucide-react";
+import { CreateSubmissionInput } from "@/src/types/submission.types";
 
 type Props = {
   title: string;
   fields: IField[];
-  onSubmit?: (data: Record<string, string>) => void;
+  onSubmit?: (data: CreateSubmissionInput) => void;
   isSubmitting?: boolean;
 };
 
@@ -18,7 +19,11 @@ export default function FormPreview({ title, fields, onSubmit, isSubmitting }: P
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (onSubmit) {
-      onSubmit(data);
+      const answers = Object.entries(data).map(([fieldId, value]) => ({
+        fieldId,
+        value,
+      }));
+      onSubmit({ answers });
     }
   };
 
@@ -40,9 +45,9 @@ export default function FormPreview({ title, fields, onSubmit, isSubmitting }: P
             <p className="text-sm text-gray-400">No fields added yet.</p>
           ) : (
             fields.map((field) => (
-              <PreviewField 
-                key={field.id} 
-                field={field} 
+              <PreviewField
+                key={field.id}
+                field={field}
                 value={data[field.id] || ""}
                 onChange={(val) => handleFieldChange(field.id, val)}
               />
@@ -69,13 +74,13 @@ export default function FormPreview({ title, fields, onSubmit, isSubmitting }: P
   );
 }
 
-function PreviewField({ 
-  field, 
-  value, 
-  onChange 
-}: { 
-  field: IField; 
-  value: string; 
+function PreviewField({
+  field,
+  value,
+  onChange
+}: {
+  field: IField;
+  value: string;
   onChange: (val: string) => void;
 }) {
   const inputClass =
@@ -92,10 +97,10 @@ function PreviewField({
 
       <div className="border-b border-gray-300 focus-within:border-gray-900 transition-colors">
         {field.type === "text" && (
-          <input 
-            type="text" 
-            placeholder="Your answer" 
-            className={inputClass} 
+          <input
+            type="text"
+            placeholder="Your answer"
+            className={inputClass}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             required={field.required}
@@ -112,10 +117,10 @@ function PreviewField({
           />
         )}
         {field.type === "number" && (
-          <input 
-            type="number" 
-            placeholder="0" 
-            className={inputClass} 
+          <input
+            type="number"
+            placeholder="0"
+            className={inputClass}
             value={value}
             onChange={(e) => onChange(e.target.value)}
             required={field.required}

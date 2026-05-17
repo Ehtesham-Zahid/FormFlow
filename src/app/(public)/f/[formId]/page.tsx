@@ -1,4 +1,4 @@
-import { PublicFormRenderer } from "@/src/features/forms/components/PublicFormRenderer";
+import { PublicFormRenderer } from "@/src/features/forms/submissions/components/PublicFormRenderer";
 
 export default async function PublicFormPage({
   params,

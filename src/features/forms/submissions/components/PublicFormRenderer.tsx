@@ -1,11 +1,14 @@
 "use client";
 
-import { useForm } from "../hooks/useForm";
-import FormPreview from "@/src/features/editor/components/FormPreview";
-import { Loader2 } from "lucide-react";
 import { notFound, useRouter } from "next/navigation";
-import { useCreateSubmission } from "../submissions/hooks/useCreateSubmission";
+
 import toast from "react-hot-toast";
+import { Loader2 } from "lucide-react";
+
+import { useForm } from "../../hooks/useForm";
+import { useCreateSubmission } from "../hooks/useCreateSubmission";
+import FormPreview from "@/src/features/editor/components/FormPreview";
+import { CreateSubmissionInput } from "@/src/types/submission.types";
 
 type Props = {
   formId: string;
@@ -59,9 +62,9 @@ export const PublicFormRenderer = ({ formId }: Props) => {
     );
   }
 
-  const handleSubmit = (data: Record<string, string>) => {
+  const handleSubmit = (submissionData: CreateSubmissionInput) => {
     createSubmission(
-      { formId, data },
+      { formId, submissionData },
       {
         onSuccess: () => {
           toast.success("Form submitted successfully!");
