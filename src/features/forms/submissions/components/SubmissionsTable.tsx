@@ -1,9 +1,9 @@
 import { IForm } from "@/src/types/form.types";
-import { ISubmission } from "../types/submission.types";
+import { ISubmission } from "@/src/types/submission.types";
 
 type Props = {
   form: IForm;
-  submissions: ISubmission[];
+  submissions: (ISubmission & { _id: string })[];
 };
 
 export const SubmissionsTable = ({ form, submissions }: Props) => {
@@ -30,11 +30,15 @@ export const SubmissionsTable = ({ form, submissions }: Props) => {
               <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
                 {new Date(sub.createdAt).toLocaleString()}
               </td>
-              {fields.map((field) => (
-                <td key={field.id} className="px-4 py-3 text-gray-900 max-w-xs truncate">
-                  {sub.data?.[field.id] || "—"}
-                </td>
-              ))}
+              {fields.map((field) => {
+                // Find the answer for this specific field
+                const answer = sub.answers?.find((a) => a.fieldId === field.id);
+                return (
+                  <td key={field.id} className="px-4 py-3 text-gray-900 max-w-xs truncate">
+                    {answer ? String(answer.value) : "—"}
+                  </td>
+                );
+              })}
             </tr>
           ))}
         </tbody>
