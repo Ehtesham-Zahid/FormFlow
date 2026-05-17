@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { ArrowLeft } from "lucide-react";
 import { IField } from "@/src/types/form.types";
-import FormPreview from "./FormPreview";
+import FormPreview from "../../components/FormPreview";
 
 import { Button } from "@/src/components/ui/button";
 
