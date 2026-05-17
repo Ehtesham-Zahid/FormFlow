@@ -17,6 +17,7 @@ export interface IForm {
   publishedFields: IField[];
   publishedAt: Date | null;
   status: "draft" | "published";
+  submissionsCount: number;
   isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -39,6 +40,7 @@ export type FormResponse = {
   publishedFields: IField[];
   publishedAt: Date | null;
   status: "draft" | "published";
+  submissionsCount: number;
   isArchived: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -48,6 +50,7 @@ export type FormSummary = {
   _id: string;
   title: string;
   status: "draft" | "published";
+  submissionsCount: number;
   isArchived: boolean;
   publishedTitle: string;
   publishedFields: IField[];

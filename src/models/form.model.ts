@@ -53,6 +53,10 @@ const FormSchema = new mongoose.Schema(
       enum: ["draft", "published"],
       default: "draft",
     },
+    submissionsCount: {
+      type: Number,
+      default: 0,
+    },
     isArchived: {
       type: Boolean,
       default: false,

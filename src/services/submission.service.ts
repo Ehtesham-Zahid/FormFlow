@@ -79,6 +79,9 @@ export const createSubmission = async (
       answers: cleanAnswers,
     });
 
+    // 6. Increment form submissionsCount
+    await Form.findByIdAndUpdate(formId, { $inc: { submissionsCount: 1 } });
+
     return submission;
   } catch (error) {
     throw handleError(error);
@@ -181,6 +184,9 @@ export const deleteSubmissionById = async (
     if (!deletedSubmission) {
       throw new AppError("Submission not found", 404);
     }
+
+    // Decrement form submissionsCount
+    await Form.findByIdAndUpdate(formId, { $inc: { submissionsCount: -1 } });
 
     return {
       id: submissionId,
