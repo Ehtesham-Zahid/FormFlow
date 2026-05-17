@@ -54,7 +54,7 @@ export const FormCard = ({ form, onDelete }: Props) => {
   return (
     <TooltipProvider delayDuration={400}>
       <div
-        onClick={() => router.push(`/forms/${form.id}/edit`)}
+        onClick={() => router.push(isDraft ? `/forms/${form.id}/edit` : `/forms/${form.id}/share`)}
         className="group flex items-center justify-between px-4 py-3.5 rounded-lg
                    hover:bg-gray-100 cursor-pointer transition-colors duration-100 border border-transparent
                    hover:border-gray-200"

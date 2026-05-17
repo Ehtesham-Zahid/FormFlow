@@ -1,7 +1,7 @@
 import { useEffect, useRef, useMemo } from "react";
 import { debounce } from "lodash";
 import { EditorState } from "../types/editor.types";
-import { updateForm } from "@/src/features/forms/api/form.api";
+import { useUpdateForm } from "../../hooks/useUpdateForm";
 
 export function useAutosaveForm(
   formId: string,
@@ -12,6 +12,7 @@ export function useAutosaveForm(
   },
 ) {
   const optionsRef = useRef(options);
+  const { mutateAsync: updateFormMutation } = useUpdateForm();
 
   useEffect(() => {
     optionsRef.current = options;
@@ -22,9 +23,12 @@ export function useAutosaveForm(
       try {
         optionsRef.current?.onSaveStart?.();
 
-        await updateForm(formId, {
-          title: data.title,
-          fields: data.fields,
+        await updateFormMutation({
+          formId,
+          updates: {
+            title: data.title,
+            fields: data.fields,
+          },
         });
 
         optionsRef.current?.onSaveSuccess?.();
@@ -32,7 +36,7 @@ export function useAutosaveForm(
         console.error("Autosave failed:", err);
       }
     }, 2000);
-  }, [formId]);
+  }, [formId, updateFormMutation]);
 
   useEffect(() => {
     save(state);
