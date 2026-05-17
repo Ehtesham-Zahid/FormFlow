@@ -25,7 +25,7 @@ export default function SharePage() {
   const isDraft = form?.status === "draft";
 
   return (
-    <div className="max-w-2xl mx-auto px-6 py-12">
+    <div className="max-w-2xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
       <h1 className="text-lg font-semibold text-gray-900 mb-1">Share</h1>
       <p className="text-sm text-gray-500 mb-8">
         Share your form with a link or embed it anywhere.
@@ -46,7 +46,7 @@ export default function SharePage() {
           </p>
         </div>
 
-        <div className="px-4 py-4 flex items-center gap-3">
+        <div className="px-4 py-4 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
           <div
             className="flex-1 flex items-center gap-2 bg-gray-50 border border-gray-200
                           rounded-md px-3 py-2 min-w-0"
@@ -58,7 +58,7 @@ export default function SharePage() {
           <Button
             onClick={handleCopy}
             disabled={isDraft}
-            className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md
+            className="flex items-center justify-center gap-1.5 px-3 py-2 text-sm font-medium rounded-md
                        bg-gray-900 text-white hover:bg-gray-700 transition-colors
                        disabled:opacity-40 disabled:cursor-not-allowed shrink-0"
           >

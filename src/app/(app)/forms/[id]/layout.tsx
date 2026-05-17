@@ -32,9 +32,9 @@ export default function FormLayout({
   return (
     <div className="flex flex-col h-screen">
       {/* Tab nav */}
-      <div className="h-11 border-b border-gray-100 bg-white flex items-center px-4 shrink-0 justify-between">
-        <div className="flex items-center gap-1">
-          <span className="text-sm font-medium text-gray-700 truncate max-w-[200px] mr-4">
+      <div className="h-11 border-b border-gray-100 bg-white flex items-center px-2 sm:px-4 shrink-0 justify-between gap-2">
+        <div className="flex items-center gap-0.5 sm:gap-1 min-w-0">
+          <span className="text-sm font-medium text-gray-700 truncate max-w-[100px] sm:max-w-[200px] mr-1 sm:mr-4 shrink-0">
             {form?.title || "Untitled form"}
           </span>
 
@@ -47,14 +47,14 @@ export default function FormLayout({
                 key={tab.href}
                 onClick={() => router.push(`/forms/${formId}/${tab.href}`)}
                 className={cn(
-                  "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm transition-colors h-8",
+                  "flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-md text-sm transition-colors h-8",
                   isActive
                     ? "bg-gray-100 text-gray-900 font-medium hover:bg-gray-200"
                     : "text-gray-500 hover:text-gray-800 hover:bg-gray-50 font-normal",
                 )}
               >
                 <Icon size={13} strokeWidth={1.8} />
-                {tab.label}
+                <span className="hidden sm:inline">{tab.label}</span>
               </Button>
             );
           })}
@@ -63,10 +63,10 @@ export default function FormLayout({
         {/* Edit Button on the right */}
         <Button
           onClick={() => router.push(`/forms/${formId}/edit`)}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors h-8"
+          className="flex items-center gap-1.5 px-2 sm:px-3 py-1.5 rounded-md text-sm font-medium bg-indigo-50 text-indigo-600 hover:bg-indigo-100 transition-colors h-8 shrink-0"
         >
           <PenLine size={13} strokeWidth={2} />
-          Edit Form
+          <span className="hidden sm:inline">Edit Form</span>
         </Button>
       </div>
 

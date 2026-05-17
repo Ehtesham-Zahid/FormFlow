@@ -112,8 +112,8 @@ export const FormCard = ({ form, onDelete }: Props) => {
           </div>
         </div>
 
-        {/* Right — icon actions on hover */}
-        <div className="flex items-center gap-0.5 shrink-0 ml-6 opacity-0 group-hover:opacity-100 transition-opacity duration-100">
+        {/* Right — icon actions */}
+        <div className="flex items-center gap-0.5 shrink-0 ml-4 sm:ml-6 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-100">
           {/* Edit */}
           <Tooltip>
             <TooltipTrigger asChild>

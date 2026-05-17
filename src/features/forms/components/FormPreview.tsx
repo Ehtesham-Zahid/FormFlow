@@ -32,15 +32,15 @@ export default function FormPreview({ title, fields, onSubmit, isSubmitting }: P
   };
 
   return (
-    <div className="min-h-full flex items-start justify-center py-20 px-4">
+    <div className="min-h-full flex items-start justify-center py-10 sm:py-20 px-4 sm:px-6">
       <form onSubmit={handleSubmit} className="w-full max-w-[600px]">
         {/* Form title */}
-        <h1 className="text-4xl font-black text-gray-900 mb-10 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl font-black text-gray-900 mb-8 sm:mb-10 tracking-tight">
           {title || "Untitled form"}
         </h1>
 
         {/* Fields */}
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-6 sm:gap-8">
           {fields.length === 0 ? (
             <p className="text-sm text-gray-400">No fields added yet.</p>
           ) : (
@@ -57,11 +57,11 @@ export default function FormPreview({ title, fields, onSubmit, isSubmitting }: P
 
         {/* Submit */}
         {fields.length > 0 && (
-          <div className="mt-12">
+          <div className="mt-10 sm:mt-12">
             <Button
               type="submit"
               disabled={isSubmitting || (fields.some(f => f.required && !data[f.id]))}
-              className="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium
+              className="w-full sm:w-auto px-6 py-2.5 bg-gray-900 text-white text-sm font-medium
                          rounded-md hover:bg-gray-700 transition-colors active:scale-[0.98] disabled:opacity-50"
             >
               {isSubmitting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : null}

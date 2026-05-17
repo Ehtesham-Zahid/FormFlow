@@ -68,16 +68,16 @@ export default function EditorHeader({
 
   return (
     <>
-      <header className="h-14 border border-gray-200 shadow-sm bg-white flex items-center justify-between px-5 shrink-0 rounded-xl">
+      <header className="h-14 border border-gray-200 shadow-sm bg-white flex items-center justify-between px-3 sm:px-5 shrink-0 rounded-xl">
         {/* Left — title + badge */}
-        <div className="flex items-center gap-3 min-w-0">
-          <span className="text-sm font-medium text-gray-800 truncate max-w-[280px]">
+        <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+          <span className="text-sm font-medium text-gray-800 truncate max-w-[120px] sm:max-w-[280px]">
             {title || "Untitled form"}
           </span>
 
           <span
             className={cn(
-              "inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full border select-none",
+              "inline-flex items-center gap-1.5 text-[11px] font-medium px-2 py-0.5 rounded-full border select-none shrink-0",
               currentStatus === "published"
                 ? "bg-emerald-50 text-emerald-600 border-emerald-200"
                 : "bg-gray-50 text-gray-500 border-gray-200",
@@ -96,9 +96,9 @@ export default function EditorHeader({
         </div>
 
         {/* Right — actions */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2">
           {/* Quick Links */}
-          <div className="flex items-center gap-1 mr-2 pr-4 border-r border-gray-200">
+          <div className="flex items-center gap-1 mr-1 sm:mr-2 pr-2 sm:pr-4 border-r border-gray-200">
             <Button
               variant="ghost"
               size="icon"
@@ -132,17 +132,17 @@ export default function EditorHeader({
             variant="ghost"
             onClick={() => setPreviewOpen(true)}
             className="flex items-center gap-1.5 text-sm text-gray-600 hover:text-gray-900
-                       hover:bg-gray-100 px-3 py-1.5 rounded-md transition-colors h-9"
+                       hover:bg-gray-100 px-2 sm:px-3 py-1.5 rounded-md transition-colors h-9"
           >
             <Eye size={14} strokeWidth={2} />
-            Preview
+            <span className="hidden sm:inline">Preview</span>
           </Button>
 
           <Button
             onClick={handlePublish}
             disabled={publishing}
             className={cn(
-              "flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-md font-medium transition-all h-9",
+              "flex items-center gap-1.5 text-sm px-2 sm:px-3 py-1.5 rounded-md font-medium transition-all h-9",
               publishSuccess
                 ? "bg-emerald-500 text-white hover:bg-emerald-600"
                 : "bg-gray-900 text-white hover:bg-gray-700 active:scale-[0.98]",
@@ -156,13 +156,15 @@ export default function EditorHeader({
             ) : (
               <Globe size={13} strokeWidth={2} />
             )}
-            {publishing
-              ? "Publishing…"
-              : publishSuccess
-                ? "Published!"
-                : currentStatus === "published"
-                  ? "Publish Changes"
-                  : "Publish"}
+            <span className="hidden sm:inline">
+              {publishing
+                ? "Publishing…"
+                : publishSuccess
+                  ? "Published!"
+                  : currentStatus === "published"
+                    ? "Publish Changes"
+                    : "Publish"}
+            </span>
           </Button>
         </div>
       </header>
