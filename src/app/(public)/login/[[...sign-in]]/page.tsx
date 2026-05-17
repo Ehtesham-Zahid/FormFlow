@@ -17,8 +17,8 @@ export default async function Page() {
           href="/"
           className="flex items-center text-3xl font-black tracking-tight select-none mb-8"
         >
-          <span className="text-gray-900">FORM</span>
-          <span className="text-gray-400">FLOW</span>
+          <span className="text-primary">FORM</span>
+          <span className="text-foreground">FLOW</span>
         </Link>
 
         <SignIn
