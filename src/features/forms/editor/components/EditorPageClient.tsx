@@ -9,6 +9,8 @@ import { IForm } from "@/src/types/form.types";
 import EditorHeader from "./EditorHeader";
 import FormEditor from "./FormEditor";
 
+import { useQueryClient } from "@tanstack/react-query";
+
 const initialState: EditorState = {
   title: "",
   fields: [],
@@ -22,6 +24,7 @@ type Props = {
 export default function EditorPageClient({ form, formId }: Props) {
   const [state, dispatch] = useReducer(editorReducer, initialState);
   const { mutateAsync: updateForm } = useUpdateForm();
+  const queryClient = useQueryClient();
 
   // Hydrate editor when form loads
   useEffect(() => {
@@ -61,6 +64,9 @@ export default function EditorPageClient({ form, formId }: Props) {
       formId,
       updates: { status: "published" },
     });
+
+    // 3. Manually invalidate cache to sync published status
+    queryClient.invalidateQueries({ queryKey: ["form", formId] });
   };
 
   return (
