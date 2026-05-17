@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useReducer, useState } from "react";
-import { editorReducer } from "@/src/features/editor/reducers/editor.reducer";
-import { EditorState } from "@/src/features/editor/types/editor.types";
+import { editorReducer } from "@/src/features/forms/editor/reducers/editor.reducer";
+import { EditorState } from "@/src/features/forms/editor/types/editor.types";
 import { useUpdateForm } from "@/src/features/forms/hooks/useUpdateForm";
 import { useAutosaveForm } from "../hooks/useAutosaveForm";
 import { IForm } from "@/src/types/form.types";

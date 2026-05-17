@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 
 import { useForm } from "../../hooks/useForm";
 import { useCreateSubmission } from "../hooks/useCreateSubmission";
-import FormPreview from "@/src/features/editor/components/FormPreview";
+import FormPreview from "@/src/features/forms/editor/components/FormPreview";
 import { CreateSubmissionInput } from "@/src/types/submission.types";
 
 type Props = {

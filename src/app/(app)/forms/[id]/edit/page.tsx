@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useForm } from "@/src/features/forms/hooks/useForm";
-import EditorPageClient from "@/src/features/editor/components/EditorPageClient";
+import EditorPageClient from "@/src/features/forms/editor/components/EditorPageClient";
 
 export default function Page() {
   const { id: formId } = useParams<{ id: string }>();
