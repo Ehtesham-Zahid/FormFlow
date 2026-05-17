@@ -1,14 +1,10 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { createSubmission } from "../api/submission.api";
+import { CreateSubmissionInput } from "@/src/types/submission.types";
 
 export const useCreateSubmission = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: ({ formId, data }: { formId: string; data: Record<string, string> }) =>
-      createSubmission(formId, data),
-    onSuccess: (_, { formId }) => {
-      queryClient.invalidateQueries({ queryKey: ["submissions", formId] });
-    },
-  });
-};
+    return useMutation({
+        mutationFn: ({ formId, submissionData }: { formId: string; submissionData: CreateSubmissionInput }) =>
+            createSubmission(formId, submissionData),
+    });
+}

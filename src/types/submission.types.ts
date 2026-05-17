@@ -12,7 +12,7 @@ export interface ISubmission {
   updatedAt: Date;
 }
 
-export interface SubmissionDocument extends ISubmission, Document {}
+export interface SubmissionDocument extends ISubmission, Document { }
 
 export type CreateSubmissionInput = {
   answers: IAnswer[];

@@ -1,12 +1,12 @@
 import { api } from "@/src/lib/axios";
-import { ISubmission } from "../types/submission.types";
+import { CreateSubmissionInput } from "@/src/types/submission.types";
 
-export const getSubmissions = async (formId: string): Promise<ISubmission[]> => {
-  const response = await api.get(`/forms/${formId}/submissions`);
-  return response.data.data;
-};
+export const createSubmission = async (formId: string, submissionData: CreateSubmissionInput) => {
+    const response = await api.post(`/forms/${formId}/submissions`, submissionData);
+    return response.data.data;
+}
 
-export const createSubmission = async (formId: string, data: Record<string, string>): Promise<ISubmission> => {
-  const response = await api.post(`/forms/${formId}/submissions`, { data });
-  return response.data.data;
-};
+export const getSubmissions = async (formId: string) => {
+    const response = await api.get(`/forms/${formId}/submissions`);
+    return response.data.data;
+}
