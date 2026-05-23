@@ -48,9 +48,12 @@ export function useAutosaveForm(
     save(state);
   }, [state, save]);
 
+  // ✅ flush on unmount — saves any pending changes before leaving
   useEffect(() => {
-    return () => save.cancel();
+    return () => {
+      save.flush?.();
+    };
   }, [save]);
 
-  return { cancel: save.cancel };
+  return { flush: save.flush };
 }

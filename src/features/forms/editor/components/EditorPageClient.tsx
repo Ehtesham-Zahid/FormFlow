@@ -39,7 +39,7 @@ export default function EditorPageClient({ form, formId }: Props) {
 
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
 
-  const { cancel } = useAutosaveForm(formId, state, {
+  const { flush } = useAutosaveForm(formId, state, {
     onSaveStart: () => setSaveStatus("saving"),
     onSaveSuccess: () => {
       setSaveStatus("saved");
@@ -48,24 +48,15 @@ export default function EditorPageClient({ form, formId }: Props) {
   });
 
   const handlePublish = async () => {
-    cancel();
+    await flush();
 
-    // 1. Immediately force-save the current state
-    await updateForm({
-      formId,
-      updates: {
-        title: state.title,
-        fields: state.fields,
-      },
-    });
-
-    // 2. Then trigger the publish snapshot
+    // Then trigger the publish snapshot
     await updateForm({
       formId,
       updates: { status: "published" },
     });
 
-    // 3. Manually invalidate cache to sync published status
+    // Manually invalidate cache to sync published status
     queryClient.invalidateQueries({ queryKey: ["form", formId] });
   };
 
