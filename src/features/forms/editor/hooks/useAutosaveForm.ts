@@ -13,7 +13,7 @@ export function useAutosaveForm(
 ) {
   const optionsRef = useRef(options);
   const lastSavedRef = useRef<EditorState | null>(null);
-  const { mutateAsync: updateFormMutation } = useUpdateForm();
+  const { mutateAsync: updateForm } = useUpdateForm();
 
   useEffect(() => {
     optionsRef.current = options;
@@ -28,7 +28,7 @@ export function useAutosaveForm(
       try {
         optionsRef.current?.onSaveStart?.();
 
-        await updateFormMutation({
+        await updateForm({
           formId,
           updates: {
             title: data.title,
@@ -42,7 +42,7 @@ export function useAutosaveForm(
         console.error("Autosave failed:", err);
       }
     }, 2000);
-  }, [formId, updateFormMutation]);
+  }, [formId, updateForm]);
 
   useEffect(() => {
     save(state);

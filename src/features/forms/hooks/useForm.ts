@@ -9,7 +9,7 @@ export const useForm = (formId: string) => {
 
     enabled: !!formId,
 
-    staleTime: 5 * 60 * 1000,
-    refetchOnWindowFocus: false,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
   });
 };
