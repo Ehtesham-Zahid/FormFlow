@@ -1,17 +1,13 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { updateForm } from "../api/form.api";
 
 export const useUpdateForm = () => {
-  const queryClient = useQueryClient();
-
   return useMutation({
     mutationFn: ({ formId, updates }: { formId: string; updates: any }) =>
       updateForm(formId, updates),
-
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({
-        queryKey: ["form", variables.formId],
-      });
-    },
+    // No onSuccess invalidation — the editor owns its own local state.
+    // Triggering a refetch here creates a save → invalidate → refetch →
+    // HYDRATE → state-change → save loop. Publish handles its own invalidation
+    // explicitly in EditorPageClient.handlePublish.
   });
 };

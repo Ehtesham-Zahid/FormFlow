@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useReducer, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { editorReducer } from "@/src/features/forms/editor/reducers/editor.reducer";
 import { EditorState } from "@/src/features/forms/editor/types/editor.types";
 import { useUpdateForm } from "@/src/features/forms/hooks/useUpdateForm";
@@ -25,6 +25,7 @@ export default function EditorPageClient({ form, formId }: Props) {
   const [state, dispatch] = useReducer(editorReducer, initialState);
   const { mutateAsync: updateForm } = useUpdateForm();
   const queryClient = useQueryClient();
+  const isHydratedRef = useRef(false);
 
   // Hydrate editor when form loads
   useEffect(() => {
@@ -35,17 +36,27 @@ export default function EditorPageClient({ form, formId }: Props) {
         fields: form.fields ?? [],
       },
     });
+    isHydratedRef.current = true;
   }, [form]);
 
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
 
-  const { flush } = useAutosaveForm(formId, state, {
+  const initialServerState: EditorState = {
+    title: form.title ?? "",
+    fields: form.fields ?? [],
+  };
+
+  // Fix 3: memoize so the object reference is stable — prevents the optionsRef
+  // useEffect from firing on every render due to a new inline object literal.
+  const autosaveOptions = useMemo(() => ({
     onSaveStart: () => setSaveStatus("saving"),
     onSaveSuccess: () => {
       setSaveStatus("saved");
       setTimeout(() => setSaveStatus("idle"), 1500);
     },
-  });
+  }), []);
+
+  const { flush } = useAutosaveForm(formId, state, isHydratedRef, initialServerState, autosaveOptions);
 
   const handlePublish = async () => {
     await flush();
