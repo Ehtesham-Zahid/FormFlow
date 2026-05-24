@@ -3,8 +3,8 @@
 import { useForm } from "@/src/features/forms/hooks/useForm";
 import { Inbox } from "lucide-react";
 import { useSubmissions } from "../hooks/useSubmissions";
-import { SubmissionsEmptyState } from "./SubmissionsEmptyState";
 import { SubmissionsTable } from "./SubmissionsTable";
+import { SubmissionsEmptyState } from "./SubmissionsEmptyState";
 
 type Props = {
   formId: string;
