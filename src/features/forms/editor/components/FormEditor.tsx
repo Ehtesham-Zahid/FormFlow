@@ -1,14 +1,8 @@
 "use client";
 
-import { useState } from "react";
 import { EditorState } from "../types/editor.types";
 import FieldRenderer from "./FieldRenderer";
-import { useParams } from "next/navigation";
-import {
-  createDefaultTextField,
-  createDefaultEmailField,
-  createDefaultNumberField,
-} from "../constants/defaultFields";
+import GhostInputArea from "./GhostInputArea";
 import { Button } from "@/src/components/ui/button";
 
 type Props = {
@@ -18,8 +12,6 @@ type Props = {
 };
 
 export default function FormEditor({ state, dispatch, saveStatus }: Props) {
-  const { id: formId } = useParams<{ id: string }>();
-
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Title */}
@@ -39,45 +31,17 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
         ))}
       </div>
 
+      {/* Slash command input */}
+      <GhostInputArea dispatch={dispatch} />
+
       {/* Disabled submit preview */}
-      <div className="mt-12">
+      <div className="mt-8">
         <Button
           type="button"
           className="px-6 py-2.5 bg-gray-900 text-white text-sm font-medium rounded-md opacity-80 cursor-not-allowed"
           disabled
         >
           Submit
-        </Button>
-      </div>
-
-      {/* Add field actions */}
-      <div className="flex flex-wrap gap-2 pt-4">
-        <Button
-          variant="outline"
-          className="px-3 py-2 border rounded text-sm"
-          onClick={() =>
-            dispatch({ type: "ADD_FIELD", payload: createDefaultTextField() })
-          }
-        >
-          + Text
-        </Button>
-        <Button
-          variant="outline"
-          className="px-3 py-2 border rounded text-sm"
-          onClick={() =>
-            dispatch({ type: "ADD_FIELD", payload: createDefaultEmailField() })
-          }
-        >
-          + Email
-        </Button>
-        <Button
-          variant="outline"
-          className="px-3 py-2 border rounded text-sm"
-          onClick={() =>
-            dispatch({ type: "ADD_FIELD", payload: createDefaultNumberField() })
-          }
-        >
-          + Number
         </Button>
       </div>
 
