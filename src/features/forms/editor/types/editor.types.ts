@@ -21,4 +21,6 @@ export type EditorAction =
       id: string;
     };
   }
-  | { type: "HYDRATE"; payload: EditorState };
+  | { type: "HYDRATE"; payload: EditorState }
+  | { type: "INSERT_FIELD_AT"; payload: { field: IField; index: number } };
+

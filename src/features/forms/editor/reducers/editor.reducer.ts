@@ -33,7 +33,17 @@ export const editorReducer = (
     case "HYDRATE":
       return action.payload;
 
+    case "INSERT_FIELD_AT": {
+      const newFields = [...state.fields];
+      newFields.splice(action.payload.index, 0, action.payload.field);
+      return {
+        ...state,
+        fields: newFields,
+      };
+    }
+
     default:
       return state;
   }
 };
+
