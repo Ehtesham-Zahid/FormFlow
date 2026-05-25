@@ -1,15 +1,7 @@
-"use client";
-
-import { useParams } from "next/navigation";
-import { useForm } from "@/src/features/forms/hooks/useForm";
 import EditorPageClient from "@/src/features/forms/editor/components/EditorPageClient";
 
-export default function Page() {
-  const { id: formId } = useParams<{ id: string }>();
-  const { data: form, isLoading } = useForm(formId);
+export default async function Page({ params }: { params: Promise<{ id: string }> }) {
+  const { id: formId } = await params;
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!form) return <p>Form not found</p>;
-
-  return <EditorPageClient form={form} formId={formId} />;
+  return <EditorPageClient formId={formId} />;
 }

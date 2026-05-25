@@ -10,6 +10,7 @@ import EditorHeader from "./EditorHeader";
 import FormEditor from "./FormEditor";
 
 import { useQueryClient } from "@tanstack/react-query";
+import { useForm } from "../../hooks/useForm";
 
 const initialState: EditorState = {
   title: "",
@@ -17,11 +18,15 @@ const initialState: EditorState = {
 };
 
 type Props = {
-  form: IForm;
   formId: string;
 };
 
-export default function EditorPageClient({ form, formId }: Props) {
+export default function EditorPageClient({ formId }: Props) {
+  const { data: form, isLoading } = useForm(formId);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!form) return <p>Form not found</p>;
+
   const [state, dispatch] = useReducer(editorReducer, initialState);
   const { mutateAsync: updateForm } = useUpdateForm();
   const queryClient = useQueryClient();
