@@ -8,10 +8,11 @@ type Props = {
   field: IField;
   dispatch: React.Dispatch<any>;
   onEnter?: (fieldId: string) => void;
+  onBackspaceDelete?: (fieldId: string) => void;
 };
 
 const NumberField = React.forwardRef<HTMLInputElement, Props>(
-  ({ field, dispatch, onEnter }, ref) => {
+  ({ field, dispatch, onEnter, onBackspaceDelete }, ref) => {
     return (
       <FieldShell
         required={field.required}
@@ -52,6 +53,9 @@ const NumberField = React.forwardRef<HTMLInputElement, Props>(
               if (e.key === "Enter") {
                 e.preventDefault();
                 onEnter?.(field.id);
+              } else if (e.key === "Backspace" && field.label === "") {
+                e.preventDefault();
+                onBackspaceDelete?.(field.id);
               }
             }}
           />

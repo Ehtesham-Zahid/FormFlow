@@ -82,6 +82,26 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     }
   }, [ghostIndex, state.fields]);
 
+  // Called when Backspace is pressed on an empty field label input
+  const handleBackspaceDelete = useCallback(
+    (fieldId: string) => {
+      const idx = state.fields.findIndex((f) => f.id === fieldId);
+      // Capture prev field id BEFORE dispatching — state.fields changes after dispatch
+      const prevField = idx > 0 ? state.fields[idx - 1] : null;
+
+      dispatch({ type: "DELETE_FIELD", payload: { id: fieldId } });
+
+      setTimeout(() => {
+        if (prevField) {
+          fieldRefs.current.get(prevField.id)?.focus();
+        } else {
+          titleRef.current?.focus();
+        }
+      }, 0);
+    },
+    [state.fields, dispatch],
+  );
+
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Title */}
@@ -127,6 +147,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
                 dispatch={dispatch}
                 labelRef={setFieldRef(field.id)}
                 onEnter={handleEnter}
+                onBackspaceDelete={handleBackspaceDelete}
               />
             );
           });
