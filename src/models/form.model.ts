@@ -8,7 +8,7 @@ const FieldSchema = new mongoose.Schema({
   },
   type: {
     type: String,
-    enum: ["text", "email", "number"],
+    enum: ["text", "email", "number", "textarea", "select", "radio", "checkbox"],
     required: true,
   },
   label: {
@@ -19,6 +19,10 @@ const FieldSchema = new mongoose.Schema({
   required: {
     type: Boolean,
     default: false,
+  },
+  options: {
+    type: [String],
+    default: undefined,
   },
 });
 

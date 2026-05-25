@@ -1,11 +1,15 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Type, Mail, Hash } from "lucide-react";
+import { Type, Mail, Hash, AlignLeft, ChevronDown, CircleDot, CheckSquare } from "lucide-react";
 import {
   createDefaultTextField,
   createDefaultEmailField,
   createDefaultNumberField,
+  createDefaultTextareaField,
+  createDefaultSelectField,
+  createDefaultRadioField,
+  createDefaultCheckboxField,
 } from "../constants/defaultFields";
 import { IField } from "@/src/types/form.types";
 
@@ -38,7 +42,35 @@ const MENU_ITEMS = [
     icon: Hash,
     factory: createDefaultNumberField,
   },
-] as const;
+  {
+    id: "textarea",
+    label: "Textarea",
+    description: "Long text answer",
+    icon: AlignLeft,
+    factory: createDefaultTextareaField,
+  },
+  {
+    id: "select",
+    label: "Select",
+    description: "Dropdown menu",
+    icon: ChevronDown,
+    factory: createDefaultSelectField,
+  },
+  {
+    id: "radio",
+    label: "Radio",
+    description: "Multiple choice",
+    icon: CircleDot,
+    factory: createDefaultRadioField,
+  },
+  {
+    id: "checkbox",
+    label: "Checkbox",
+    description: "Single checkbox",
+    icon: CheckSquare,
+    factory: createDefaultCheckboxField,
+  },
+];
 
 const GhostInputArea = React.forwardRef<HTMLInputElement, Props>(
   ({ dispatch, insertIndex = null, onFieldCreated, onEscape }, ref) => {

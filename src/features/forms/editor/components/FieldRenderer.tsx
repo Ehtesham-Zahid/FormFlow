@@ -3,6 +3,10 @@ import { IField } from "@/src/types/form.types";
 import TextField from "./fields/TextField";
 import EmailField from "./fields/EmailField";
 import NumberField from "./fields/NumberField";
+import TextareaField from "./fields/TextareaField";
+import SelectField from "./fields/SelectField";
+import RadioField from "./fields/RadioField";
+import CheckboxField from "./fields/CheckboxField";
 
 type Props = {
   field: IField;
@@ -23,6 +27,18 @@ export default function FieldRenderer({ field, dispatch, labelRef, onEnter, onBa
 
     case "number":
       return <NumberField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+
+    case "textarea":
+      return <TextareaField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+
+    case "select":
+      return <SelectField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+
+    case "radio":
+      return <RadioField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+
+    case "checkbox":
+      return <CheckboxField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
 
     default:
       return null;

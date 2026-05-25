@@ -2,6 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "@/src/components/ui/button";
+import { Textarea } from "@/src/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/src/components/ui/select";
+import { RadioGroup, RadioGroupItem } from "@/src/components/ui/radio-group";
+import { Checkbox } from "@/src/components/ui/checkbox";
 import { IField } from "@/src/types/form.types";
 import { Loader2 } from "lucide-react";
 import { CreateSubmissionInput } from "@/src/types/submission.types";
@@ -86,6 +96,8 @@ function PreviewField({
   const inputClass =
     "w-full text-sm text-gray-700 bg-transparent outline-none placeholder:text-gray-300 py-1";
 
+  const options = field.options ?? [];
+
   return (
     <div className="flex flex-col gap-2">
       <label className="text-[15px] font-medium text-gray-800">
@@ -95,38 +107,107 @@ function PreviewField({
         )}
       </label>
 
-      <div className="border-b border-gray-300 focus-within:border-gray-900 transition-colors">
-        {field.type === "text" && (
-          <input
-            type="text"
-            placeholder="Your answer"
-            className={inputClass}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
+      {/* text / email / number — underline style */}
+      {(field.type === "text" || field.type === "email" || field.type === "number") && (
+        <div className="border-b border-gray-300 focus-within:border-gray-900 transition-colors">
+          {field.type === "text" && (
+            <input
+              type="text"
+              placeholder="Your answer"
+              className={inputClass}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              required={field.required}
+            />
+          )}
+          {field.type === "email" && (
+            <input
+              type="email"
+              placeholder="email@example.com"
+              className={inputClass}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              required={field.required}
+            />
+          )}
+          {field.type === "number" && (
+            <input
+              type="number"
+              placeholder="0"
+              className={inputClass}
+              value={value}
+              onChange={(e) => onChange(e.target.value)}
+              required={field.required}
+            />
+          )}
+        </div>
+      )}
+
+      {/* textarea */}
+      {field.type === "textarea" && (
+        <Textarea
+          placeholder="Your answer"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          required={field.required}
+          rows={4}
+          className="text-sm"
+        />
+      )}
+
+      {/* select */}
+      {field.type === "select" && (
+        <Select
+          value={value}
+          onValueChange={(val) => onChange(val)}
+          required={field.required}
+        >
+          <SelectTrigger className="text-sm">
+            <SelectValue placeholder="Select an option..." />
+          </SelectTrigger>
+          <SelectContent>
+            {options.map((opt, i) => (
+              <SelectItem key={i} value={opt || `option-${i}`}>
+                {opt}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      )}
+
+      {/* radio */}
+      {field.type === "radio" && (
+        <RadioGroup
+          value={value}
+          onValueChange={(val) => onChange(val)}
+          required={field.required}
+          className="space-y-2"
+        >
+          {options.map((opt, i) => (
+            <div key={i} className="flex items-center gap-2">
+              <RadioGroupItem value={opt || `option-${i}`} id={`${field.id}-${i}`} />
+              <label htmlFor={`${field.id}-${i}`} className="text-sm text-gray-700 cursor-pointer">
+                {opt}
+              </label>
+            </div>
+          ))}
+        </RadioGroup>
+      )}
+
+      {/* checkbox */}
+      {field.type === "checkbox" && (
+        <div className="flex items-center gap-2">
+          <Checkbox
+            id={`${field.id}-check`}
+            checked={value === "true"}
+            onCheckedChange={(checked) => onChange(checked ? "true" : "false")}
             required={field.required}
           />
-        )}
-        {field.type === "email" && (
-          <input
-            type="email"
-            placeholder="email@example.com"
-            className={inputClass}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            required={field.required}
-          />
-        )}
-        {field.type === "number" && (
-          <input
-            type="number"
-            placeholder="0"
-            className={inputClass}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            required={field.required}
-          />
-        )}
-      </div>
+          <label htmlFor={`${field.id}-check`} className="text-sm text-gray-700 cursor-pointer">
+            {field.label || "Check this box"}
+          </label>
+        </div>
+      )}
     </div>
   );
 }

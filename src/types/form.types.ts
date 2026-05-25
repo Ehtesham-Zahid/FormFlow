@@ -1,12 +1,13 @@
 import { Document } from "mongoose";
 
-export type FieldType = "text" | "email" | "number";
+export type FieldType = "text" | "email" | "number" | "textarea" | "select" | "radio" | "checkbox";
 
 export interface IField {
   id: string;
   type: FieldType;
   label: string;
   required: boolean;
+  options?: string[];
 }
 
 export interface IForm {

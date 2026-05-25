@@ -106,7 +106,7 @@ export const updateFormById = async (
       }
 
       updates.fields.forEach((field, index) => {
-        if (!field.type || !["text", "email", "number"].includes(field.type)) {
+        if (!field.type || !["text", "email", "number", "textarea", "select", "radio", "checkbox"].includes(field.type)) {
           throw new AppError(`Invalid field type at index ${index}`, 400);
         }
 
@@ -130,7 +130,9 @@ export const updateFormById = async (
         type: field.type,
         label: field.label.trim(),
         required: field.required ?? false,
+        options: field.options,
       }));
+      form.markModified("fields");
     }
 
     if (updates.status !== undefined) {
@@ -148,10 +150,12 @@ export const updateFormById = async (
         form.publishedTitle = form.title;
         form.publishedFields = [...form.fields];
         form.publishedAt = new Date();
+        form.markModified("publishedFields");
       }
 
       form.status = updates.status;
     }
+
 
     await form.save();
 
