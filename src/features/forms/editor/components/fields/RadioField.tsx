@@ -14,10 +14,11 @@ type Props = {
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
   onDuplicate?: () => void;
+  dragHandleProps?: any;
 };
 
 const RadioField = React.forwardRef<HTMLInputElement, Props>(
-  ({ field, dispatch, onEnter, onBackspaceDelete, onDuplicate }, ref) => {
+  ({ field, dispatch, onEnter, onBackspaceDelete, onDuplicate, dragHandleProps }, ref) => {
     const options = field.options ?? ["Option 1"];
 
     const updateOptions = (newOptions: string[]) => {
@@ -46,7 +47,9 @@ const RadioField = React.forwardRef<HTMLInputElement, Props>(
             payload: { id: field.id },
           })
         }
+        dragHandleProps={dragHandleProps}
       >
+
         {/* Label */}
         <div className="flex items-baseline gap-1">
           <input

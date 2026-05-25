@@ -5,6 +5,21 @@ import { EditorState } from "../types/editor.types";
 import FieldRenderer from "./FieldRenderer";
 import GhostInputArea from "./GhostInputArea";
 import { Button } from "@/src/components/ui/button";
+import {
+  DndContext,
+  closestCenter,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import SortableField from "./SortableField";
+
 
 type Props = {
   state: EditorState;
@@ -19,6 +34,30 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
   const ghostRef = useRef<HTMLInputElement>(null);
   // Ref to the title input
   const titleRef = useRef<HTMLInputElement>(null);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 5,
+      },
+    })
+  );
+
+  const handleDragEnd = useCallback((event: DragEndEvent) => {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+
+    const fromIndex = state.fields.findIndex((f) => f.id === active.id);
+    const toIndex = state.fields.findIndex((f) => f.id === over.id);
+
+    if (fromIndex !== -1 && toIndex !== -1) {
+      dispatch({
+        type: "REORDER_FIELDS",
+        payload: { fromIndex, toIndex },
+      });
+    }
+  }, [state.fields, dispatch]);
+
 
   // null = no ghost input visible
   // 0 = ghost appears before field 0 (after title)
@@ -140,53 +179,70 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
       />
 
       {/* Fields with interleaved positional GhostInputArea */}
-      <div className="space-y-3">
-        {(() => {
-          const items: React.ReactNode[] = [];
+      <DndContext
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        onDragEnd={handleDragEnd}
+        modifiers={[restrictToVerticalAxis]}
+      >
+        <SortableContext
+          items={state.fields.map((f) => f.id)}
+          strategy={verticalListSortingStrategy}
+        >
+          <div className="space-y-3">
+            {(() => {
+              const items: React.ReactNode[] = [];
 
-          state.fields.forEach((field, index) => {
-            if (ghostIndex === index) {
-              items.push(
-                <GhostInputArea
-                  key="positional-ghost"
-                  ref={ghostRef}
-                  dispatch={dispatch}
-                  insertIndex={ghostIndex}
-                  onFieldCreated={handleFieldCreated}
-                  onEscape={handleGhostEscape}
-                />
-              );
-            }
+              state.fields.forEach((field, index) => {
+                if (ghostIndex === index) {
+                  items.push(
+                    <GhostInputArea
+                      key="positional-ghost"
+                      ref={ghostRef}
+                      dispatch={dispatch}
+                      insertIndex={ghostIndex}
+                      onFieldCreated={handleFieldCreated}
+                      onEscape={handleGhostEscape}
+                    />
+                  );
+                }
 
-            items.push(
-              <FieldRenderer
-                key={field.id}
-                field={field}
-                dispatch={dispatch}
-                labelRef={setFieldRef(field.id)}
-                onEnter={handleEnter}
-                onBackspaceDelete={handleBackspaceDelete}
-                onDuplicate={() => handleDuplicate(field.id)}
-              />
-            );
-          });
+                items.push(
+                  <SortableField key={field.id} id={field.id}>
+                    {({ dragHandleProps }) => (
+                      <FieldRenderer
+                        field={field}
+                        dispatch={dispatch}
+                        labelRef={setFieldRef(field.id)}
+                        onEnter={handleEnter}
+                        onBackspaceDelete={handleBackspaceDelete}
+                        onDuplicate={() => handleDuplicate(field.id)}
+                        dragHandleProps={dragHandleProps}
+                      />
+                    )}
+                  </SortableField>
+                );
+              });
 
-          if (ghostIndex !== null && ghostIndex === state.fields.length) {
-            items.push(
-              <GhostInputArea
-                key="positional-ghost"
-                ref={ghostRef}
-                dispatch={dispatch}
-                insertIndex={ghostIndex}
-                onFieldCreated={handleFieldCreated}
-                onEscape={handleGhostEscape}
-              />
-            );
-          }
+              if (ghostIndex !== null && ghostIndex === state.fields.length) {
+                items.push(
+                  <GhostInputArea
+                    key="positional-ghost"
+                    ref={ghostRef}
+                    dispatch={dispatch}
+                    insertIndex={ghostIndex}
+                    onFieldCreated={handleFieldCreated}
+                    onEscape={handleGhostEscape}
+                  />
+                );
+              }
 
-          return items;
-        })()}
-      </div>
+              return items;
+            })()}
+          </div>
+        </SortableContext>
+      </DndContext>
+
 
 
       {/* Disabled submit preview */}

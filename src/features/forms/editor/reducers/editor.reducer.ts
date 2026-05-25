@@ -42,6 +42,14 @@ export const editorReducer = (
       };
     }
 
+    case "REORDER_FIELDS": {
+      const newFields = [...state.fields];
+      const [moved] = newFields.splice(action.payload.fromIndex, 1);
+      newFields.splice(action.payload.toIndex, 0, moved);
+      return { ...state, fields: newFields };
+    }
+
+
     default:
       return state;
   }

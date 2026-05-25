@@ -11,10 +11,11 @@ type Props = {
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
   onDuplicate?: () => void;
+  dragHandleProps?: any;
 };
 
 const TextField = React.forwardRef<HTMLInputElement, Props>(
-  ({ field, dispatch, onEnter, onBackspaceDelete, onDuplicate }, ref) => {
+  ({ field, dispatch, onEnter, onBackspaceDelete, onDuplicate, dragHandleProps }, ref) => {
     return (
       <FieldShell
         required={field.required}
@@ -34,7 +35,9 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(
             payload: { id: field.id },
           })
         }
+        dragHandleProps={dragHandleProps}
       >
+
         {/* Label — Notion-style editable heading */}
         <div className="flex items-baseline gap-1">
           <input

@@ -16,6 +16,7 @@ type Props = {
   onToggleRequired: () => void;
   onDelete?: () => void;
   onDuplicate?: () => void;
+  dragHandleProps?: React.HTMLAttributes<HTMLButtonElement>;
 };
 
 export default function FieldShell({
@@ -24,6 +25,7 @@ export default function FieldShell({
   onToggleRequired,
   onDelete,
   onDuplicate,
+  dragHandleProps,
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
@@ -64,12 +66,14 @@ export default function FieldShell({
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 h-6 w-6 rounded cursor-pointer transition-colors"
+              {...dragHandleProps}
+              className="text-gray-400 hover:text-gray-600 hover:bg-gray-100 h-6 w-6 rounded cursor-grab active:cursor-grabbing transition-colors"
               aria-label="Field options"
             >
               <GripVertical size={15} strokeWidth={1.8} />
             </Button>
           </PopoverTrigger>
+
 
           <PopoverContent
             side="left"

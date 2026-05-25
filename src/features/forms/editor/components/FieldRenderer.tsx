@@ -15,32 +15,34 @@ type Props = {
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
   onDuplicate?: () => void;
+  dragHandleProps?: any;
 };
 
-export default function FieldRenderer({ field, dispatch, labelRef, onEnter, onBackspaceDelete, onDuplicate }: Props) {
+export default function FieldRenderer({ field, dispatch, labelRef, onEnter, onBackspaceDelete, onDuplicate, dragHandleProps }: Props) {
   switch (field.type) {
     case "text":
-      return <TextField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <TextField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "email":
-      return <EmailField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <EmailField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "number":
-      return <NumberField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <NumberField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "textarea":
-      return <TextareaField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <TextareaField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "select":
-      return <SelectField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <SelectField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "radio":
-      return <RadioField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <RadioField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     case "checkbox":
-      return <CheckboxField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} />;
+      return <CheckboxField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
 
     default:
       return null;
   }
 }
+

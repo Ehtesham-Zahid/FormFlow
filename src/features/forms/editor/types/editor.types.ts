@@ -22,5 +22,7 @@ export type EditorAction =
     };
   }
   | { type: "HYDRATE"; payload: EditorState }
-  | { type: "INSERT_FIELD_AT"; payload: { field: IField; index: number } };
+  | { type: "INSERT_FIELD_AT"; payload: { field: IField; index: number } }
+  | { type: "REORDER_FIELDS"; payload: { fromIndex: number; toIndex: number } };
+
 
