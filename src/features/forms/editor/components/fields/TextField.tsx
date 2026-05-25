@@ -9,10 +9,11 @@ type Props = {
   dispatch: React.Dispatch<any>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
+  onDuplicate?: () => void;
 };
 
 const TextField = React.forwardRef<HTMLInputElement, Props>(
-  ({ field, dispatch, onEnter, onBackspaceDelete }, ref) => {
+  ({ field, dispatch, onEnter, onBackspaceDelete, onDuplicate }, ref) => {
     return (
       <FieldShell
         required={field.required}
@@ -25,6 +26,7 @@ const TextField = React.forwardRef<HTMLInputElement, Props>(
             },
           })
         }
+        onDuplicate={onDuplicate}
         onDelete={() =>
           dispatch({
             type: "DELETE_FIELD",

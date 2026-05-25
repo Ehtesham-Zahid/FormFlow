@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/src/components/ui/popover";
-import { Trash2, ToggleLeft, ToggleRight, GripVertical } from "lucide-react";
+import { Trash2, ToggleLeft, ToggleRight, GripVertical, Copy } from "lucide-react";
 import { cn } from "@/src/lib/utils";
 import { Button } from "@/src/components/ui/button";
 
@@ -15,6 +15,7 @@ type Props = {
   required: boolean;
   onToggleRequired: () => void;
   onDelete?: () => void;
+  onDuplicate?: () => void;
 };
 
 export default function FieldShell({
@@ -22,6 +23,7 @@ export default function FieldShell({
   required,
   onToggleRequired,
   onDelete,
+  onDuplicate,
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
@@ -91,6 +93,19 @@ export default function FieldShell({
             {/* Divider */}
             <div className="my-1 h-px bg-gray-100" />
 
+            {/* Duplicate */}
+            <Button
+              variant="ghost"
+              onClick={() => {
+                onDuplicate?.();
+                setOpen(false);
+              }}
+              className="flex items-center justify-start gap-2.5 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors font-normal"
+            >
+              <Copy size={14} />
+              <span>Duplicate field</span>
+            </Button>
+
             {/* Delete */}
             <Button
               variant="ghost"
@@ -112,3 +127,4 @@ export default function FieldShell({
     </div>
   );
 }
+

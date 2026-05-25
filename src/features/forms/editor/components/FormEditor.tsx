@@ -102,6 +102,24 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     [state.fields, dispatch],
   );
 
+  // Called when Duplicate is clicked in the field popover
+  const handleDuplicate = useCallback(
+    (fieldId: string) => {
+      const idx = state.fields.findIndex((f) => f.id === fieldId);
+      if (idx === -1) return;
+      const original = state.fields[idx];
+      const newField = { ...original, id: crypto.randomUUID() };
+      dispatch({
+        type: "INSERT_FIELD_AT",
+        payload: { field: newField, index: idx + 1 },
+      });
+      setTimeout(() => {
+        fieldRefs.current.get(newField.id)?.focus();
+      }, 0);
+    },
+    [state.fields, dispatch],
+  );
+
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Title */}
@@ -148,6 +166,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
                 labelRef={setFieldRef(field.id)}
                 onEnter={handleEnter}
                 onBackspaceDelete={handleBackspaceDelete}
+                onDuplicate={() => handleDuplicate(field.id)}
               />
             );
           });
