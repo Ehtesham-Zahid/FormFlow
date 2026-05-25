@@ -24,9 +24,6 @@ type Props = {
 export default function EditorPageClient({ formId }: Props) {
   const { data: form, isLoading } = useForm(formId);
 
-  if (isLoading) return <p>Loading...</p>;
-  if (!form) return <p>Form not found</p>;
-
   const [state, dispatch] = useReducer(editorReducer, initialState);
   const { mutateAsync: updateForm } = useUpdateForm();
   const queryClient = useQueryClient();
@@ -34,6 +31,7 @@ export default function EditorPageClient({ formId }: Props) {
 
   // Hydrate editor when form loads
   useEffect(() => {
+    if (!form) return;
     dispatch({
       type: "HYDRATE",
       payload: {
@@ -75,6 +73,9 @@ export default function EditorPageClient({ formId }: Props) {
     // Manually invalidate cache to sync published status
     queryClient.invalidateQueries({ queryKey: ["form", formId] });
   };
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!form) return <p>Form not found</p>;
 
   return (
     <div className="flex flex-col h-full bg-gray-50">
