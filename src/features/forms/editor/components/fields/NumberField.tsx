@@ -3,6 +3,7 @@
 import React from "react";
 import { IField } from "@/src/types/form.types";
 import FieldShell from "../FieldShell";
+import { Input } from "@/src/components/ui/input";
 
 type Props = {
   field: IField;
@@ -69,13 +70,11 @@ const NumberField = React.forwardRef<HTMLInputElement, Props>(
         </div>
 
         {/* Preview input */}
-        <div className="mt-2 border-b border-gray-200 hover:border-gray-400 transition-colors">
-          <input
+        <div className="mt-2">
+          <Input
             type="number"
             disabled
             placeholder="0"
-            className="w-full py-1 text-sm text-gray-400 bg-transparent outline-none
-                       placeholder:text-gray-300 cursor-default"
           />
         </div>
       </FieldShell>
@@ -86,4 +85,5 @@ const NumberField = React.forwardRef<HTMLInputElement, Props>(
 NumberField.displayName = "NumberField";
 
 export default NumberField;
+
 
