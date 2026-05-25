@@ -27,22 +27,30 @@ export default function FieldShell({
 }: Props) {
   const [hovered, setHovered] = useState(false);
   const [open, setOpen] = useState(false);
+  // Tracks whether the field's LABEL input (inside children) has focus.
+  // Intentionally NOT set when the grip button itself receives focus —
+  // that would cause the old field's icon to linger after duplicate/delete.
+  const [focused, setFocused] = useState(false);
+
+  const showIcon = hovered || open || focused;
 
   return (
     <div
-      className="relative group py-1"
+      className="relative py-1"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => {
         if (!open) setHovered(false);
       }}
     >
-      {/* Left handle — visible on hover, popover open, or when field is focused */}
+      {/* Left handle — visible on hover, field-content focus, or when popover open */}
       <div
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => {
+          if (!open) setHovered(false);
+        }}
         className={cn(
           "absolute right-full mr-2 top-1 pt-[3px] transition-opacity duration-150",
-          hovered || open
-            ? "opacity-100"
-            : "opacity-0 pointer-events-none group-focus-within:opacity-100 group-focus-within:pointer-events-auto",
+          showIcon ? "opacity-100" : "opacity-0",
         )}
       >
         <Popover
@@ -97,8 +105,9 @@ export default function FieldShell({
             <Button
               variant="ghost"
               onClick={() => {
-                onDuplicate?.();
                 setOpen(false);
+                setHovered(false);
+                onDuplicate?.();
               }}
               className="flex items-center justify-start gap-2.5 w-full px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-md transition-colors font-normal"
             >
@@ -110,21 +119,36 @@ export default function FieldShell({
             <Button
               variant="ghost"
               onClick={() => {
-                onDelete?.();
                 setOpen(false);
+                setHovered(false);
+                onDelete?.();
               }}
               className="flex items-center justify-start gap-2.5 w-full px-3 py-2 text-sm text-red-500 hover:text-red-600 hover:bg-red-50 rounded-md transition-colors font-normal"
             >
               <Trash2 size={14} />
               <span>Delete field</span>
             </Button>
+
           </PopoverContent>
         </Popover>
       </div>
 
-      {/* Field content — label heading + input preview */}
-      <div className="w-full min-w-0">{children}</div>
+      {/* Field content — onFocus/onBlur here track label input focus only,
+          NOT the grip button (which sits outside this div) */}
+      <div
+        className="w-full min-w-0"
+        onFocus={() => setFocused(true)}
+        onBlur={(e) => {
+          // Only clear focused when focus leaves this div entirely
+          if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+            setFocused(false);
+          }
+        }}
+      >
+        {children}
+      </div>
     </div>
   );
 }
+
 
