@@ -6,7 +6,6 @@ import { useUpdateForm } from "../../hooks/useUpdateForm";
 export function useAutosaveForm(
   formId: string,
   state: EditorState,
-  isHydratedRef: React.RefObject<boolean>,
   initialServerState: EditorState,
   options?: {
     onSaveStart?: () => void;
@@ -36,7 +35,7 @@ export function useAutosaveForm(
   const save = useMemo(() => {
     return debounce(async (data: EditorState) => {
       // Guard: skip if HYDRATE hasn't fired yet (prevents mount-time spurious save)
-      if (!isHydratedRef.current) return;
+      // if (!isHydratedRef.current) return;
 
       if (JSON.stringify(lastSavedRef.current) === JSON.stringify(data)) {
         return;
@@ -59,7 +58,9 @@ export function useAutosaveForm(
         console.error("Autosave failed:", err);
       }
     }, 2000);
-  }, [formId, isHydratedRef]); // mutateRef is stable — not needed in deps
+  }, [formId
+    // ,isHydratedRef
+  ]); // mutateRef is stable — not needed in deps
 
   useEffect(() => {
     save(state);

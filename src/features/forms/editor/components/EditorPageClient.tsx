@@ -10,44 +10,25 @@ import EditorHeader from "./EditorHeader";
 import FormEditor from "./FormEditor";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useForm } from "../../hooks/useForm";
-
-const initialState: EditorState = {
-  title: "",
-  fields: [],
-};
 
 type Props = {
+  form: IForm;
   formId: string;
 };
 
-export default function EditorPageClient({ formId }: Props) {
-  const { data: form, isLoading } = useForm(formId);
+export default function EditorPageClient({ form, formId }: Props) {
 
-  const [state, dispatch] = useReducer(editorReducer, initialState);
-  const { mutateAsync: updateForm } = useUpdateForm();
-  const queryClient = useQueryClient();
-  const isHydratedRef = useRef(false);
-
-  // Hydrate editor when form loads
-  useEffect(() => {
-    if (!form) return;
-    dispatch({
-      type: "HYDRATE",
-      payload: {
-        title: form.title ?? "",
-        fields: form.fields ?? [],
-      },
-    });
-    isHydratedRef.current = true;
-  }, [form]);
-
-  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
-
-  const initialServerState: EditorState = {
+  const initialState = {
     title: form.title ?? "",
     fields: form.fields ?? [],
   };
+
+  const [state, dispatch] = useReducer(editorReducer, initialState);
+
+  const { mutateAsync: updateForm } = useUpdateForm();
+  const queryClient = useQueryClient();
+
+  const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
 
   // Fix 3: memoize so the object reference is stable — prevents the optionsRef
   // useEffect from firing on every render due to a new inline object literal.
@@ -59,7 +40,7 @@ export default function EditorPageClient({ formId }: Props) {
     },
   }), []);
 
-  const { flush } = useAutosaveForm(formId, state, isHydratedRef, initialServerState, autosaveOptions);
+  const { flush } = useAutosaveForm(formId, state, initialState, autosaveOptions);
 
   const handlePublish = async () => {
     await flush();
@@ -73,9 +54,6 @@ export default function EditorPageClient({ formId }: Props) {
     // Manually invalidate cache to sync published status
     queryClient.invalidateQueries({ queryKey: ["form", formId] });
   };
-
-  if (isLoading) return <p>Loading...</p>;
-  if (!form) return <p>Form not found</p>;
 
   return (
     <div className="flex flex-col h-full bg-gray-50">

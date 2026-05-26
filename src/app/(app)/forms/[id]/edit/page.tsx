@@ -1,7 +1,7 @@
-import EditorPageClient from "@/src/features/forms/editor/components/EditorPageClient";
+import EditorPageClientLoading from "@/src/features/forms/editor/components/EditorPageClientLoading";
 
 export default async function Page({ params }: { params: Promise<{ id: string }> }) {
   const { id: formId } = await params;
 
-  return <EditorPageClient formId={formId} />;
+  return <EditorPageClientLoading formId={formId} />;
 }
