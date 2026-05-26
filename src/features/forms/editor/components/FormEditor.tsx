@@ -90,7 +90,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
   };
 
   // Called by GhostInputArea after ADD_FIELD or INSERT_FIELD_AT dispatches.
-  const handleFieldCreated = (fieldId: string, _insertIndex: number | null) => {
+  const handleFieldCreated = (fieldId: string) => {
     setGhostIndex(null);
     setTimeout(() => {
       fieldRefs.current.get(fieldId)?.focus();

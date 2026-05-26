@@ -17,7 +17,7 @@ type Props = {
   ref?: React.Ref<HTMLInputElement>;
   dispatch: React.Dispatch<any>;
   insertIndex?: number | null;
-  onFieldCreated?: (fieldId: string, insertIndex: number | null) => void;
+  onFieldCreated?: (fieldId: string) => void;
   onEscape?: () => void;
 };
 
@@ -103,7 +103,7 @@ export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFi
     setActiveIndex(0);
     inputRef.current?.blur();
     // Notify FormEditor so it can focus the new field's label input
-    onFieldCreated?.(newField.id, insertIndex);
+    onFieldCreated?.(newField.id);
   };
 
   const closeMenu = useCallback(() => {
