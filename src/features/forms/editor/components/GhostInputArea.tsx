@@ -77,9 +77,7 @@ const GhostInputArea = React.forwardRef<HTMLInputElement, Props>(
     const [value, setValue] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const internalRef = useRef<HTMLInputElement>(null);
-    // Use forwarded ref if provided, otherwise fall back to internal ref
-    const inputRef = (ref as React.RefObject<HTMLInputElement>) ?? internalRef;
+    const inputRef = ref as React.RefObject<HTMLInputElement>;
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Filter items based on what's typed after "/"
