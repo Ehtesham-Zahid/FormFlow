@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { Type, Mail, Hash, AlignLeft, ChevronDown, CircleDot, CheckSquare } from "lucide-react";
 import {
   createDefaultTextField,
@@ -14,6 +14,7 @@ import {
 import { IField } from "@/src/types/form.types";
 
 type Props = {
+  ref?: React.Ref<HTMLInputElement>;
   dispatch: React.Dispatch<any>;
   insertIndex?: number | null;
   onFieldCreated?: (fieldId: string, insertIndex: number | null) => void;
@@ -72,12 +73,11 @@ const MENU_ITEMS = [
   },
 ];
 
-const GhostInputArea = React.forwardRef<HTMLInputElement, Props>(
-  ({ dispatch, insertIndex = null, onFieldCreated, onEscape }, ref) => {
+export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFieldCreated, onEscape }: Props) {
     const [value, setValue] = useState("");
     const [menuOpen, setMenuOpen] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const inputRef = ref as React.RefObject<HTMLInputElement>;
+  const inputRef = ref as React.RefObject<HTMLInputElement>;
     const containerRef = useRef<HTMLDivElement>(null);
 
     // Filter items based on what's typed after "/"
@@ -245,10 +245,5 @@ const GhostInputArea = React.forwardRef<HTMLInputElement, Props>(
         )}
       </div>
     );
-  },
-);
-
-GhostInputArea.displayName = "GhostInputArea";
-
-export default GhostInputArea;
+}
 
