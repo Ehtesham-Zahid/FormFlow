@@ -1,92 +1,72 @@
-import { auth } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
+"use client";
 
+import Header from "@/src/components/layout/Header";
+import Footer from "@/src/components/layout/Footer";
+import Hero from "@/src/features/marketing/components/Hero";
+import About from "@/src/features/marketing/components/About";
+import Features from "@/src/features/marketing/components/Features";
+import Faq from "@/src/features/marketing/components/Faq";
 import Link from "next/link";
+import { ArrowRight, Sparkles } from "lucide-react";
+import { Button } from "@/src/components/ui/button";
 
-export default async function Page() {
-  const { userId } = await auth();
-
-  if (userId) {
-    redirect("/dashboard");
-  }
-
+export default function PublicLandingPage() {
   return (
-    <main className="min-h-screen bg-background">
-      {/* HERO */}
-      <section className="mx-auto flex max-w-6xl flex-col items-center justify-center px-6 py-24 text-center">
-        {/* LOGO */}
-        <div className="mb-6 text-3xl font-bold tracking-tight">
-          <span className="text-primary">FORM</span>
-          <span>FLOW</span>
-        </div>
+    <div className="flex min-h-screen flex-col bg-white text-gray-900 font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Sleek Glassmorphic Header */}
+      <Header />
 
-        {/* HEADLINE */}
-        <h1 className="max-w-3xl text-5xl font-bold tracking-tight text-foreground sm:text-6xl">
-          Create beautiful forms without the clutter.
-        </h1>
+      {/* Main Content Sections */}
+      <main className="flex-1">
+        {/* Glowing Interactive Hero */}
+        <Hero />
 
-        {/* SUBTEXT */}
-        <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-          Build forms, collect responses, and manage submissions in a clean
-          modern workspace inspired by tools people actually enjoy using.
-        </p>
+        {/* Feature Grid Details */}
+        <Features />
 
-        {/* CTA BUTTONS */}
-        <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-          <Link
-            href="/signup"
-            className="rounded-xl bg-primary px-6 py-3 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            Get Started
-          </Link>
+        {/* Philosophy / About Section */}
+        <About />
 
-          <Link
-            href="/login"
-            className="rounded-xl border border-border bg-background px-6 py-3 text-sm font-medium transition-colors hover:bg-muted"
-          >
-            Sign In
-          </Link>
-        </div>
+        {/* Collapsible Accordion FAQs */}
+        <Faq />
 
-        {/* PREVIEW CARD */}
-        <div className="mt-20 w-full max-w-4xl rounded-3xl border border-border bg-card p-6 shadow-sm">
-          <div className="rounded-2xl border border-border bg-background p-6 text-left">
-            <div className="mb-6 flex items-center justify-between">
-              <div>
-                <h2 className="text-lg font-semibold text-foreground">
-                  Customer Feedback Form
-                </h2>
+        {/* Direct CTA Section */}
+        <section className="py-24 bg-gradient-to-br from-indigo-900 to-indigo-950 text-white font-sans text-center relative overflow-hidden">
+          {/* Decorative Glow */}
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(20,184,166,0.15),transparent_50%)] pointer-events-none" />
 
-                <p className="text-sm text-muted-foreground">
-                  Collect responses and analyze insights.
-                </p>
-              </div>
-
-              <div className="rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
-                Active
-              </div>
+          <div className="mx-auto max-w-4xl px-6 relative z-10 space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
+            <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-bold text-teal-300 uppercase tracking-widest">
+              <Sparkles className="h-4 w-4" />
+              <span>Start Building Today</span>
             </div>
 
-            <div className="space-y-4">
-              <div className="rounded-xl border border-border p-4">
-                <p className="text-sm font-medium">
-                  What do you think about our product?
-                </p>
-              </div>
+            <h2 className="text-3xl font-extrabold tracking-tight sm:text-5xl">
+              Create forms your users <br className="hidden sm:inline" />
+              will actually enjoy filling out.
+            </h2>
 
-              <div className="rounded-xl border border-border p-4">
-                <p className="text-sm font-medium">
-                  Would you recommend us to others?
-                </p>
-              </div>
+            <p className="text-indigo-200 max-w-xl mx-auto text-base sm:text-lg leading-relaxed">
+              Join thousands of creators and developers who appreciate clean design, lightning-fast creation workflows, and gorgeous feedback grids.
+            </p>
 
-              <div className="rounded-xl border border-border p-4">
-                <p className="text-sm font-medium">Additional comments</p>
-              </div>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link href="/signup">
+                <Button className="rounded-2xl bg-teal-400 hover:bg-teal-500 text-gray-900 font-bold py-6 px-8 text-base shadow-lg shadow-teal-500/20 hover:-translate-y-0.5 transition-all duration-300 gap-2 cursor-pointer">
+                  Get Started Free
+                  <ArrowRight className="h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/login" className="text-sm font-semibold hover:text-teal-300 transition-colors py-2.5">
+                Already have an account? Sign In &rarr;
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+
+      {/* Footer Details */}
+      <Footer />
+    </div>
   );
 }
