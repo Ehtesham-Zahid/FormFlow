@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, HelpCircle } from "lucide-react";
+import { ChevronDown, HelpCircle, Sparkles } from "lucide-react";
 
 type FaqItem = {
   question: string;
@@ -33,38 +33,39 @@ export default function Faq() {
         "Yes. FormFlow gathers all user submissions in real-time. You can view response lists, analyze insights in beautiful clean tables, and track submission rates in a modern, easy-to-use workspace designed for builders.",
     },
     {
-      question: "Is there a premium limit on fields or forms created?",
+      question: "Is there a limit on fields or forms created?",
       answer:
         "FormFlow is built to be accessible. You can create multiple forms and build fields with no strict arbitrary limitations. We want you to have a great time building outstanding form interfaces.",
     },
   ];
 
   return (
-    <section id="faq" className="py-24 bg-gray-50/30 border-t border-gray-100 font-sans">
+    <section id="faq" className="py-28 bg-[#FCFAF7] border-b-2 border-black font-sans">
       <div className="mx-auto max-w-4xl px-6">
         
         {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center space-y-4 mb-16">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-indigo-600">Got Questions?</h2>
-          <p className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
+        <div className="mx-auto max-w-3xl text-center space-y-4 mb-20">
+          <div className="inline-flex items-center gap-2 rounded-full border border-black bg-white px-3 py-1 text-xs font-bold text-black shadow-[1.5px_1.5px_0px_0px_#000000]">
+            <Sparkles className="h-3.5 w-3.5 text-indigo-500 fill-indigo-500" />
+            <span>Got Questions?</span>
+          </div>
+          <h2 className="text-4xl sm:text-5xl font-black text-black tracking-tight leading-none">
             Frequently Asked Questions
-          </p>
-          <p className="text-lg text-gray-500 max-w-xl mx-auto leading-relaxed">
+          </h2>
+          <p className="text-lg font-semibold text-gray-700 max-w-xl mx-auto leading-relaxed">
             Everything you need to know about building, organizing, and collecting responses with FormFlow.
           </p>
         </div>
 
-        {/* Accordion List */}
-        <div className="space-y-4">
+        {/* Accordion List (Tally Neo-Brutalist Accordions) */}
+        <div className="space-y-6">
           {items.map((item, idx) => {
             const isOpen = openIndex === idx;
             return (
               <div
                 key={idx}
-                className={`rounded-2xl border transition-all duration-300 bg-white ${
-                  isOpen
-                    ? "border-indigo-200 shadow-md shadow-indigo-50/50"
-                    : "border-gray-100 hover:border-gray-200"
+                className={`rounded-2xl border-2 border-black bg-white shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[1px] hover:translate-y-[1px] hover:shadow-[3px_3px_0px_0px_#000000] transition-all duration-150 ${
+                  isOpen ? "translate-x-[2px] translate-y-[2px] shadow-[2px_2px_0px_0px_#000000]" : ""
                 }`}
               >
                 {/* Header Toggle */}
@@ -72,16 +73,14 @@ export default function Faq() {
                   onClick={() => setOpenIndex(isOpen ? null : idx)}
                   className="w-full flex items-center justify-between p-6 text-left cursor-pointer"
                 >
-                  <div className="flex items-center gap-3.5 pr-4">
-                    <HelpCircle className={`h-5 w-5 flex-shrink-0 transition-colors duration-300 ${
-                      isOpen ? "text-indigo-600" : "text-gray-400"
-                    }`} />
-                    <span className="font-bold text-gray-900 leading-snug">
+                  <div className="flex items-center gap-4 pr-4">
+                    <span className="text-xl">💬</span>
+                    <span className="font-extrabold text-black text-base leading-snug">
                       {item.question}
                     </span>
                   </div>
-                  <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl bg-gray-50 text-gray-400 transition-all duration-300 ${
-                    isOpen ? "rotate-180 bg-indigo-50 text-indigo-600" : ""
+                  <div className={`flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-xl border-2 border-black bg-indigo-50 text-black transition-all duration-150 ${
+                    isOpen ? "rotate-180 bg-indigo-500 text-white" : ""
                   }`}>
                     <ChevronDown className="h-4 w-4" />
                   </div>
@@ -89,11 +88,11 @@ export default function Faq() {
 
                 {/* Content Panel */}
                 <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    isOpen ? "max-h-60 opacity-100 border-t border-gray-50" : "max-h-0 opacity-0"
+                  className={`overflow-hidden transition-all duration-200 ease-in-out ${
+                    isOpen ? "max-h-60 opacity-100 border-t-2 border-black" : "max-h-0 opacity-0"
                   }`}
                 >
-                  <div className="p-6 text-sm text-gray-500 leading-relaxed bg-gray-50/20">
+                  <div className="p-6 text-sm font-semibold text-gray-600 leading-relaxed bg-[#FCFAF7]/40">
                     {item.answer}
                   </div>
                 </div>

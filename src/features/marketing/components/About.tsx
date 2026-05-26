@@ -1,67 +1,81 @@
 "use client";
 
-import { Feather, Cpu, LayoutGrid, Heart } from "lucide-react";
+import { Sparkles, Edit3, ArrowRight, Zap, Target } from "lucide-react";
+import Link from "next/link";
+import { Button } from "@/src/components/ui/button";
 
 export default function About() {
-  const values = [
+  const points = [
     {
-      icon: Feather,
-      title: "Clean by default",
-      desc: "No clutter, no unnecessary wrappers. FormFlow features standard, carefully curated spacing and typography, ensuring your forms look stunning on any screen without manual tweaking.",
+      emoji: "✍️",
+      title: "Built like a text editor",
+      desc: "Creating a form shouldn't feel like programming. If you know how to write a doc, you already know how to use FormFlow. Type headers, drop descriptions, and insert questions in-place.",
     },
     {
-      icon: Cpu,
-      title: "Focused Workspace",
-      desc: "Inspired by modern developer tools and writing workspaces, the keyboard is your command center. Use slash commands and arrow navigation to build without leaving your home keys.",
+      emoji: "⚡",
+      title: "Designed for rapid typing",
+      desc: "Speed is our core feature. Skip clicking and dragging from nested sidebars. Build an entire question list in seconds using commands and arrow keystrokes.",
     },
     {
-      icon: LayoutGrid,
-      title: "Tactile feedback",
-      desc: "Drag & drop fields visually, duplicate with a single click, and navigate inline with instant response times. Crafting forms feels like building with physical lego blocks.",
-    },
-    {
-      icon: Heart,
-      title: "For Builders who care",
-      desc: "Created for creators, developers, and teams who care deeply about design. Don't compromise your brand's aesthetics with generic form builders.",
+      emoji: "🎨",
+      title: "Stunning out-of-the-box",
+      desc: "No design degree required. FormFlow utilizes HSL-tailored premium defaults, layout margins, and typography that make forms look highly premium and clean on any device.",
     },
   ];
 
   return (
-    <section id="about" className="py-24 bg-gray-50/30 border-y border-gray-100 font-sans">
+    <section id="about" className="py-28 bg-[#FCFAF7] border-b-2 border-black font-sans relative">
       <div className="mx-auto max-w-7xl px-6">
         
-        {/* Section Header */}
-        <div className="mx-auto max-w-3xl text-center space-y-4 mb-20">
-          <h2 className="text-xs font-bold uppercase tracking-widest text-indigo-600">Our Philosophy</h2>
-          <p className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-            Why FormFlow exists
-          </p>
-          <p className="text-lg text-gray-500 max-w-2xl mx-auto leading-relaxed">
-            Legacy form builders are complex, slow, and generate clunky, outdated forms. We built FormFlow to solve this—combining raw speed with gorgeous design.
-          </p>
-        </div>
+        {/* Editorial Layout: Left Pitch, Right Cards */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+          
+          {/* Left Column (Brand Philosophy) */}
+          <div className="lg:col-span-5 space-y-8 lg:sticky lg:top-28">
+            <div className="inline-flex items-center gap-2 rounded-full border border-black bg-white px-3 py-1 text-xs font-bold text-black shadow-[1.5px_1.5px_0px_0px_#000000]">
+              <Sparkles className="h-3.5 w-3.5 text-indigo-500 fill-indigo-500" />
+              <span>Our Philosophy</span>
+            </div>
+            
+            <h2 className="text-4xl sm:text-5xl font-black text-black leading-[1.1] tracking-tight">
+              Forms should be simple, clean, and fast.
+            </h2>
+            
+            <p className="text-lg text-gray-700 font-semibold leading-relaxed">
+              We started FormFlow with a simple premise: form building is broken. Side-panels and modal builders waste your time and create clunky user experiences. 
+            </p>
+            
+            <p className="text-sm text-gray-500 leading-relaxed">
+              Our editor is completely minimalist, ensuring that you can construct forms and inspect submission data without distractions or bloated layout rules.
+            </p>
 
-        {/* Philosophy grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {values.map((val, idx) => {
-            const IconComponent = val.icon;
-            return (
+            <div className="pt-4">
+              <Link href="/signup">
+                <Button className="rounded-2xl border-2 border-black bg-indigo-500 text-white font-bold py-6 px-8 shadow-[3px_3px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_0px_#000000] transition-all cursor-pointer">
+                  Create a form in 60s
+                </Button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right Column (Tactile Points Grid) */}
+          <div className="lg:col-span-7 space-y-8">
+            {points.map((pt, idx) => (
               <div
                 key={idx}
-                className="group relative rounded-3xl border border-gray-100 bg-white p-8 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-100/30 hover:-translate-y-1 transition-all duration-300"
+                className="flex gap-6 rounded-3xl border-2 border-black bg-white p-8 shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000000] transition-all duration-150"
               >
-                <div className="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-50 text-indigo-600 group-hover:bg-gradient-to-tr group-hover:from-indigo-600 group-hover:to-teal-500 group-hover:text-white transition-all duration-300">
-                  <IconComponent className="h-6 w-6" />
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl border-2 border-black bg-indigo-50 text-2xl shadow-[2px_2px_0px_0px_#000000]">
+                  {pt.emoji}
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-indigo-600 transition-colors">
-                  {val.title}
-                </h3>
-                <p className="text-sm text-gray-500 leading-relaxed">
-                  {val.desc}
-                </p>
+                <div className="space-y-2">
+                  <h3 className="text-xl font-black text-black">{pt.title}</h3>
+                  <p className="text-sm font-medium text-gray-600 leading-relaxed">{pt.desc}</p>
+                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
         </div>
 
       </div>

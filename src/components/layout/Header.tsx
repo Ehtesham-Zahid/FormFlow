@@ -6,116 +6,103 @@ import { Sparkles, Menu, X } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
 export default function Header() {
-  const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 10);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <header
-      className={`sticky top-0 z-50 w-full transition-all duration-300 ${isScrolled
-          ? "border-b border-gray-100 bg-white/80 backdrop-blur-md"
-          : "bg-transparent"
-        }`}
-    >
+    <header className="sticky top-0 z-50 w-full border-b-2 border-black bg-[#FCFAF7] font-sans">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-tr from-indigo-600 to-teal-500 text-white shadow-md shadow-indigo-200/50 group-hover:scale-105 transition-transform duration-300">
-            <Sparkles className="h-5 w-5" />
+        
+        {/* Logo (Tally-style bold typographic logo) */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg border-2 border-black bg-indigo-500 text-white shadow-[2px_2px_0px_0px_#000000] group-hover:translate-x-0.5 group-hover:translate-y-0.5 group-hover:shadow-[0px_0px_0px_0px_#000000] transition-all duration-200">
+            <Sparkles className="h-4 w-4" fill="currentColor" />
           </div>
-          <span className="text-xl font-bold tracking-tight text-gray-900 font-sans">
-            Form<span className="text-indigo-600">Flow</span>
+          <span className="text-xl font-black tracking-tight text-black font-sans">
+            Form<span className="bg-indigo-500 text-white px-1.5 py-0.5 rounded border border-black shadow-[1.5px_1.5px_0px_0px_#000000] ml-0.5">Flow</span>
           </span>
         </Link>
 
-        {/* Desktop Navigation */}
+        {/* Navigation - clean links with bold hover borders */}
         <nav className="hidden md:flex items-center gap-8">
           <Link
             href="#features"
-            className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+            className="text-sm font-bold text-black border-b-2 border-transparent hover:border-black py-1 transition-all duration-150"
           >
             Features
           </Link>
           <Link
             href="#about"
-            className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+            className="text-sm font-bold text-black border-b-2 border-transparent hover:border-black py-1 transition-all duration-150"
           >
-            About
+            Our Philosophy
           </Link>
           <Link
             href="#faq"
-            className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+            className="text-sm font-bold text-black border-b-2 border-transparent hover:border-black py-1 transition-all duration-150"
           >
             FAQ
           </Link>
         </nav>
 
-        {/* Auth Buttons */}
+        {/* Tally-Style Flat Buttons */}
         <div className="hidden md:flex items-center gap-4">
           <Link
             href="/login"
-            className="text-sm font-medium text-gray-600 hover:text-indigo-600 transition-colors duration-200"
+            className="text-sm font-bold text-black hover:text-indigo-600 transition-colors duration-150"
           >
             Sign In
           </Link>
           <Link href="/signup">
-            <Button className="rounded-xl bg-indigo-600 px-5 py-2.5 text-sm font-medium text-white hover:bg-indigo-700 transition-all duration-200 shadow-lg shadow-indigo-100/50 cursor-pointer">
-              Get Started
+            <Button className="rounded-xl border-2 border-black bg-indigo-500 px-5 py-2.5 text-sm font-bold text-white shadow-[3px_3px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[1px_1px_0px_0px_#000000] transition-all duration-150 cursor-pointer">
+              Get Started Free
             </Button>
           </Link>
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Toggle */}
         <button
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          className="flex items-center justify-center p-2 rounded-lg md:hidden text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors"
+          className="flex items-center justify-center p-2 rounded-lg md:hidden border-2 border-black text-black bg-white hover:bg-gray-50 transition-colors shadow-[2px_2px_0px_0px_#000000]"
         >
-          {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          {mobileMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
       </div>
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-b border-gray-100 bg-white/95 backdrop-blur-md animate-in slide-in-from-top duration-200">
+        <div className="md:hidden border-b-2 border-black bg-[#FCFAF7] animate-in slide-in-from-top duration-200">
           <div className="flex flex-col gap-4 px-6 py-6">
             <Link
               href="#features"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-base font-bold text-black hover:text-indigo-600 transition-colors"
             >
               Features
             </Link>
             <Link
               href="#about"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-base font-bold text-black hover:text-indigo-600 transition-colors"
             >
-              About
+              Our Philosophy
             </Link>
             <Link
               href="#faq"
               onClick={() => setMobileMenuOpen(false)}
-              className="text-base font-medium text-gray-600 hover:text-indigo-600 transition-colors"
+              className="text-base font-bold text-black hover:text-indigo-600 transition-colors"
             >
               FAQ
             </Link>
-            <hr className="border-gray-100 my-2" />
+            <hr className="border-black my-2" />
             <div className="flex flex-col gap-3">
               <Link href="/login" onClick={() => setMobileMenuOpen(false)}>
-                <Button variant="outline" className="w-full rounded-xl py-3 text-gray-700 hover:bg-gray-50 cursor-pointer">
+                <Button variant="outline" className="w-full rounded-xl border-2 border-black bg-white py-3 text-black font-bold hover:bg-gray-50 shadow-[3px_3px_0px_0px_#000000] cursor-pointer">
                   Sign In
                 </Button>
               </Link>
               <Link href="/signup" onClick={() => setMobileMenuOpen(false)}>
-                <Button className="w-full rounded-xl bg-indigo-600 py-3 text-white hover:bg-indigo-700 shadow-md shadow-indigo-100 cursor-pointer">
-                  Get Started
+                <Button className="w-full rounded-xl border-2 border-black bg-indigo-500 py-3 text-white font-bold hover:bg-indigo-600 shadow-[3px_3px_0px_0px_#000000] cursor-pointer">
+                  Get Started Free
                 </Button>
               </Link>
             </div>

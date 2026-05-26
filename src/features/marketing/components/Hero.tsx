@@ -2,171 +2,266 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Sparkles, ArrowRight, CheckCircle2, Terminal } from "lucide-react";
+import { Sparkles, ArrowRight, CheckCircle2, Play, Eye, FileText, CheckSquare, CircleDot, ChevronDown } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
 export default function Hero() {
-  // Mini interactive state for the live preview card
+  // Live mockup state
+  const [isPlaying, setIsPlaying] = useState(false); // To toggle between Editor mode and Form Preview mode
+  const [formTitle, setFormTitle] = useState("✨ Feedback & Strategy Session");
   const [fields, setFields] = useState([
-    { id: "1", type: "text", label: "Full Name", placeholder: "e.g. Alex Carter" },
-    { id: "2", type: "email", label: "Email Address", placeholder: "e.g. alex@example.com" },
+    { id: "1", type: "text", label: "What is your main goal for this quarter?", value: "" },
+    { id: "2", type: "radio", label: "How did you hear about FormFlow?", options: ["Twitter / X", "Product Hunt", "Word of mouth"], selected: "" },
+    { id: "3", type: "checkbox", label: "Would you like to join our invite-only community?", checked: false },
   ]);
-  const [selectedField, setSelectedField] = useState("1");
-  const [formTitle, setFormTitle] = useState("User Experience Survey");
+  const [activeIndex, setActiveIndex] = useState("1");
 
   const updateLabel = (id: string, newLabel: string) => {
     setFields(fields.map((f) => (f.id === id ? { ...f, label: newLabel } : f)));
   };
 
+  const toggleOption = (fieldId: string, optionIndex: number) => {
+    setFields(
+      fields.map((f) => {
+        if (f.id === fieldId && f.type === "radio") {
+          return { ...f, selected: f.options?.[optionIndex] || "" };
+        }
+        return f;
+      })
+    );
+  };
+
+  const toggleCheckbox = (fieldId: string) => {
+    setFields(
+      fields.map((f) => {
+        if (f.id === fieldId && f.type === "checkbox") {
+          return { ...f, checked: !f.checked };
+        }
+        return f;
+      })
+    );
+  };
+
   return (
-    <section className="relative overflow-hidden py-20 lg:py-32 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(79,70,229,0.06),rgba(255,255,255,0))] font-sans">
+    <section className="relative bg-[#FCFAF7] pt-16 pb-28 border-b-2 border-black font-sans overflow-hidden">
       
-      {/* Decorative Glow Orbs */}
-      <div className="absolute top-1/4 left-1/10 h-72 w-72 rounded-full bg-indigo-400/10 blur-3xl pointer-events-none" />
-      <div className="absolute top-1/3 right-1/10 h-96 w-96 rounded-full bg-teal-400/5 blur-3xl pointer-events-none" />
+      {/* Grid Pattern Background */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#e5e7eb_1px,transparent_1px),linear-gradient(to_bottom,#e5e7eb_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none opacity-40" />
 
-      <div className="mx-auto max-w-7xl px-6 lg:grid lg:grid-cols-12 lg:gap-12 items-center">
+      <div className="mx-auto max-w-7xl px-6 text-center relative z-10 flex flex-col items-center">
         
-        {/* Pitch Column */}
-        <div className="lg:col-span-7 flex flex-col text-left space-y-8 animate-in fade-in slide-in-from-left-8 duration-700">
-          
-          {/* Badge */}
-          <div className="inline-flex max-w-fit items-center gap-2 rounded-full border border-indigo-100 bg-indigo-50/50 px-4 py-1.5 text-sm font-semibold text-indigo-700">
-            <Sparkles className="h-4 w-4 animate-pulse text-indigo-600" />
-            <span>Form building, reimagined.</span>
-          </div>
-
-          {/* Headline */}
-          <h1 className="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-6xl leading-[1.1] font-sans">
-            Create beautiful forms <br className="hidden sm:inline" />
-            <span className="bg-gradient-to-r from-indigo-600 to-teal-500 bg-clip-text text-transparent">
-              without the clutter.
-            </span>
-          </h1>
-
-          {/* Subtext */}
-          <p className="max-w-2xl text-lg text-gray-600 leading-relaxed">
-            Build forms, collect responses, and analyze feedback in a gorgeous, distraction-free interface. Inspired by modern editors you already love using daily.
-          </p>
-
-          {/* Bullet Highlights */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm font-medium text-gray-600">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-teal-500" />
-              <span>Notion-style Slash Commands</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-teal-500" />
-              <span>Tactile Drag & Drop ordering</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-teal-500" />
-              <span>Clean response tables & charts</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="h-4 w-4 text-teal-500" />
-              <span>Lightning-fast keyboard flow</span>
-            </div>
-          </div>
-
-          {/* Action CTAs */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <Link href="/signup" className="flex-1 sm:flex-initial">
-              <Button className="w-full rounded-2xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-6 px-8 text-base shadow-lg shadow-indigo-100 hover:shadow-xl hover:shadow-indigo-200/50 hover:-translate-y-0.5 transition-all duration-300 gap-2 cursor-pointer">
-                Get Started Free
-                <ArrowRight className="h-5 w-5" />
-              </Button>
-            </Link>
-            <Link href="#features" className="flex-1 sm:flex-initial">
-              <Button variant="outline" className="w-full rounded-2xl border-gray-200 hover:bg-gray-50 text-gray-700 font-semibold py-6 px-8 text-base transition-colors duration-200 cursor-pointer">
-                Explore Features
-              </Button>
-            </Link>
-          </div>
-
+        {/* Playful Pill Badge */}
+        <div className="inline-flex items-center gap-2 rounded-full border-2 border-black bg-white px-4 py-1.5 text-xs font-black text-black shadow-[2px_2px_0px_0px_#000000] mb-8 animate-bounce">
+          <Sparkles className="h-4 w-4 text-indigo-500 fill-indigo-500" />
+          <span>The Notion of Form Builders ✦ Free & Unlimited</span>
         </div>
 
-        {/* Live Mockup Column */}
-        <div className="mt-16 lg:mt-0 lg:col-span-5 flex items-center justify-center animate-in fade-in slide-in-from-right-8 duration-700">
-          <div className="w-full max-w-md rounded-3xl border border-gray-100 bg-white p-6 shadow-2xl shadow-gray-200/80 relative">
+        {/* Headline */}
+        <h1 className="max-w-4xl text-5xl font-black tracking-tight text-black sm:text-7xl leading-[1.05] mb-6">
+          The simplest way <br /> to create{" "}
+          <span className="relative inline-block">
+            <span className="bg-indigo-500 text-white px-3 py-1 rounded-2xl border-2 border-black shadow-[4px_4px_0px_0px_#000000]">
+              beautiful forms
+            </span>
+          </span>
+        </h1>
+
+        {/* Subtitle */}
+        <p className="max-w-2xl text-lg sm:text-xl text-gray-700 font-semibold leading-relaxed mb-10">
+          Write your questions just like a document. No clunky sidebars, no drag-and-drop complexity. FormFlow is a new type of form builder that works like a text editor.
+        </p>
+
+        {/* Action CTAs */}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-5 w-full sm:w-auto mb-20">
+          <Link href="/signup" className="w-full sm:w-auto">
+            <Button className="w-full rounded-2xl border-2 border-black bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-7 px-10 text-lg shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000000] transition-all duration-150 gap-3 cursor-pointer">
+              Get Started Free
+              <ArrowRight className="h-5 w-5" />
+            </Button>
+          </Link>
+          <Link href="#features" className="w-full sm:w-auto">
+            <Button variant="outline" className="w-full rounded-2xl border-2 border-black bg-white hover:bg-gray-50 text-black font-bold py-7 px-10 text-lg shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000000] transition-all duration-150 cursor-pointer">
+              See How It Works
+            </Button>
+          </Link>
+        </div>
+
+        {/* Live Tally-Style Interactive Editor Mockup */}
+        <div className="w-full max-w-4xl border-2 border-black bg-white rounded-3xl shadow-[8px_8px_0px_0px_#000000] overflow-hidden text-left relative">
+          
+          {/* Header Bar */}
+          <div className="border-b-2 border-black bg-indigo-50 px-6 py-4 flex items-center justify-between select-none">
+            <div className="flex items-center gap-2">
+              <span className="w-3.5 h-3.5 rounded-full border border-black bg-red-400" />
+              <span className="w-3.5 h-3.5 rounded-full border border-black bg-yellow-400" />
+              <span className="w-3.5 h-3.5 rounded-full border border-black bg-green-400" />
+            </div>
             
-            {/* Glossy card frame border top decoration */}
-            <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl bg-gradient-to-r from-indigo-500 via-purple-500 to-teal-500" />
-            
-            {/* Floating Hint Tag */}
-            <div className="absolute -top-3 right-6 bg-gray-900 text-white text-xs font-semibold px-3 py-1 rounded-full shadow-lg flex items-center gap-1.5 select-none">
-              <Terminal className="h-3 w-3 text-teal-400" />
-              <span>Try editing the form</span>
+            {/* View/Editor Toggle Control */}
+            <div className="flex border-2 border-black rounded-xl overflow-hidden bg-white p-0.5 shadow-[2px_2px_0px_0px_#000000]">
+              <button
+                onClick={() => setIsPlaying(false)}
+                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                  !isPlaying ? "bg-black text-white" : "hover:bg-gray-100 text-black"
+                }`}
+              >
+                <FileText className="h-3.5 w-3.5" />
+                Document Editor
+              </button>
+              <button
+                onClick={() => setIsPlaying(true)}
+                className={`flex items-center gap-2 px-4 py-1.5 text-xs font-bold rounded-lg transition-colors cursor-pointer ${
+                  isPlaying ? "bg-black text-white" : "hover:bg-gray-100 text-black"
+                }`}
+              >
+                <Eye className="h-3.5 w-3.5" />
+                Live Form Preview
+              </button>
             </div>
 
-            {/* simulated editor container */}
-            <div className="space-y-6">
+            <div className="text-[10px] font-bold text-gray-500 font-mono hidden sm:block">
+              formflow.co/feedback-survey
+            </div>
+          </div>
+
+          {/* Interactive Document Sheet Canvas */}
+          <div className="p-8 sm:p-12 min-h-[420px] bg-[#FCFAF7]/10 flex flex-col justify-between">
+            
+            <div className="space-y-8 max-w-2xl">
               
-              {/* Form Title Input */}
-              <div className="border-b border-gray-100 pb-4">
-                <input
-                  type="text"
-                  value={formTitle}
-                  onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full text-2xl font-bold text-gray-800 border-none outline-none focus:ring-0 bg-transparent placeholder-gray-300 font-mono"
-                  placeholder="Untitled Form"
-                />
-                <p className="text-xs text-indigo-500 font-medium mt-1">Live Interactive Editor Preview</p>
+              {/* Form Title (Interactive) */}
+              <div className="border-b-2 border-transparent hover:border-gray-200 focus-within:border-black transition-colors duration-150 pb-2">
+                {isPlaying ? (
+                  <h2 className="text-3xl font-black text-black leading-tight">{formTitle}</h2>
+                ) : (
+                  <input
+                    type="text"
+                    value={formTitle}
+                    onChange={(e) => setFormTitle(e.target.value)}
+                    className="w-full text-3xl font-black text-black border-none outline-none bg-transparent placeholder-gray-300 font-sans"
+                    placeholder="Form Title..."
+                  />
+                )}
               </div>
 
-              {/* Fields mapping */}
-              <div className="space-y-4">
-                {fields.map((field, idx) => (
+              {/* Form Fields Render */}
+              <div className="space-y-8">
+                {fields.map((field) => (
                   <div
                     key={field.id}
-                    onClick={() => setSelectedField(field.id)}
-                    className={`rounded-2xl border p-4 transition-all duration-300 cursor-pointer ${
-                      selectedField === field.id
-                        ? "border-indigo-500 bg-indigo-50/20 shadow-md shadow-indigo-100/10"
-                        : "border-gray-100 bg-gray-50/30 hover:border-gray-200"
+                    onClick={() => setActiveIndex(field.id)}
+                    className={`relative border-l-2 pl-6 transition-all duration-200 ${
+                      !isPlaying && activeIndex === field.id
+                        ? "border-indigo-500"
+                        : "border-transparent"
                     }`}
                   >
-                    <div className="flex items-center justify-between mb-1.5">
-                      <input
-                        type="text"
-                        value={field.label}
-                        onChange={(e) => updateLabel(field.id, e.target.value)}
-                        className="font-semibold text-sm text-gray-800 outline-none bg-transparent w-full focus:underline border-none"
-                      />
-                      <span className="text-[10px] text-gray-400 font-mono uppercase bg-white border border-gray-100 px-2 py-0.5 rounded-md">
-                        {field.type}
-                      </span>
+                    {/* Label/Question */}
+                    <div className="mb-2">
+                      {isPlaying ? (
+                        <p className="font-bold text-black text-[15px]">{field.label}</p>
+                      ) : (
+                        <input
+                          type="text"
+                          value={field.label}
+                          onChange={(e) => updateLabel(field.id, e.target.value)}
+                          className="font-bold text-black text-[15px] w-full outline-none bg-transparent border-b border-transparent focus:border-gray-300"
+                        />
+                      )}
                     </div>
 
-                    <input
-                      type="text"
-                      disabled
-                      placeholder={field.placeholder}
-                      className="w-full bg-white border border-gray-200 rounded-xl px-3.5 py-2.5 text-xs text-gray-400 cursor-not-allowed outline-none"
-                    />
+                    {/* Field input options */}
+                    {field.type === "text" && (
+                      <input
+                        type="text"
+                        disabled={!isPlaying}
+                        placeholder={isPlaying ? "Type your answer..." : "Plain text field"}
+                        className="w-full bg-white border-2 border-black rounded-xl px-4 py-3 text-sm shadow-[2px_2px_0px_0px_#000000] focus:translate-x-[1px] focus:translate-y-[1px] focus:shadow-[1px_1px_0px_0px_#000000] transition-all outline-none"
+                      />
+                    )}
 
-                    {selectedField === field.id && (
-                      <div className="flex items-center gap-1.5 mt-3 pt-3 border-t border-indigo-100/40 text-[10px] font-semibold text-indigo-600 animate-in fade-in duration-200">
-                        <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-ping" />
-                        <span>Focused: type to change label</span>
+                    {field.type === "radio" && (
+                      <div className="space-y-2">
+                        {field.options?.map((opt, oIdx) => (
+                          <button
+                            key={oIdx}
+                            disabled={!isPlaying}
+                            onClick={() => toggleOption(field.id, oIdx)}
+                            className={`w-full flex items-center gap-3 border-2 border-black rounded-xl px-4 py-3 text-sm font-bold shadow-[2px_2px_0px_0px_#000000] transition-all ${
+                              isPlaying ? "cursor-pointer" : "cursor-default"
+                            } ${
+                              field.selected === opt
+                                ? "bg-indigo-500 text-white translate-x-[2px] translate-y-[2px] shadow-[0px_0px_0px_0px_#000000]"
+                                : "bg-white text-black hover:bg-gray-50"
+                            }`}
+                          >
+                            <CircleDot className={`h-4 w-4 ${field.selected === opt ? "fill-white" : ""}`} />
+                            {opt}
+                          </button>
+                        ))}
+                      </div>
+                    )}
+
+                    {field.type === "checkbox" && (
+                      <button
+                        disabled={!isPlaying}
+                        onClick={() => toggleCheckbox(field.id)}
+                        className={`flex items-center gap-3 border-2 border-black rounded-xl px-4 py-3 text-sm font-bold shadow-[2px_2px_0px_0px_#000000] transition-all ${
+                          isPlaying ? "cursor-pointer" : "cursor-default"
+                        } ${
+                          field.checked
+                            ? "bg-indigo-500 text-white translate-x-[2px] translate-y-[2px] shadow-[0px_0px_0px_0px_#000000]"
+                            : "bg-white text-black hover:bg-gray-50"
+                        }`}
+                      >
+                        <CheckSquare className={`h-4 w-4 ${field.checked ? "fill-white text-indigo-500" : ""}`} />
+                        <span>Join the community</span>
+                      </button>
+                    )}
+
+                    {/* Notion block creation hint (Editor-only) */}
+                    {!isPlaying && activeIndex === field.id && (
+                      <div className="absolute top-0 -left-12 flex h-6 w-6 items-center justify-center rounded border border-gray-200 bg-white text-gray-400 shadow-sm text-xs font-mono font-bold select-none cursor-grab">
+                        ⋮⋮
                       </div>
                     )}
                   </div>
                 ))}
               </div>
 
-              {/* Slash Input placeholder */}
-              <div className="border border-dashed border-gray-200 rounded-2xl p-4 flex items-center justify-between bg-gray-50/10 hover:bg-gray-50/40 transition-colors">
-                <div className="flex items-center gap-2 text-gray-400">
-                  <span className="text-xs font-mono font-bold bg-gray-200/50 text-gray-500 px-1.5 py-0.5 rounded">/</span>
-                  <span className="text-xs">Type / to add field inline...</span>
+              {/* Slash Input Prompt (Editor-only) */}
+              {!isPlaying && (
+                <div className="border-2 border-dashed border-gray-300 rounded-2xl p-4 flex items-center justify-between bg-gray-50/20 hover:bg-gray-50/50 hover:border-black transition-colors duration-150 cursor-pointer">
+                  <div className="flex items-center gap-2 text-gray-400">
+                    <span className="text-xs font-mono font-black bg-white border border-gray-200 text-gray-500 px-2 py-0.5 rounded shadow-sm">/</span>
+                    <span className="text-xs font-semibold">Type <span className="font-bold text-gray-600">/</span> to create fields (text, email, select)...</span>
+                  </div>
+                  <ChevronDown className="h-4 w-4 text-gray-400" />
                 </div>
-                <div className="w-4 h-4 rounded-full border-2 border-gray-300 animate-pulse" />
-              </div>
+              )}
 
             </div>
 
+            {/* Hint alert at bottom of mockup */}
+            <div className="mt-12 pt-6 border-t-2 border-black flex flex-col sm:flex-row items-center justify-between gap-4 select-none">
+              <div className="flex items-center gap-2">
+                <span className="h-2 w-2 rounded-full bg-indigo-500 animate-pulse" />
+                <p className="text-xs font-bold text-black">
+                  {!isPlaying
+                    ? "✨ Notion editor mode: Click and edit question text above directly!"
+                    : "🚀 Preview mode: Interact with the buttons to fill out the form!"}
+                </p>
+              </div>
+              <button
+                onClick={() => setIsPlaying(!isPlaying)}
+                className="text-xs font-black text-indigo-600 hover:text-indigo-800 underline decoration-2 cursor-pointer"
+              >
+                {!isPlaying ? "Toggle Preview →" : "Back to Editor view &larr;"}
+              </button>
+            </div>
+
           </div>
+
         </div>
 
       </div>
