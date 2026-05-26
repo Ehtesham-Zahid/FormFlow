@@ -30,9 +30,8 @@ type Props = {
 export default function FormEditor({ state, dispatch, saveStatus }: Props) {
   // Map of fieldId → label <input> element
   const fieldRefs = useRef<Map<string, HTMLInputElement>>(new Map());
-  // Ref to the positional ghost input inside GhostInputArea
+
   const ghostRef = useRef<HTMLInputElement>(null);
-  // Ref to the title input
   const titleRef = useRef<HTMLInputElement>(null);
 
   const sensors = useSensors(
@@ -57,7 +56,6 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
       });
     }
   };
-
 
   // null = no ghost input visible
   // 0 = ghost appears before field 0 (after title)
