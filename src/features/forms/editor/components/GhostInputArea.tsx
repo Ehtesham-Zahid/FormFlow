@@ -16,7 +16,7 @@ import { IField } from "@/src/types/form.types";
 type Props = {
   ref?: React.Ref<HTMLInputElement>;
   dispatch: React.Dispatch<any>;
-  insertIndex?: number | null;
+  insertIndex: number;
   onFieldCreated?: (fieldId: string) => void;
   onEscape?: () => void;
 };
@@ -73,7 +73,7 @@ const MENU_ITEMS = [
   },
 ];
 
-export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFieldCreated, onEscape }: Props) {
+export default function GhostInputArea({ ref, dispatch, insertIndex, onFieldCreated, onEscape }: Props) {
   const [value, setValue] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -90,14 +90,10 @@ export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFi
 
   const selectItem = (factory: () => IField) => {
     const newField = factory();
-    if (insertIndex !== null) {
-      dispatch({
-        type: "INSERT_FIELD_AT",
-        payload: { field: newField, index: insertIndex },
-      });
-    } else {
-      dispatch({ type: "ADD_FIELD", payload: newField });
-    }
+    dispatch({
+      type: "INSERT_FIELD_AT",
+      payload: { field: newField, index: insertIndex },
+    });
     setValue("");
     setMenuOpen(false);
     setActiveIndex(0);

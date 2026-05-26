@@ -7,7 +7,6 @@ export type EditorState = {
 
 export type EditorAction =
   | { type: "SET_TITLE"; payload: string }
-  | { type: "ADD_FIELD"; payload: IField }
   | {
     type: "UPDATE_FIELD";
     payload: {

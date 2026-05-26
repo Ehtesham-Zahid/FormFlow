@@ -8,12 +8,6 @@ export const editorReducer = (
     case "SET_TITLE":
       return { ...state, title: action.payload };
 
-    case "ADD_FIELD":
-      return {
-        ...state,
-        fields: [...state.fields, action.payload],
-      };
-
     case "UPDATE_FIELD":
       return {
         ...state,
