@@ -167,7 +167,7 @@ export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFi
     };
     document.addEventListener("mousedown", handler);
     return () => document.removeEventListener("mousedown", handler);
-  }, [closeMenu, onEscape]);
+  }, []);
 
   // Reset active index when filtered list changes
   useEffect(() => {
