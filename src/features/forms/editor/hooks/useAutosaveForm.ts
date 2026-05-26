@@ -27,9 +27,6 @@ export function useAutosaveForm(
   // save is now truly stable — only recreated if formId changes.
   const save = useMemo(() => {
     return debounce(async (data: EditorState) => {
-      // Guard: skip if HYDRATE hasn't fired yet (prevents mount-time spurious save)
-      // if (!isHydratedRef.current) return;
-
       if (JSON.stringify(lastSavedRef.current) === JSON.stringify(data)) {
         return;
       }
@@ -51,7 +48,7 @@ export function useAutosaveForm(
         console.error("Autosave failed:", err);
       }
     }, 2000);
-  }, [formId, onSaveStart, onSaveSuccess]); // mutateRef is stable — not needed in deps
+  }, [formId, onSaveStart, onSaveSuccess]);
 
   useEffect(() => {
     save(state);
