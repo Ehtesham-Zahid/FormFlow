@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { editorReducer } from "@/src/features/forms/editor/reducers/editor.reducer";
-import { EditorState } from "@/src/features/forms/editor/types/editor.types";
 import { useUpdateForm } from "@/src/features/forms/hooks/useUpdateForm";
 import { useAutosaveForm } from "../hooks/useAutosaveForm";
 import { IForm } from "@/src/types/form.types";
@@ -30,17 +29,19 @@ export default function EditorPageClient({ form, formId }: Props) {
 
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "saved">("idle");
 
-  // Fix 3: memoize so the object reference is stable — prevents the optionsRef
-  // useEffect from firing on every render due to a new inline object literal.
-  const autosaveOptions = useMemo(() => ({
-    onSaveStart: () => setSaveStatus("saving"),
-    onSaveSuccess: () => {
-      setSaveStatus("saved");
-      setTimeout(() => setSaveStatus("idle"), 1500);
-    },
-  }), []);
+  const onSaveStart = useCallback(() => setSaveStatus("saving"), []);
+  const onSaveSuccess = useCallback(() => {
+    setSaveStatus("saved");
+    setTimeout(() => setSaveStatus("idle"), 1500);
+  }, []);
 
-  const { flush } = useAutosaveForm(formId, state, initialState, autosaveOptions);
+  const { flush } = useAutosaveForm(
+    formId,
+    state,
+    initialState,
+    onSaveStart,
+    onSaveSuccess,
+  );
 
   const handlePublish = async () => {
     await flush();

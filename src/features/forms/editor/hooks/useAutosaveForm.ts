@@ -7,12 +7,9 @@ export function useAutosaveForm(
   formId: string,
   state: EditorState,
   initialServerState: EditorState,
-  options?: {
-    onSaveStart?: () => void;
-    onSaveSuccess?: () => void;
-  },
+  onSaveStart?: () => void,
+  onSaveSuccess?: () => void,
 ) {
-  const optionsRef = useRef(options);
   // Initialize with server state so the first dirty-check compares against
   // real data, not null — preventing a spurious save on initial hydration.
   const lastSavedRef = useRef<EditorState>(initialServerState);
@@ -27,10 +24,6 @@ export function useAutosaveForm(
     mutateRef.current = mutateAsync;
   }, [mutateAsync]);
 
-  useEffect(() => {
-    optionsRef.current = options;
-  }, [options]);
-
   // save is now truly stable — only recreated if formId changes.
   const save = useMemo(() => {
     return debounce(async (data: EditorState) => {
@@ -42,7 +35,7 @@ export function useAutosaveForm(
       }
 
       try {
-        optionsRef.current?.onSaveStart?.();
+        onSaveStart?.();
 
         await mutateRef.current({
           formId,
@@ -53,14 +46,12 @@ export function useAutosaveForm(
         });
 
         lastSavedRef.current = data;
-        optionsRef.current?.onSaveSuccess?.();
+        onSaveSuccess?.();
       } catch (err) {
         console.error("Autosave failed:", err);
       }
     }, 2000);
-  }, [formId
-    // ,isHydratedRef
-  ]); // mutateRef is stable — not needed in deps
+  }, [formId, onSaveStart, onSaveSuccess]); // mutateRef is stable — not needed in deps
 
   useEffect(() => {
     save(state);
