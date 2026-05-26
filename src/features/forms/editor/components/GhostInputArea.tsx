@@ -90,26 +90,23 @@ const GhostInputArea = React.forwardRef<HTMLInputElement, Props>(
         item.description.toLowerCase().includes(query),
     );
 
-    const selectItem = useCallback(
-      (factory: () => IField) => {
-        const newField = factory();
-        if (insertIndex !== null) {
-          dispatch({
-            type: "INSERT_FIELD_AT",
-            payload: { field: newField, index: insertIndex },
-          });
-        } else {
-          dispatch({ type: "ADD_FIELD", payload: newField });
-        }
-        setValue("");
-        setMenuOpen(false);
-        setActiveIndex(0);
-        inputRef.current?.blur();
-        // Notify FormEditor so it can focus the new field's label input
-        onFieldCreated?.(newField.id, insertIndex);
-      },
-      [dispatch, inputRef, onFieldCreated, insertIndex],
-    );
+    const selectItem = (factory: () => IField) => {
+      const newField = factory();
+      if (insertIndex !== null) {
+        dispatch({
+          type: "INSERT_FIELD_AT",
+          payload: { field: newField, index: insertIndex },
+        });
+      } else {
+        dispatch({ type: "ADD_FIELD", payload: newField });
+      }
+      setValue("");
+      setMenuOpen(false);
+      setActiveIndex(0);
+      inputRef.current?.blur();
+      // Notify FormEditor so it can focus the new field's label input
+      onFieldCreated?.(newField.id, insertIndex);
+    };
 
     const closeMenu = useCallback(() => {
       setMenuOpen(false);
