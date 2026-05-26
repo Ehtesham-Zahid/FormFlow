@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { EditorState } from "../types/editor.types";
 import FieldRenderer from "./FieldRenderer";
 import GhostInputArea from "./GhostInputArea";
@@ -43,7 +43,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     })
   );
 
-  const handleDragEnd = useCallback((event: DragEndEvent) => {
+  const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
@@ -56,7 +56,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
         payload: { fromIndex, toIndex },
       });
     }
-  }, [state.fields, dispatch]);
+  };
 
 
   // null = no ghost input visible
@@ -74,39 +74,33 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     }
   }, [ghostIndex]);
 
-  // Callback-ref factory: stores/cleans up each field's label input in the map
-  const setFieldRef = useCallback(
-    (fieldId: string) => (el: HTMLInputElement | null) => {
-      if (el) {
-        fieldRefs.current.set(fieldId, el);
-      } else {
-        fieldRefs.current.delete(fieldId);
-      }
-    },
-    [],
-  );
+  const setFieldRef = (fieldId: string) => (el: HTMLInputElement | null) => {
+    if (el) {
+      fieldRefs.current.set(fieldId, el);
+    }
+    else {
+      fieldRefs.current.delete(fieldId);
+    }
+  };
 
   // Called when Enter is pressed inside any field label input
-  const handleEnter = useCallback(
-    (fieldId: string) => {
-      const idx = state.fields.findIndex((f) => f.id === fieldId);
-      if (idx !== -1) {
-        setGhostIndex(idx + 1);
-      }
-    },
-    [state.fields],
-  );
+  const handleEnter = (fieldId: string) => {
+    const idx = state.fields.findIndex((f) => f.id === fieldId);
+    if (idx !== -1) {
+      setGhostIndex(idx + 1);
+    }
+  };
 
   // Called by GhostInputArea after ADD_FIELD or INSERT_FIELD_AT dispatches.
-  const handleFieldCreated = useCallback((fieldId: string, insertIndex: number | null) => {
+  const handleFieldCreated = (fieldId: string, _insertIndex: number | null) => {
     setGhostIndex(null);
     setTimeout(() => {
       fieldRefs.current.get(fieldId)?.focus();
     }, 0);
-  }, []);
+  };
 
   // Called when Escape is pressed on the positional ghost input or click outside
-  const handleGhostEscape = useCallback(() => {
+  const handleGhostEscape = () => {
     const prevIndex = ghostIndex;
     setGhostIndex(null);
     if (prevIndex === 0) {
@@ -119,45 +113,39 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
         }, 0);
       }
     }
-  }, [ghostIndex, state.fields]);
+  };
 
   // Called when Backspace is pressed on an empty field label input
-  const handleBackspaceDelete = useCallback(
-    (fieldId: string) => {
-      const idx = state.fields.findIndex((f) => f.id === fieldId);
-      // Capture prev field id BEFORE dispatching — state.fields changes after dispatch
-      const prevField = idx > 0 ? state.fields[idx - 1] : null;
+  const handleBackspaceDelete = (fieldId: string) => {
+    const idx = state.fields.findIndex((f) => f.id === fieldId);
+    // Capture prev field id BEFORE dispatching — state.fields changes after dispatch
+    const prevField = idx > 0 ? state.fields[idx - 1] : null;
 
-      dispatch({ type: "DELETE_FIELD", payload: { id: fieldId } });
+    dispatch({ type: "DELETE_FIELD", payload: { id: fieldId } });
 
-      setTimeout(() => {
-        if (prevField) {
-          fieldRefs.current.get(prevField.id)?.focus();
-        } else {
-          titleRef.current?.focus();
-        }
-      }, 0);
-    },
-    [state.fields, dispatch],
-  );
+    setTimeout(() => {
+      if (prevField) {
+        fieldRefs.current.get(prevField.id)?.focus();
+      } else {
+        titleRef.current?.focus();
+      }
+    }, 0);
+  };
 
   // Called when Duplicate is clicked in the field popover
-  const handleDuplicate = useCallback(
-    (fieldId: string) => {
-      const idx = state.fields.findIndex((f) => f.id === fieldId);
-      if (idx === -1) return;
-      const original = state.fields[idx];
-      const newField = { ...original, id: crypto.randomUUID() };
-      dispatch({
-        type: "INSERT_FIELD_AT",
-        payload: { field: newField, index: idx + 1 },
-      });
-      setTimeout(() => {
-        fieldRefs.current.get(newField.id)?.focus();
-      }, 0);
-    },
-    [state.fields, dispatch],
-  );
+  const handleDuplicate = (fieldId: string) => {
+    const idx = state.fields.findIndex((f) => f.id === fieldId);
+    if (idx === -1) return;
+    const original = state.fields[idx];
+    const newField = { ...original, id: crypto.randomUUID() };
+    dispatch({
+      type: "INSERT_FIELD_AT",
+      payload: { field: newField, index: idx + 1 },
+    });
+    setTimeout(() => {
+      fieldRefs.current.get(newField.id)?.focus();
+    }, 0);
+  };
 
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
