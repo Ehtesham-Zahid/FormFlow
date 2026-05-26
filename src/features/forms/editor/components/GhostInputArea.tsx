@@ -137,6 +137,9 @@ export default function GhostInputArea({ ref, dispatch, insertIndex = null, onFi
     if (!menuOpen) {
       if (e.key === "Enter") {
         e.preventDefault();
+      } else if (e.key === "Backspace" && value === "") {
+        e.preventDefault();
+        onEscape?.();
       }
       return;
     }
