@@ -10,11 +10,23 @@ type Props = {
   dispatch: React.Dispatch<any>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
+  onArrowUp?: (fieldId: string) => void;
+  onArrowDown?: (fieldId: string) => void;
   onDuplicate?: () => void;
   dragHandleProps?: any;
 };
 
-export default function CheckboxField({ ref, field, dispatch, onEnter, onBackspaceDelete, onDuplicate, dragHandleProps }: Props) {
+export default function CheckboxField({
+  ref,
+  field,
+  dispatch,
+  onEnter,
+  onBackspaceDelete,
+  onArrowUp,
+  onArrowDown,
+  onDuplicate,
+  dragHandleProps,
+}: Props) {
   return (
     <FieldShell
       required={field.required}
@@ -58,6 +70,12 @@ export default function CheckboxField({ ref, field, dispatch, onEnter, onBackspa
             } else if (e.key === "Backspace" && field.label === "") {
               e.preventDefault();
               onBackspaceDelete?.(field.id);
+            } else if (e.key === "ArrowUp") {
+              e.preventDefault();
+              onArrowUp?.(field.id);
+            } else if (e.key === "ArrowDown") {
+              e.preventDefault();
+              onArrowDown?.(field.id);
             }
           }}
         />

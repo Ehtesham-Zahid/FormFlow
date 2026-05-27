@@ -145,6 +145,24 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     }, 0);
   };
 
+  const handleArrowUp = (fieldId: string) => {
+    const idx = state.fields.findIndex((f) => f.id === fieldId);
+    if (idx === 0) {
+      titleRef.current?.focus();
+    } else if (idx > 0) {
+      const prevField = state.fields[idx - 1];
+      fieldRefs.current.get(prevField.id)?.focus();
+    }
+  };
+
+  const handleArrowDown = (fieldId: string) => {
+    const idx = state.fields.findIndex((f) => f.id === fieldId);
+    if (idx !== -1 && idx < state.fields.length - 1) {
+      const nextField = state.fields[idx + 1];
+      fieldRefs.current.get(nextField.id)?.focus();
+    }
+  };
+
   return (
     <div className="max-w-2xl mx-auto p-4 sm:p-6 space-y-6">
       {/* Title */}
@@ -160,6 +178,11 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
           if (e.key === "Enter") {
             e.preventDefault();
             setGhostIndex(0);
+          } else if (e.key === "ArrowDown") {
+            if (state.fields.length > 0) {
+              e.preventDefault();
+              fieldRefs.current.get(state.fields[0].id)?.focus();
+            }
           }
         }}
       />
@@ -202,6 +225,8 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
                         labelRef={setFieldRef(field.id)}
                         onEnter={handleEnter}
                         onBackspaceDelete={handleBackspaceDelete}
+                        onArrowUp={handleArrowUp}
+                        onArrowDown={handleArrowDown}
                         onDuplicate={() => handleDuplicate(field.id)}
                         dragHandleProps={dragHandleProps}
                       />

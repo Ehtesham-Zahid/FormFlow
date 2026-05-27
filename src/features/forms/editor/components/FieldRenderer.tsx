@@ -14,32 +14,128 @@ type Props = {
   labelRef?: React.Ref<HTMLInputElement>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
+  onArrowUp?: (fieldId: string) => void;
+  onArrowDown?: (fieldId: string) => void;
   onDuplicate?: () => void;
   dragHandleProps?: any;
 };
 
-export default function FieldRenderer({ field, dispatch, labelRef, onEnter, onBackspaceDelete, onDuplicate, dragHandleProps }: Props) {
+export default function FieldRenderer({
+  field,
+  dispatch,
+  labelRef,
+  onEnter,
+  onBackspaceDelete,
+  onArrowUp,
+  onArrowDown,
+  onDuplicate,
+  dragHandleProps,
+}: Props) {
   switch (field.type) {
     case "text":
-      return <TextField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <TextField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "email":
-      return <EmailField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <EmailField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "number":
-      return <NumberField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <NumberField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "textarea":
-      return <TextareaField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <TextareaField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "select":
-      return <SelectField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <SelectField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "radio":
-      return <RadioField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <RadioField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     case "checkbox":
-      return <CheckboxField ref={labelRef} field={field} dispatch={dispatch} onEnter={onEnter} onBackspaceDelete={onBackspaceDelete} onDuplicate={onDuplicate} dragHandleProps={dragHandleProps} />;
+      return (
+        <CheckboxField
+          ref={labelRef}
+          field={field}
+          dispatch={dispatch}
+          onEnter={onEnter}
+          onBackspaceDelete={onBackspaceDelete}
+          onArrowUp={onArrowUp}
+          onArrowDown={onArrowDown}
+          onDuplicate={onDuplicate}
+          dragHandleProps={dragHandleProps}
+        />
+      );
 
     default:
       return null;
