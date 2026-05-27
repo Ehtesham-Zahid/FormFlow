@@ -28,11 +28,17 @@ type Props = {
 };
 
 export default function FormEditor({ state, dispatch, saveStatus }: Props) {
-  // Map of fieldId → label <input> element
-  const fieldRefs = useRef<Map<string, HTMLInputElement>>(new Map());
+  // Map of fieldId + "-label" / "-placeholder" → <input> or <textarea> element
+  const fieldRefs = useRef<Map<string, HTMLInputElement | HTMLTextAreaElement>>(new Map());
 
   const ghostRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
+
+  const hasPlaceholder = (field: any) =>
+    field.type === "text" ||
+    field.type === "email" ||
+    field.type === "number" ||
+    field.type === "textarea";
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -72,12 +78,12 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
     }
   }, [ghostIndex]);
 
-  const setFieldRef = (fieldId: string) => (el: HTMLInputElement | null) => {
+  const setFieldRef = (refKey: string) => (el: HTMLInputElement | HTMLTextAreaElement | null) => {
     if (el) {
-      fieldRefs.current.set(fieldId, el);
+      fieldRefs.current.set(refKey, el);
     }
     else {
-      fieldRefs.current.delete(fieldId);
+      fieldRefs.current.delete(refKey);
     }
   };
 
@@ -93,7 +99,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
   const handleFieldCreated = (fieldId: string) => {
     setGhostIndex(null);
     setTimeout(() => {
-      fieldRefs.current.get(fieldId)?.focus();
+      fieldRefs.current.get(fieldId + "-label")?.focus();
     }, 0);
   };
 
@@ -107,7 +113,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
       const prevField = state.fields[prevIndex - 1];
       if (prevField) {
         setTimeout(() => {
-          fieldRefs.current.get(prevField.id)?.focus();
+          fieldRefs.current.get(prevField.id + "-label")?.focus();
         }, 0);
       }
     }
@@ -123,7 +129,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
 
     setTimeout(() => {
       if (prevField) {
-        fieldRefs.current.get(prevField.id)?.focus();
+        fieldRefs.current.get(prevField.id + "-label")?.focus();
       } else {
         titleRef.current?.focus();
       }
@@ -141,25 +147,42 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
       payload: { field: newField, index: idx + 1 },
     });
     setTimeout(() => {
-      fieldRefs.current.get(newField.id)?.focus();
+      fieldRefs.current.get(newField.id + "-label")?.focus();
     }, 0);
   };
 
-  const handleArrowUp = (fieldId: string) => {
+  const handleArrowUp = (fieldId: string, inputType: "label" | "placeholder") => {
     const idx = state.fields.findIndex((f) => f.id === fieldId);
-    if (idx === 0) {
-      titleRef.current?.focus();
-    } else if (idx > 0) {
-      const prevField = state.fields[idx - 1];
-      fieldRefs.current.get(prevField.id)?.focus();
+    if (idx === -1) return;
+
+    if (inputType === "placeholder") {
+      fieldRefs.current.get(fieldId + "-label")?.focus();
+    } else {
+      if (idx === 0) {
+        titleRef.current?.focus();
+      } else {
+        const prevField = state.fields[idx - 1];
+        if (hasPlaceholder(prevField)) {
+          fieldRefs.current.get(prevField.id + "-placeholder")?.focus();
+        } else {
+          fieldRefs.current.get(prevField.id + "-label")?.focus();
+        }
+      }
     }
   };
 
-  const handleArrowDown = (fieldId: string) => {
+  const handleArrowDown = (fieldId: string, inputType: "label" | "placeholder") => {
     const idx = state.fields.findIndex((f) => f.id === fieldId);
-    if (idx !== -1 && idx < state.fields.length - 1) {
-      const nextField = state.fields[idx + 1];
-      fieldRefs.current.get(nextField.id)?.focus();
+    if (idx === -1) return;
+
+    const currentField = state.fields[idx];
+    if (inputType === "label" && hasPlaceholder(currentField)) {
+      fieldRefs.current.get(fieldId + "-placeholder")?.focus();
+    } else {
+      if (idx < state.fields.length - 1) {
+        const nextField = state.fields[idx + 1];
+        fieldRefs.current.get(nextField.id + "-label")?.focus();
+      }
     }
   };
 
@@ -181,7 +204,7 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
           } else if (e.key === "ArrowDown") {
             if (state.fields.length > 0) {
               e.preventDefault();
-              fieldRefs.current.get(state.fields[0].id)?.focus();
+              fieldRefs.current.get(state.fields[0].id + "-label")?.focus();
             }
           }
         }}
@@ -222,7 +245,8 @@ export default function FormEditor({ state, dispatch, saveStatus }: Props) {
                       <FieldRenderer
                         field={field}
                         dispatch={dispatch}
-                        labelRef={setFieldRef(field.id)}
+                        labelRef={setFieldRef(field.id + "-label")}
+                        placeholderRef={setFieldRef(field.id + "-placeholder")}
                         onEnter={handleEnter}
                         onBackspaceDelete={handleBackspaceDelete}
                         onArrowUp={handleArrowUp}

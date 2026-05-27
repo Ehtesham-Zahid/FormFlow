@@ -6,18 +6,20 @@ import { Textarea } from "@/src/components/ui/textarea";
 
 type Props = {
   ref?: React.Ref<HTMLInputElement>;
+  placeholderRef?: React.Ref<HTMLTextAreaElement>;
   field: IField;
   dispatch: React.Dispatch<any>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
-  onArrowUp?: (fieldId: string) => void;
-  onArrowDown?: (fieldId: string) => void;
+  onArrowUp?: (fieldId: string, inputType: "label" | "placeholder") => void;
+  onArrowDown?: (fieldId: string, inputType: "label" | "placeholder") => void;
   onDuplicate?: () => void;
   dragHandleProps?: any;
 };
 
 export default function TextareaField({
   ref,
+  placeholderRef,
   field,
   dispatch,
   onEnter,
@@ -75,10 +77,10 @@ export default function TextareaField({
               onBackspaceDelete?.(field.id);
             } else if (e.key === "ArrowUp") {
               e.preventDefault();
-              onArrowUp?.(field.id);
+              onArrowUp?.(field.id, "label");
             } else if (e.key === "ArrowDown") {
               e.preventDefault();
-              onArrowDown?.(field.id);
+              onArrowDown?.(field.id, "label");
             }
           }}
         />
@@ -92,6 +94,7 @@ export default function TextareaField({
       {/* Answer input — editable placeholder block below */}
       <div className="mt-2.5">
         <textarea
+          ref={placeholderRef}
           value={field.placeholder ?? ""}
           onChange={(e) =>
             dispatch({
@@ -102,6 +105,18 @@ export default function TextareaField({
               },
             })
           }
+          onKeyDown={(e) => {
+            if (e.key === "ArrowUp") {
+              e.preventDefault();
+              onArrowUp?.(field.id, "placeholder");
+            } else if (e.key === "ArrowDown") {
+              e.preventDefault();
+              onArrowDown?.(field.id, "placeholder");
+            } else if (e.key === "Enter") {
+              e.preventDefault();
+              onEnter?.(field.id);
+            }
+          }}
           placeholder="Write placeholder text..."
           rows={2}
           className="w-full text-sm text-gray-400 bg-transparent border border-dashed border-gray-200 hover:border-gray-300 focus:border-solid focus:border-gray-300 focus:text-gray-700 focus:placeholder:text-gray-300 focus:ring-0 rounded-md px-3 py-1.5 transition-all outline-none italic resize-none"

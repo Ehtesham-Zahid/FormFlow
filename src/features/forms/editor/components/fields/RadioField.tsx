@@ -13,8 +13,8 @@ type Props = {
   dispatch: React.Dispatch<any>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
-  onArrowUp?: (fieldId: string) => void;
-  onArrowDown?: (fieldId: string) => void;
+  onArrowUp?: (fieldId: string, inputType: "label" | "placeholder") => void;
+  onArrowDown?: (fieldId: string, inputType: "label" | "placeholder") => void;
   onDuplicate?: () => void;
   dragHandleProps?: any;
 };
@@ -84,10 +84,10 @@ export default function RadioField({
               onBackspaceDelete?.(field.id);
             } else if (e.key === "ArrowUp") {
               e.preventDefault();
-              onArrowUp?.(field.id);
+              onArrowUp?.(field.id, "label");
             } else if (e.key === "ArrowDown") {
               e.preventDefault();
-              onArrowDown?.(field.id);
+              onArrowDown?.(field.id, "label");
             }
           }}
         />

@@ -12,10 +12,11 @@ type Props = {
   field: IField;
   dispatch: any;
   labelRef?: React.Ref<HTMLInputElement>;
+  placeholderRef?: React.Ref<HTMLInputElement | HTMLTextAreaElement>;
   onEnter?: (fieldId: string) => void;
   onBackspaceDelete?: (fieldId: string) => void;
-  onArrowUp?: (fieldId: string) => void;
-  onArrowDown?: (fieldId: string) => void;
+  onArrowUp?: (fieldId: string, inputType: "label" | "placeholder") => void;
+  onArrowDown?: (fieldId: string, inputType: "label" | "placeholder") => void;
   onDuplicate?: () => void;
   dragHandleProps?: any;
 };
@@ -24,6 +25,7 @@ export default function FieldRenderer({
   field,
   dispatch,
   labelRef,
+  placeholderRef,
   onEnter,
   onBackspaceDelete,
   onArrowUp,
@@ -36,6 +38,7 @@ export default function FieldRenderer({
       return (
         <TextField
           ref={labelRef}
+          placeholderRef={placeholderRef as React.Ref<HTMLInputElement>}
           field={field}
           dispatch={dispatch}
           onEnter={onEnter}
@@ -51,6 +54,7 @@ export default function FieldRenderer({
       return (
         <EmailField
           ref={labelRef}
+          placeholderRef={placeholderRef as React.Ref<HTMLInputElement>}
           field={field}
           dispatch={dispatch}
           onEnter={onEnter}
@@ -66,6 +70,7 @@ export default function FieldRenderer({
       return (
         <NumberField
           ref={labelRef}
+          placeholderRef={placeholderRef as React.Ref<HTMLInputElement>}
           field={field}
           dispatch={dispatch}
           onEnter={onEnter}
@@ -81,6 +86,7 @@ export default function FieldRenderer({
       return (
         <TextareaField
           ref={labelRef}
+          placeholderRef={placeholderRef as React.Ref<HTMLTextAreaElement>}
           field={field}
           dispatch={dispatch}
           onEnter={onEnter}
