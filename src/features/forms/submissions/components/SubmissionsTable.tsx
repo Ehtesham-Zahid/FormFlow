@@ -1,6 +1,14 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { IForm } from "@/src/types/form.types";
 import { ISubmission } from "@/src/types/submission.types";
+import {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableHead,
+  TableCell,
+} from "@/src/components/ui/table";
 
 type Props = {
   form: IForm;
@@ -15,7 +23,7 @@ type CellProps = {
 
 function SubmissionCell({ value, isExpanded, onDoubleClick }: CellProps) {
   return (
-    <td
+    <TableCell
       onDoubleClick={onDoubleClick}
       data-expanded={isExpanded ? "true" : "false"}
       className={`px-4 py-3 text-gray-900 transition-all select-none cursor-pointer border-r border-gray-100 last:border-r-0 ${isExpanded
@@ -25,12 +33,11 @@ function SubmissionCell({ value, isExpanded, onDoubleClick }: CellProps) {
       title="Double click to expand / collapse"
     >
       {value}
-    </td>
+    </TableCell>
   );
 }
 
 export const SubmissionsTable = ({ form, submissions }: Props) => {
-  const tableRef = useRef<HTMLDivElement>(null);
   const [expandedCellKey, setExpandedCellKey] = useState<string | null>(null);
 
   const fields = form.publishedFields && form.publishedFields.length > 0
@@ -51,27 +58,29 @@ export const SubmissionsTable = ({ form, submissions }: Props) => {
   }, []);
 
   return (
-    <div
-      ref={tableRef}
-      className="w-full overflow-auto border border-gray-200 rounded-lg bg-white shadow-sm"
-    >
-      <table className="w-full text-sm text-left">
-        <thead className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
-          <tr>
-            <th className="px-4 py-3 whitespace-nowrap">Submitted at</th>
+    <div className="w-full overflow-auto border border-gray-200 rounded-lg bg-white shadow-sm">
+      <Table className="w-full text-sm text-left">
+        <TableHeader className="bg-gray-50 text-gray-600 font-medium border-b border-gray-200">
+          <TableRow className="hover:bg-transparent border-none">
+            <TableHead className="px-4 py-3 h-auto font-medium text-gray-600 border-b border-gray-200 whitespace-nowrap">
+              Submitted at
+            </TableHead>
             {fields.map((field) => (
-              <th key={field.id} className="px-4 py-3 whitespace-nowrap">
+              <TableHead
+                key={field.id}
+                className="px-4 py-3 h-auto font-medium text-gray-600 border-b border-gray-200 whitespace-nowrap"
+              >
                 {field.label}
-              </th>
+              </TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
+          </TableRow>
+        </TableHeader>
+        <TableBody className="divide-y divide-gray-100">
           {submissions.map((sub) => (
-            <tr key={sub._id} className="hover:bg-gray-50/50 transition-colors">
-              <td className="px-4 py-3 text-gray-500 whitespace-nowrap">
+            <TableRow key={sub._id} className="hover:bg-gray-50/50 transition-colors">
+              <TableCell className="px-4 py-3 text-gray-500 whitespace-nowrap">
                 {new Date(sub.createdAt).toLocaleString()}
-              </td>
+              </TableCell>
               {fields.map((field) => {
                 // Find the answer for this specific field
                 const answer = sub.answers?.find((a) => a.fieldId === field.id);
@@ -89,10 +98,11 @@ export const SubmissionsTable = ({ form, submissions }: Props) => {
                   />
                 );
               })}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 };
+
