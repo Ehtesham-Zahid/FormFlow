@@ -89,13 +89,22 @@ export default function TextareaField({
         )}
       </div>
 
-      {/* Textarea preview */}
-      <div className="mt-2">
-        <Textarea
-          disabled
-          placeholder="Long text answer..."
-          className="resize-none text-sm text-gray-400 placeholder:text-gray-300 cursor-default bg-transparent"
-          rows={3}
+      {/* Answer input — editable placeholder block below */}
+      <div className="mt-2.5">
+        <textarea
+          value={field.placeholder ?? ""}
+          onChange={(e) =>
+            dispatch({
+              type: "UPDATE_FIELD",
+              payload: {
+                id: field.id,
+                data: { placeholder: e.target.value },
+              },
+            })
+          }
+          placeholder="Write placeholder text..."
+          rows={2}
+          className="w-full text-sm text-gray-400 bg-transparent border border-dashed border-gray-200 hover:border-gray-300 focus:border-solid focus:border-gray-300 focus:text-gray-700 focus:placeholder:text-gray-300 focus:ring-0 rounded-md px-3 py-1.5 transition-all outline-none italic resize-none"
         />
       </div>
     </FieldShell>

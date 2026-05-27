@@ -113,7 +113,7 @@ function PreviewField({
           {field.type === "text" && (
             <input
               type="text"
-              placeholder="Your answer"
+              placeholder={field.placeholder || "Your answer"}
               className={inputClass}
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -123,7 +123,7 @@ function PreviewField({
           {field.type === "email" && (
             <input
               type="email"
-              placeholder="email@example.com"
+              placeholder={field.placeholder || "email@example.com"}
               className={inputClass}
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -133,7 +133,7 @@ function PreviewField({
           {field.type === "number" && (
             <input
               type="number"
-              placeholder="0"
+              placeholder={field.placeholder || "0"}
               className={inputClass}
               value={value}
               onChange={(e) => onChange(e.target.value)}
@@ -146,7 +146,7 @@ function PreviewField({
       {/* textarea */}
       {field.type === "textarea" && (
         <Textarea
-          placeholder="Your answer"
+          placeholder={field.placeholder || "Your answer"}
           value={value}
           onChange={(e) => onChange(e.target.value)}
           required={field.required}

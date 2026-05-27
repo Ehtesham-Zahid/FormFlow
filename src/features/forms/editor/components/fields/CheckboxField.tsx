@@ -83,17 +83,6 @@ export default function CheckboxField({
           <span className="text-red-400 text-sm leading-none select-none">*</span>
         )}
       </div>
-
-      {/* Checkbox preview */}
-      <div className="mt-2 flex items-center gap-2">
-        <Checkbox disabled id={`${field.id}-preview`} />
-        <label
-          htmlFor={`${field.id}-preview`}
-          className="text-sm text-gray-400 cursor-default"
-        >
-          {field.label || "Checkbox option"}
-        </label>
-      </div>
     </FieldShell>
   );
 }

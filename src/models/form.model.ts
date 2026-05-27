@@ -24,6 +24,10 @@ const FieldSchema = new mongoose.Schema({
     type: [String],
     default: undefined,
   },
+  placeholder: {
+    type: String,
+    trim: true,
+  },
 });
 
 const FormSchema = new mongoose.Schema(

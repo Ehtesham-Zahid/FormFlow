@@ -133,23 +133,6 @@ export default function RadioField({
           Add option
         </Button>
       </div>
-
-      {/* RadioGroup preview */}
-      <div className="mt-3">
-        <RadioGroup disabled className="space-y-1.5">
-          {options.map((opt, i) => (
-            <div key={i} className="flex items-center gap-2">
-              <RadioGroupItem value={opt || `option-${i}`} id={`${field.id}-preview-${i}`} />
-              <label
-                htmlFor={`${field.id}-preview-${i}`}
-                className="text-sm text-gray-400 cursor-default"
-              >
-                {opt || `Option ${i + 1}`}
-              </label>
-            </div>
-          ))}
-        </RadioGroup>
-      </div>
     </FieldShell>
   );
 }

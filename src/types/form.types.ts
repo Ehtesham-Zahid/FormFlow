@@ -8,6 +8,7 @@ export interface IField {
   label: string;
   required: boolean;
   options?: string[];
+  placeholder?: string;
 }
 
 export interface IForm {

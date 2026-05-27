@@ -139,22 +139,6 @@ export default function SelectField({
           Add option
         </Button>
       </div>
-
-      {/* Select preview */}
-      <div className="mt-3">
-        <Select disabled>
-          <SelectTrigger className="text-sm text-gray-400 cursor-default">
-            <SelectValue placeholder="Select an option..." />
-          </SelectTrigger>
-          <SelectContent>
-            {options.map((opt, i) => (
-              <SelectItem key={i} value={opt || `option-${i}`}>
-                {opt || `Option ${i + 1}`}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-      </div>
     </FieldShell>
   );
 }
