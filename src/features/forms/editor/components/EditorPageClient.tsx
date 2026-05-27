@@ -57,7 +57,7 @@ export default function EditorPageClient({ form, formId }: Props) {
   };
 
   return (
-    <div className="flex flex-col h-full bg-gray-50">
+    <div className="flex flex-col bg-gray-50">
       <div className="p-4 pb-0 md:p-6 md:pb-0">
         <EditorHeader
           title={state.title}
@@ -68,7 +68,7 @@ export default function EditorPageClient({ form, formId }: Props) {
         />
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 md:p-6">
+      <div className="p-4 md:p-6">
         <FormEditor state={state} dispatch={dispatch} saveStatus={saveStatus} />
       </div>
     </div>
