@@ -33,7 +33,7 @@ export const createDefaultSelectField = (): IField => ({
   type: "select",
   label: "Dropdown",
   required: true,
-  options: ["Option 1"],
+  options: [""],
 });
 
 export const createDefaultRadioField = (): IField => ({
@@ -41,7 +41,7 @@ export const createDefaultRadioField = (): IField => ({
   type: "radio",
   label: "Multiple Choice",
   required: true,
-  options: ["Option 1"],
+  options: [""],
 });
 
 export const createDefaultCheckboxField = (): IField => ({

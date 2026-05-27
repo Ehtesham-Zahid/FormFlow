@@ -30,7 +30,7 @@ export default function RadioField({
   onDuplicate,
   dragHandleProps,
 }: Props) {
-  const options = field.options ?? ["Option 1"];
+  const options = field.options ?? [""];
 
   const updateOptions = (newOptions: string[]) => {
     dispatch({
