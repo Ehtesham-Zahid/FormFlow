@@ -5,11 +5,21 @@ import { useState } from "react";
 import { Sparkles, ArrowRight, CheckCircle2, Play, Eye, FileText, CheckSquare, CircleDot, ChevronDown } from "lucide-react";
 import { Button } from "@/src/components/ui/button";
 
+interface FormField {
+  id: string;
+  type: string;
+  label: string;
+  value?: string;
+  options?: string[];
+  selected?: string;
+  checked?: boolean;
+}
+
 export default function Hero() {
   // Live mockup state
   const [isPlaying, setIsPlaying] = useState(false); // To toggle between Editor mode and Form Preview mode
   const [formTitle, setFormTitle] = useState("✨ Feedback & Strategy Session");
-  const [fields, setFields] = useState([
+  const [fields, setFields] = useState<FormField[]>([
     { id: "1", type: "text", label: "What is your main goal for this quarter?", value: "" },
     { id: "2", type: "radio", label: "How did you hear about FormFlow?", options: ["Twitter / X", "Product Hunt", "Word of mouth"], selected: "" },
     { id: "3", type: "checkbox", label: "Would you like to join our invite-only community?", checked: false },
